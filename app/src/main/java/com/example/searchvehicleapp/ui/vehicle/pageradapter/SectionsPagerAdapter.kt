@@ -1,4 +1,4 @@
-package com.example.searchvehicleapp.ui.vehicle.pages
+package com.example.searchvehicleapp.ui.vehicle.pageradapter
 
 import android.content.Context
 import androidx.fragment.app.Fragment
@@ -19,10 +19,12 @@ private val TAB_TITLES = arrayOf(
 class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
     FragmentPagerAdapter(fm) {
 
+    private val mFragmentList: MutableList<Fragment> = mutableListOf()
+
     override fun getItem(position: Int): Fragment {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        return VehiclePlaceholderListFragment.newInstance(position + 1)
+        return mFragmentList[position]
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
@@ -30,7 +32,10 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
     }
 
     override fun getCount(): Int {
-        // Show 3 total pages.
-        return 3
+        return mFragmentList.size
+    }
+
+    fun addFragment(fragment: Fragment) {
+        mFragmentList.add(fragment)
     }
 }

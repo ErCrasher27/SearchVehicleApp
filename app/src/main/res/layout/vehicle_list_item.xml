@@ -1,47 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:descendantFocusability="blocksDescendants">
+    android:layout_height="160dp"
+    android:layout_marginHorizontal="20dp"
+    android:layout_marginVertical="20dp">
 
-    <TextView
-        android:id="@+id/id"
-        android:layout_width="180dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="8dp"
-        android:fontFamily="sans-serif"
-        app:layout_constraintEnd_toStartOf="@+id/name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Cogs and Widgets" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="100dp"
-        android:layout_height="48dp"
-        android:layout_below="@+id/id"
-        android:layout_marginStart="8dp"
-        android:fontFamily="sans-serif-medium"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toStartOf="@+id/id_type"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/id"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="$4.99" />
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_baseline_directions_car_24" />
 
-    <TextView
-        android:id="@+id/id_type"
-        android:layout_width="80dp"
-        android:layout_height="48dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="8dp"
-        android:fontFamily="sans-serif-medium"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="3" />
+        <TextView
+            android:id="@+id/model"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/image"
+            app:layout_constraintTop_toTopOf="@+id/image"
+            tools:text="Altea XL" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/brand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/model"
+            app:layout_constraintTop_toBottomOf="@+id/model"
+            tools:text="Seat" />
+
+        <TextView
+            android:id="@+id/kw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+
+            tools:layout_editor_absoluteX="242dp"
+            tools:layout_editor_absoluteY="68dp"
+            tools:text="77kW" />
+
+        <TextView
+            android:id="@+id/cv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            tools:layout_editor_absoluteX="288dp"
+            tools:layout_editor_absoluteY="68dp"
+            tools:text="(105 CV)" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

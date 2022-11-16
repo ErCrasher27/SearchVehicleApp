@@ -1,19 +1,13 @@
 package com.example.searchvehicleapp.database
 
+import androidx.room.Dao
 import androidx.room.Query
 import com.example.searchvehicleapp.utils.EnumTypeOfVehicle
 import kotlinx.coroutines.flow.Flow
 
+@Dao
 interface VehicleDao {
 
-    @Query(
-        "SELECT * " +
-                "FROM vehicle " +
-                "INNER JOIN type_of_vehicle " +
-                "ON vehicle.id_type == type_of_vehicle.id " +
-                "WHERE type == :type " +
-                "ORDER BY vehicle.name"
-    )
-    fun getAllVehiclesByType(type: EnumTypeOfVehicle): Flow<List<Vehicle>>
-
+    @Query("SELECT * FROM vehicle WHERE type == :type ORDER BY name")
+    fun getAllVehiclesByTypeOrderedByName(type: EnumTypeOfVehicle): Flow<List<Vehicle>>
 }

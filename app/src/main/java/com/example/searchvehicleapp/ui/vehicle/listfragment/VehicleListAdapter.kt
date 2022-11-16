@@ -30,16 +30,16 @@ class VehicleListAdapter(private val onVehicleClicked: (Vehicle) -> Unit) :
         holder.itemView.setOnClickListener {
             onVehicleClicked(current)
         }
-        //holder.bind(current)
+        holder.bind(current)
     }
 
     class ItemViewHolder(private var binding: VehicleListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(vehicle: Vehicle) {
-            /*binding.id.text = vehicle.id.toString()
+            binding.id.text = vehicle.id.toString()
             binding.name.text = vehicle.name
-            binding.idType.text = vehicle.id_type.toString()*/
+            binding.type.text = vehicle.type.toString()
         }
     }
 

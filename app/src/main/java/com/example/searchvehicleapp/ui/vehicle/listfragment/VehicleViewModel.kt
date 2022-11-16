@@ -8,9 +8,10 @@ import com.example.searchvehicleapp.utils.EnumTypeOfVehicle
 class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
 
     // Cache all items form the database using LiveData.
-    fun getAllVehiclesByType(typeOfVehicle: EnumTypeOfVehicle): LiveData<List<Vehicle>> =
-        vehicleDao.getAllVehiclesByType(typeOfVehicle).asLiveData()
+    fun getAllVehiclesByTypeOrderedByName(typeOfVehicle: EnumTypeOfVehicle): LiveData<List<Vehicle>> =
+        vehicleDao.getAllVehiclesByTypeOrderedByName(typeOfVehicle).asLiveData()
 }
+
 
 /**
  * Factory class to instantiate the [ViewModel] instance.
@@ -18,7 +19,8 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
 class VehicleViewModelFactory(private val vehicleDao: VehicleDao) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(VehicleViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST") return VehicleViewModel(vehicleDao) as T
+            @Suppress("UNCHECKED_CAST")
+            return VehicleViewModel(vehicleDao) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

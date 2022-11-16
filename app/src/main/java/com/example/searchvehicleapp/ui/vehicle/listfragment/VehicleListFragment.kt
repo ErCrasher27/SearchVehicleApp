@@ -1,4 +1,4 @@
-package com.example.searchvehicleapp.ui.vehicle
+package com.example.searchvehicleapp.ui.vehicle.listfragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,21 +9,21 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.searchvehicleapp.application.VehicleApplication
 import com.example.searchvehicleapp.databinding.FragmentVehicleListBinding
-import com.example.searchvehicleapp.ui.vehicle.listfragment.VehicleListAdapter
-import com.example.searchvehicleapp.ui.vehicle.listfragment.VehicleViewModel
-import com.example.searchvehicleapp.ui.vehicle.listfragment.VehicleViewModelFactory
+import com.example.searchvehicleapp.utils.EnumTypeOfVehicle
+
 
 /**
  * A placeholder fragment containing a simple view.
  */
-class VehicleListFragment : Fragment() {
+class VehicleListFragment(enumTypeOfVehicle: EnumTypeOfVehicle) : Fragment() {
+
+    private val enumTypeOfVehicle: EnumTypeOfVehicle = enumTypeOfVehicle
 
     // Use the 'by activityViewModels()' Kotlin property delegate from the fragment-ktx artifact
     // to share the ViewModel across fragments.
-    private val pageVehicleViewModel: VehicleViewModel by activityViewModels {
+    private val vehicleViewModel: VehicleViewModel by activityViewModels {
         VehicleViewModelFactory(
-            (activity?.application as VehicleApplication).database
-                .vehicleDao()
+            (activity?.application as VehicleApplication).database.vehicleDao()
         )
     }
 
@@ -34,14 +34,12 @@ class VehicleListFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentVehicleListBinding.inflate(inflater, container, false)
 
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            vehicleListFragment = this@VehicleListFragment
         }
 
         return binding.root
@@ -49,20 +47,18 @@ class VehicleListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = VehicleListAdapter {
-        }
+        val adapter = VehicleListAdapter {}
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
         binding.recyclerView.adapter = adapter
-
         // Attach an observer on the allItems list to update the UI automatically when the data
         // changes.
-        /*pageVehicleViewModel.getAllVehiclesByType(EnumTypeOfVehicle.CAR)
-            .observe(this.viewLifecycleOwner) { vehicles ->
-                vehicles.let {
+        vehicleViewModel.getAllVehiclesByTypeOrderedByName(enumTypeOfVehicle)
+            .observe(this.viewLifecycleOwner) { items ->
+                items.let {
                     adapter.submitList(it)
                 }
-            }*/
+            }
     }
 
     override fun onDestroyView() {
