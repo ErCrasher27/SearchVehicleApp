@@ -14,6 +14,6 @@ interface VehicleDao {
                 "WHERE type == :type " +
                 "ORDER BY vehicle.name"
     )
-    fun getAllVehiclesByType(type: EnumTypeOfVehicle): Flow<Vehicle>
+    fun getAllVehiclesByType(type: EnumTypeOfVehicle): Flow<List<Vehicle>>
 
 }

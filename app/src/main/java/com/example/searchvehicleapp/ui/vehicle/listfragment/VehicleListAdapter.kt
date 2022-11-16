@@ -1,4 +1,4 @@
-package com.example.searchvehicleapp.ui.vehicle
+package com.example.searchvehicleapp.ui.vehicle.listfragment
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.searchvehicleapp.database.Vehicle
-import com.example.searchvehicleapp.databinding.FragmentVehicleBinding
+import com.example.searchvehicleapp.databinding.VehicleListItemBinding
 
 /**
  * [ListAdapter] implementation for the recyclerview.
@@ -17,7 +17,7 @@ class VehicleListAdapter(private val onVehicleClicked: (Vehicle) -> Unit) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(
-            FragmentVehicleBinding.inflate(
+            VehicleListItemBinding.inflate(
                 LayoutInflater.from(
                     parent.context
                 )
@@ -30,14 +30,16 @@ class VehicleListAdapter(private val onVehicleClicked: (Vehicle) -> Unit) :
         holder.itemView.setOnClickListener {
             onVehicleClicked(current)
         }
-        holder.bind(current)
+        //holder.bind(current)
     }
 
-    class ItemViewHolder(private var binding: FragmentVehicleBinding) :
+    class ItemViewHolder(private var binding: VehicleListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(vehicle: Vehicle) {
-            binding.sectionLabel.text = vehicle.name
+            /*binding.id.text = vehicle.id.toString()
+            binding.name.text = vehicle.name
+            binding.idType.text = vehicle.id_type.toString()*/
         }
     }
 
