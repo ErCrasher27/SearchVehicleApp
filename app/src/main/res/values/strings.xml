@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">SearchVehicleApp</string>
+
+    <string name="tab_motorcycle">Motorcycle</string>
+    <string name="tab_car">Car</string>
+    <string name="tab_truck">Truck</string>
+</resources>
