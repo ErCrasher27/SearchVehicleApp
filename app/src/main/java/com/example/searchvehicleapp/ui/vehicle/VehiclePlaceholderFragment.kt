@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.searchvehicleapp.databinding.FragmentMainBinding
+import com.example.searchvehicleapp.databinding.FragmentVehicleBinding
 
 /**
  * A placeholder fragment containing a simple view.
@@ -16,7 +14,7 @@ import com.example.searchvehicleapp.databinding.FragmentMainBinding
 class VehiclePlaceholderFragment : Fragment() {
 
     private lateinit var pageViewModel: VehicleViewModel
-    private var _binding: FragmentMainBinding? = null
+    private var _binding: FragmentVehicleBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -24,7 +22,7 @@ class VehiclePlaceholderFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        pageViewModel = ViewModelProvider(this).get(VehicleViewModel::class.java).apply {
+        pageViewModel = ViewModelProvider(this)[VehicleViewModel::class.java].apply {
             setIndex(arguments?.getInt(ARG_SECTION_NUMBER) ?: 1)
         }
     }
@@ -33,15 +31,15 @@ class VehiclePlaceholderFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding = FragmentVehicleBinding.inflate(inflater, container, false)
 
-        _binding = FragmentMainBinding.inflate(inflater, container, false)
-        val root = binding.root
+        binding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = pageViewModel
+            vehiclePlaceHolderFragment = this@VehiclePlaceholderFragment
+        }
 
-        val textView: TextView = binding.sectionLabel
-        pageViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-        return root
+        return binding.root
     }
 
     companion object {
