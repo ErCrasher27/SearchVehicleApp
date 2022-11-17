@@ -1,21 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.vehicle.detailfragments.VehicleDetailFragment">
 
         <TextView
-            android:id="@+id/prova"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Hello" />
+            android:id="@+id/plate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textSize="42dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="DM714WC" />
 
-    </FrameLayout>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/plate"
+            tools:src="@drawable/ic_baseline_directions_car_24" />
+
+        <TextView
+            android:id="@+id/model"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="32dp"
+            app:layout_constraintEnd_toEndOf="@+id/imageView"
+            app:layout_constraintStart_toStartOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            tools:text="Altea XL" />
+
+        <TextView
+            android:id="@+id/year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            app:layout_constraintEnd_toEndOf="@+id/model"
+            app:layout_constraintStart_toStartOf="@+id/model"
+            app:layout_constraintTop_toBottomOf="@+id/model"
+            tools:text="(2009)" />
+
+        <ImageView
+            android:id="@+id/brand_logo"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="136dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="@+id/imageView"
+            tools:src="@drawable/ic_baseline_scatter_plot_24" />
+
+        <TextView
+            android:id="@id/brand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textSize="24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/brand_logo"
+            app:layout_constraintStart_toEndOf="@+id/brand_logo"
+            app:layout_constraintTop_toTopOf="@+id/brand_logo"
+            tools:text="Seat" />
+
+
+        <ImageView
+            android:id="@+id/fuel_logo"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="@+id/brand_logo"
+            app:layout_constraintTop_toBottomOf="@+id/brand_logo"
+            tools:src="@drawable/ic_baseline_local_gas_station_24" />
+
+        <TextView
+            android:id="@+id/fuel_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textSize="24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/fuel_logo"
+            app:layout_constraintStart_toEndOf="@+id/fuel_logo"
+            app:layout_constraintTop_toTopOf="@+id/fuel_logo"
+            tools:text="Diesel" />
+
+        <TextView
+            android:id="@+id/kW"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="18dp"
+            app:layout_constraintStart_toStartOf="@+id/fuel_logo"
+            app:layout_constraintTop_toBottomOf="@+id/fuel_logo"
+            tools:text="77kW" />
+
+        <TextView
+            android:id="@+id/cV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="@+id/kW"
+            app:layout_constraintStart_toEndOf="@+id/kW"
+            app:layout_constraintTop_toTopOf="@+id/kW"
+            app:layout_constraintVertical_bias="1.0"
+            tools:text="(105 CV)" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="20dp"
+            android:src="@drawable/ic_baseline_edit_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

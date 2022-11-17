@@ -43,7 +43,6 @@ class VehicleListAdapter(private val onVehicleClicked: (Vehicle) -> Unit) :
         fun bind(vehicle: Vehicle) {
             binding.model.text = vehicle.model
             binding.brand.text = vehicle.brand
-            binding.typeFuel.text = vehicle.typeFuel
 
             if (vehicle.image != null) {
                 binding.image.setImageBitmap(
@@ -64,18 +63,6 @@ class VehicleListAdapter(private val onVehicleClicked: (Vehicle) -> Unit) :
                     ), binding.logoBrand.width, binding.logoBrand.height, false
                 )
             )
-
-            binding.logoFuel.setImageBitmap(
-                Bitmap.createScaledBitmap(
-                    BitmapFactory.decodeByteArray(
-                        vehicle.logoFuel, 0, vehicle.logoFuel.size
-                    ), binding.logoFuel.width, binding.logoFuel.height, false
-                )
-            )
-
-            binding.year.text = vehicle.year.toString()
-            binding.kw.text = vehicle.kW.toString()
-            binding.cv.text = vehicle.cV.toString()
 
         }
     }

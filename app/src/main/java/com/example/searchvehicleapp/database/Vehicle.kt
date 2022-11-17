@@ -10,6 +10,8 @@ import com.example.searchvehicleapp.utils.EnumTypeOfVehicle
 data class Vehicle(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 
+    @ColumnInfo(name = "plate") val plate: String,
+
     @ColumnInfo(name = "image", typeAffinity = ColumnInfo.BLOB) val image: ByteArray?,
 
     @ColumnInfo(name = "model") val model: String,

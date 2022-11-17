@@ -32,16 +32,6 @@
             app:layout_constraintTop_toTopOf="@+id/image"
             tools:text="Altea XL" />
 
-        <TextView
-            android:id="@+id/year"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textStyle="italic"
-            app:layout_constraintEnd_toEndOf="@+id/model"
-            app:layout_constraintTop_toBottomOf="@+id/model"
-            tools:text="(2009)" />
-
         <ImageView
             android:id="@+id/logo_brand"
             android:layout_width="18dp"
@@ -64,47 +54,6 @@
             app:layout_constraintTop_toTopOf="@+id/logo_brand"
             tools:text="Seat" />
 
-        <ImageView
-            android:id="@+id/logo_fuel"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintStart_toEndOf="@+id/model"
-            app:layout_constraintTop_toTopOf="@+id/model"
-            tools:src="@drawable/ic_baseline_local_gas_station_24" />
-
-        <TextView
-            android:id="@+id/type_fuel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@+id/logo_fuel"
-            app:layout_constraintStart_toEndOf="@+id/logo_fuel"
-            app:layout_constraintTop_toTopOf="@+id/logo_fuel"
-            tools:text="Diesel" />
-
-        <TextView
-            android:id="@+id/kw"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@+id/model"
-            app:layout_constraintStart_toEndOf="@+id/model"
-            tools:text="77kW" />
-
-        <TextView
-            android:id="@+id/cv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@+id/kw"
-            app:layout_constraintStart_toEndOf="@+id/kw"
-            app:layout_constraintTop_toTopOf="@+id/kw"
-            tools:text="(105 CV)" />
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_go_detail"
             style="@style/Widget.AppCompat.Button.Borderless"
@@ -120,6 +69,8 @@
             app:iconTint="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/model"
+            app:layout_constraintTop_toTopOf="parent"
             app:rippleColor="#33AAAAAA"
             app:strokeColor="@color/black"
             app:strokeWidth="2dp" />
