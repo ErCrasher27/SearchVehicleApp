@@ -1,5 +1,6 @@
 package com.example.searchvehicleapp.ui.vehicle.listfragment
 
+import android.content.ClipData
 import androidx.lifecycle.*
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.database.VehicleDao
@@ -50,6 +51,28 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
                 vehicle = vehicle
             )
         }
+    }
+
+    /**
+     * Returns an instance of the [Item] entity class with the item info entered by the user.
+     * This will be used to add a new entry to the Inventory database.
+     */
+    private fun getNewItemEntry(plate: String, brand: String, model: String): Vehicle {
+        return Vehicle(
+            plate = plate,
+            brand = brand,
+            model = model
+        )
+    }
+
+    /**
+     * Returns true if the EditTexts are not empty
+     */
+    fun isEntryValid(itemName: String, itemPrice: String, itemCount: String): Boolean {
+        if (itemName.isBlank() || itemPrice.isBlank() || itemCount.isBlank()) {
+            return false
+        }
+        return true
     }
 }
 
