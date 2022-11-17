@@ -11,11 +11,6 @@
         android:name="com.example.searchvehicleapp.ui.vehicle.detailfragments.VehicleDetailFragment"
         android:label="Vehicle"
         tools:layout="@layout/fragment_vehicle_detail">
-
-        <argument
-            android:name="vehicle_id"
-            app:argType="integer" />
-
         <action
             android:id="@+id/action_vehicleDetailFragment_to_viewPagerFragment"
             app:destination="@id/viewPagerFragment"
@@ -24,6 +19,9 @@
         <action
             android:id="@+id/action_vehicleDetailFragment_to_addEditFragment"
             app:destination="@id/addEditFragment" />
+        <argument
+            android:name="vehicle_id"
+            app:argType="integer" />
 
     </fragment>
 
@@ -41,15 +39,19 @@
             app:destination="@id/addEditFragment" />
 
     </fragment>
+
     <fragment
         android:id="@+id/addEditFragment"
         android:name="com.example.searchvehicleapp.ui.vehicle.addeditfragments.AddEditFragment"
-        android:label="AddEditFragment">
+        android:label="AddEditFragment ({function})">
         <action
             android:id="@+id/action_addEditFragment_to_vehicleDetailFragment"
             app:destination="@id/vehicleDetailFragment" />
         <action
             android:id="@+id/action_addEditFragment_to_viewPagerFragment"
             app:destination="@id/viewPagerFragment" />
+        <argument
+            android:name="function"
+            app:argType="com.example.searchvehicleapp.utils.AddOrEdit" />
     </fragment>
 </navigation>

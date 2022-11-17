@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.searchvehicleapp.application.VehicleApplication
+import com.example.searchvehicleapp.databinding.FragmentAddEditBinding
 import com.example.searchvehicleapp.databinding.FragmentVehicleDetailBinding
 import com.example.searchvehicleapp.ui.vehicle.listfragment.VehicleViewModel
 import com.example.searchvehicleapp.ui.vehicle.listfragment.VehicleViewModelFactory
@@ -21,7 +22,7 @@ class AddEditFragment : Fragment() {
         )
     }
 
-    private var _binding: FragmentVehicleDetailBinding? = null
+    private var _binding: FragmentAddEditBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -31,7 +32,7 @@ class AddEditFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentVehicleDetailBinding.inflate(inflater, container, false)
+        _binding = FragmentAddEditBinding.inflate(inflater, container, false)
 
         binding.apply {
             lifecycleOwner = viewLifecycleOwner

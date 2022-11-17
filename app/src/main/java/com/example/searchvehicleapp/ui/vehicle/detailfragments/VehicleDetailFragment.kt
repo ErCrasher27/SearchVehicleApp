@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.searchvehicleapp.application.VehicleApplication
 import com.example.searchvehicleapp.databinding.FragmentVehicleDetailBinding
 import com.example.searchvehicleapp.ui.vehicle.listfragment.VehicleViewModel
 import com.example.searchvehicleapp.ui.vehicle.listfragment.VehicleViewModelFactory
+import com.example.searchvehicleapp.utils.AddOrEdit.EDIT
 
 class VehicleDetailFragment : Fragment() {
 
@@ -35,6 +37,12 @@ class VehicleDetailFragment : Fragment() {
 
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
+        }
+
+        binding.fabEdit.setOnClickListener {
+            val action =
+                VehicleDetailFragmentDirections.actionVehicleDetailFragmentToAddEditFragment(EDIT)
+            findNavController().navigate(action)
         }
 
         return binding.root

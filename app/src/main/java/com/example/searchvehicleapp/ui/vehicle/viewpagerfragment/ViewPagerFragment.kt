@@ -10,6 +10,7 @@ import androidx.viewpager.widget.ViewPager
 import com.example.searchvehicleapp.R
 import com.example.searchvehicleapp.databinding.FragmentViewPagerBinding
 import com.example.searchvehicleapp.ui.vehicle.listfragment.VehicleListFragment
+import com.example.searchvehicleapp.utils.AddOrEdit
 import com.example.searchvehicleapp.utils.EnumTypeOfVehicle
 
 class ViewPagerFragment : Fragment() {
@@ -39,7 +40,7 @@ class ViewPagerFragment : Fragment() {
         // Set FloatingActionButton
         binding.fab.setOnClickListener {
             val action =
-                ViewPagerFragmentDirections.actionViewPagerFragmentToAddEditFragment()
+                ViewPagerFragmentDirections.actionViewPagerFragmentToAddEditFragment(AddOrEdit.ADD)
             this.findNavController().navigate(action)
         }
     }
