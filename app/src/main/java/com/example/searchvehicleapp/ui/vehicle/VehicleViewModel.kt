@@ -13,7 +13,14 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         vehicleDao.getAllVehiclesByTypeOrderedByName(typeOfVehicle).asLiveData()
 
     /**
-     * Launching a new coroutine to insert an item in a non-blocking way
+     * Retrieve a vehicle from the repository.
+     */
+    fun getVehicleById(id: Int): LiveData<Vehicle> {
+        return vehicleDao.getVehicleById(id).asLiveData()
+    }
+
+    /**
+     * Launching a new coroutine to insert a vehicle in a non-blocking way
      */
     private fun insertItem(vehicle: Vehicle) {
         viewModelScope.launch {
@@ -24,7 +31,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
     }
 
     /**
-     * Launching a new coroutine to update an item in a non-blocking way
+     * Launching a new coroutine to update a vehicle in a non-blocking way
      */
     private fun updateItem(vehicle: Vehicle) {
         viewModelScope.launch {
@@ -35,7 +42,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
     }
 
     /**
-     * Launching a new coroutine to delete an item in a non-blocking way
+     * Launching a new coroutine to delete a vehicle in a non-blocking way
      */
     private fun deleteItem(vehicle: Vehicle) {
         viewModelScope.launch {

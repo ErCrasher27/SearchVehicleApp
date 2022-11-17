@@ -44,7 +44,7 @@ class VehicleListAdapter(private val onVehicleClicked: (Vehicle) -> Unit) :
             binding.model.text = vehicle.model
             binding.brand.text = vehicle.brand
 
-            if (vehicle.image != null) {
+            /*if (vehicle.image != null) {
                 binding.image.setImageBitmap(
                     Bitmap.createScaledBitmap(
                         BitmapFactory.decodeByteArray(
@@ -62,7 +62,7 @@ class VehicleListAdapter(private val onVehicleClicked: (Vehicle) -> Unit) :
                         vehicle.logoBrand, 0, vehicle.logoBrand.size
                     ), binding.logoBrand.width, binding.logoBrand.height, false
                 )
-            )
+            )*/
 
         }
     }
