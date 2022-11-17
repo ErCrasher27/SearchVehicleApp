@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.searchvehicleapp.application.VehicleApplication
 import com.example.searchvehicleapp.databinding.FragmentVehicleListBinding
@@ -45,7 +46,11 @@ class VehicleListFragment(private val enumTypeOfVehicle: EnumTypeOfVehicle) : Fr
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = VehicleListAdapter {}
+        val adapter = VehicleListAdapter {
+            val action =
+                VehicleListFragmentDirections.actionVehicleListFragmentToVehicleDetailFragment(it.id)
+            this.findNavController().navigate(action)
+        }
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
         binding.recyclerView.adapter = adapter

@@ -3,26 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/vehiclePlaceholderListFragment">
-
+    app:startDestination="@id/vehicleListFragment">
     <fragment
-        android:id="@+id/vehiclePlaceholderListFragment"
-        android:name="com.example.searchvehicleapp.ui.vehicle.pageradapter.VehiclePlaceholderListFragment"
-        android:label="VehiclePlaceholderListFragment" >
+        android:id="@+id/vehicleListFragment"
+        android:name="com.example.searchvehicleapp.ui.vehicle.listfragment.VehicleListFragment"
+        android:label="VehicleListFragment">
         <action
-            android:id="@+id/action_vehiclePlaceholderListFragment_to_vehicleDetailFragment"
+            android:id="@+id/action_vehicleListFragment_to_vehicleDetailFragment"
             app:destination="@id/vehicleDetailFragment" />
     </fragment>
-
     <fragment
         android:id="@+id/vehicleDetailFragment"
         android:name="com.example.searchvehicleapp.ui.vehicle.detailfragments.VehicleDetailFragment"
         android:label="fragment_vehicle_detail"
-        tools:layout="@layout/fragment_vehicle_detail" >
+        tools:layout="@layout/fragment_vehicle_detail">
+        <argument
+            android:name="vehicle_id"
+            app:argType="integer" />
         <action
-            android:id="@+id/action_vehicleDetailFragment_to_vehiclePlaceholderListFragment"
-            app:destination="@id/vehiclePlaceholderListFragment"
-            app:popUpTo="@id/vehiclePlaceholderListFragment"
+            android:id="@+id/action_vehicleDetailFragment_to_vehicleListFragment"
+            app:destination="@id/vehicleListFragment"
+            app:popUpTo="@id/vehicleListFragment"
             app:popUpToInclusive="true" />
     </fragment>
 </navigation>
