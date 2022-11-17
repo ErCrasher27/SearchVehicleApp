@@ -6,17 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.searchvehicleapp.application.VehicleApplication
+import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.databinding.FragmentVehicleListBinding
 import com.example.searchvehicleapp.utils.EnumTypeOfVehicle
-
 
 /**
  * A placeholder fragment containing a simple view.
  */
-class VehicleListFragment(private val enumTypeOfVehicle: EnumTypeOfVehicle) : Fragment() {
+class VehicleListFragment(
+    private val enumTypeOfVehicle: EnumTypeOfVehicle,
+    private val onVehicleClicked: (Vehicle) -> Unit
+) : Fragment() {
 
     // Use the 'by activityViewModels()' Kotlin property delegate from the fragment-ktx artifact
     // to share the ViewModel across fragments.
@@ -31,6 +33,7 @@ class VehicleListFragment(private val enumTypeOfVehicle: EnumTypeOfVehicle) : Fr
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -47,9 +50,7 @@ class VehicleListFragment(private val enumTypeOfVehicle: EnumTypeOfVehicle) : Fr
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val adapter = VehicleListAdapter {
-            val action =
-                VehicleListFragmentDirections.actionVehicleListFragmentToVehicleDetailFragment(it.id)
-            this.findNavController().navigate(action)
+            onVehicleClicked
         }
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this.context)

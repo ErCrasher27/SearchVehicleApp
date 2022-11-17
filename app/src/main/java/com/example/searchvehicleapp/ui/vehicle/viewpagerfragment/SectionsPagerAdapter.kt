@@ -1,4 +1,4 @@
-package com.example.searchvehicleapp.ui.vehicle.pageradapter
+package com.example.searchvehicleapp.ui.vehicle.viewpagerfragment
 
 import android.content.Context
 import androidx.fragment.app.Fragment
@@ -16,8 +16,8 @@ private val TAB_TITLES = arrayOf(
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
-class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
-    FragmentPagerAdapter(fm) {
+class SectionsPagerAdapter(private val context: Context?, fm: FragmentManager?) :
+    FragmentPagerAdapter(fm!!) {
 
     private val mFragmentList: MutableList<Fragment> = mutableListOf()
 
@@ -28,7 +28,7 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return context.resources.getString(TAB_TITLES[position])
+        return context?.resources?.getString(TAB_TITLES[position])
     }
 
     override fun getCount(): Int {
