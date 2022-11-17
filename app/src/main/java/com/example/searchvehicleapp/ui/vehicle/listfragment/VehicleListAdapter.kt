@@ -1,12 +1,16 @@
 package com.example.searchvehicleapp.ui.vehicle.listfragment
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.searchvehicleapp.R
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.databinding.VehicleListItemBinding
+
 
 /**
  * [ListAdapter] implementation for the recyclerview.
@@ -37,9 +41,42 @@ class VehicleListAdapter(private val onVehicleClicked: (Vehicle) -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(vehicle: Vehicle) {
-            binding.id.text = vehicle.id.toString()
-            binding.name.text = vehicle.name
-            binding.type.text = vehicle.type.toString()
+            binding.model.text = vehicle.model
+            binding.brand.text = vehicle.brand
+            binding.typeFuel.text = vehicle.typeFuel
+
+            if (vehicle.image != null) {
+                binding.image.setImageBitmap(
+                    Bitmap.createScaledBitmap(
+                        BitmapFactory.decodeByteArray(
+                            vehicle.image, 0, vehicle.image.size
+                        ), binding.image.width, binding.image.height, false
+                    )
+                )
+            } else {
+                binding.image.setImageResource(R.drawable.ic_baseline_directions_car_24)
+            }
+
+            binding.logoBrand.setImageBitmap(
+                Bitmap.createScaledBitmap(
+                    BitmapFactory.decodeByteArray(
+                        vehicle.logoBrand, 0, vehicle.logoBrand.size
+                    ), binding.logoBrand.width, binding.logoBrand.height, false
+                )
+            )
+
+            binding.logoFuel.setImageBitmap(
+                Bitmap.createScaledBitmap(
+                    BitmapFactory.decodeByteArray(
+                        vehicle.logoFuel, 0, vehicle.logoFuel.size
+                    ), binding.logoFuel.width, binding.logoFuel.height, false
+                )
+            )
+
+            binding.year.text = vehicle.year.toString()
+            binding.kw.text = vehicle.kW.toString()
+            binding.cv.text = vehicle.cV.toString()
+
         }
     }
 
@@ -50,7 +87,7 @@ class VehicleListAdapter(private val onVehicleClicked: (Vehicle) -> Unit) :
             }
 
             override fun areContentsTheSame(oldItem: Vehicle, newItem: Vehicle): Boolean {
-                return oldItem.name == newItem.name
+                return oldItem.model == newItem.model
             }
         }
     }

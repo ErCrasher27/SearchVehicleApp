@@ -15,9 +15,7 @@ import com.example.searchvehicleapp.utils.EnumTypeOfVehicle
 /**
  * A placeholder fragment containing a simple view.
  */
-class VehicleListFragment(enumTypeOfVehicle: EnumTypeOfVehicle) : Fragment() {
-
-    private val enumTypeOfVehicle: EnumTypeOfVehicle = enumTypeOfVehicle
+class VehicleListFragment(private val enumTypeOfVehicle: EnumTypeOfVehicle) : Fragment() {
 
     // Use the 'by activityViewModels()' Kotlin property delegate from the fragment-ktx artifact
     // to share the ViewModel across fragments.

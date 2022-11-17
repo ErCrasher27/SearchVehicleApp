@@ -8,6 +8,6 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface VehicleDao {
 
-    @Query("SELECT * FROM vehicle WHERE type == :type ORDER BY name")
+    @Query("SELECT * FROM vehicle WHERE type == :type ORDER BY model")
     fun getAllVehiclesByTypeOrderedByName(type: EnumTypeOfVehicle): Flow<List<Vehicle>>
 }
