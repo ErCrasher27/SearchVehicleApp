@@ -39,8 +39,7 @@ class ViewPagerFragment : Fragment() {
         // Set FloatingActionButton
         binding.fab.setOnClickListener {
             val action =
-                ViewPagerFragmentDirections.actionViewPagerFragmentToVehicleDetailFragment2(
-                )
+                ViewPagerFragmentDirections.actionViewPagerFragmentToAddEditFragment()
             this.findNavController().navigate(action)
         }
     }

@@ -1,10 +1,8 @@
 <resources>
-    <string name="app_name">SearchVehicleApp</string>
+    <string name="app_name">MyGarage</string>
 
     <string name="tab_motorcycle">Motorcycle</string>
     <string name="tab_car">Car</string>
     <string name="tab_truck">Truck</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

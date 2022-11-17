@@ -3,26 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
+    android:label="New/Edit Vehicle"
     app:startDestination="@id/viewPagerFragment">
-
-    <fragment
-        android:id="@+id/vehicleDetailFragment2"
-        android:name="com.example.searchvehicleapp.ui.vehicle.detailfragments.VehicleDetailFragment"
-        android:label="fragment_vehicle_detail"
-        tools:layout="@layout/fragment_vehicle_detail">
-
-        <action
-            android:id="@+id/action_vehicleDetailFragment_to_viewPagerFragment"
-            app:destination="@id/viewPagerFragment"
-            app:popUpTo="@id/viewPagerFragment"
-            app:popUpToInclusive="true" />
-
-    </fragment>
 
     <fragment
         android:id="@+id/vehicleDetailFragment"
         android:name="com.example.searchvehicleapp.ui.vehicle.detailfragments.VehicleDetailFragment"
-        android:label="fragment_vehicle_detail"
+        android:label="Vehicle"
         tools:layout="@layout/fragment_vehicle_detail">
 
         <argument
@@ -34,22 +21,35 @@
             app:destination="@id/viewPagerFragment"
             app:popUpTo="@id/viewPagerFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_vehicleDetailFragment_to_addEditFragment"
+            app:destination="@id/addEditFragment" />
 
     </fragment>
 
     <fragment
         android:id="@+id/viewPagerFragment"
         android:name="com.example.searchvehicleapp.ui.vehicle.viewpagerfragment.ViewPagerFragment"
-        android:label="fragment_view_pager"
+        android:label="My Garage"
         tools:layout="@layout/fragment_view_pager">
 
         <action
             android:id="@+id/action_viewPagerFragment_to_vehicleDetailFragment"
             app:destination="@id/vehicleDetailFragment" />
-
         <action
-            android:id="@+id/action_viewPagerFragment_to_vehicleDetailFragment2"
-            app:destination="@id/vehicleDetailFragment2" />
+            android:id="@+id/action_viewPagerFragment_to_addEditFragment"
+            app:destination="@id/addEditFragment" />
 
+    </fragment>
+    <fragment
+        android:id="@+id/addEditFragment"
+        android:name="com.example.searchvehicleapp.ui.vehicle.addeditfragments.AddEditFragment"
+        android:label="AddEditFragment">
+        <action
+            android:id="@+id/action_addEditFragment_to_vehicleDetailFragment"
+            app:destination="@id/vehicleDetailFragment" />
+        <action
+            android:id="@+id/action_addEditFragment_to_viewPagerFragment"
+            app:destination="@id/viewPagerFragment" />
     </fragment>
 </navigation>

@@ -1,4 +1,4 @@
-package com.example.searchvehicleapp.ui.vehicle.detailfragments
+package com.example.searchvehicleapp.ui.vehicle.addeditfragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,7 @@ import com.example.searchvehicleapp.databinding.FragmentVehicleDetailBinding
 import com.example.searchvehicleapp.ui.vehicle.listfragment.VehicleViewModel
 import com.example.searchvehicleapp.ui.vehicle.listfragment.VehicleViewModelFactory
 
-class VehicleDetailFragment : Fragment() {
+class AddEditFragment : Fragment() {
 
     // Use the 'by activityViewModels()' Kotlin property delegate from the fragment-ktx artifact
     // to share the ViewModel across fragments.
