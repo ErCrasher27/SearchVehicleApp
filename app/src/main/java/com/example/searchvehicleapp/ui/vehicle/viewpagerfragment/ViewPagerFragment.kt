@@ -54,7 +54,7 @@ class ViewPagerFragment : Fragment() {
         listenerViewPagerAndTabs()
 
         // Set FloatingActionButton
-        binding.fab.setOnClickListener {
+        binding.fabAdd.setOnClickListener {
             val action = ViewPagerFragmentDirections.actionViewPagerFragmentToAddEditFragment(
                 AddOrEdit.ADD, 0
             )
