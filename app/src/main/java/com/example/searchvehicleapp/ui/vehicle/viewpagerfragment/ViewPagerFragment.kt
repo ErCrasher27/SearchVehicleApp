@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
-import com.example.searchvehicleapp.R
 import com.example.searchvehicleapp.application.VehicleApplication
 import com.example.searchvehicleapp.databinding.FragmentViewPagerBinding
 import com.example.searchvehicleapp.ui.vehicle.listfragment.VehicleListFragment
@@ -16,6 +15,7 @@ import com.example.searchvehicleapp.ui.vehicle.listfragment.VehicleViewModel
 import com.example.searchvehicleapp.ui.vehicle.listfragment.VehicleViewModelFactory
 import com.example.searchvehicleapp.utils.AddOrEdit
 import com.example.searchvehicleapp.utils.EnumTypeOfVehicle
+
 
 class ViewPagerFragment : Fragment() {
 
@@ -38,11 +38,13 @@ class ViewPagerFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentViewPagerBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setupViewPager(
             sectionsPagerAdapter = SectionsPagerAdapter(context, parentFragmentManager),
             viewPager = binding.container
@@ -56,8 +58,6 @@ class ViewPagerFragment : Fragment() {
             )
             this.findNavController().navigate(action)
         }
-
-
     }
 
     private fun setCurrentTabOpened() {
@@ -112,10 +112,14 @@ class ViewPagerFragment : Fragment() {
         viewPager.adapter = sectionsPagerAdapter
         binding.tabs.setupWithViewPager(viewPager)
         binding.tabs.getTabAt(0)?.icon =
-            resources.getDrawable(R.drawable.ic_baseline_sports_motorsports_24)
+            resources.getDrawable(com.example.searchvehicleapp.R.drawable.ic_baseline_sports_motorsports_24)
         binding.tabs.getTabAt(1)?.icon =
-            resources.getDrawable(R.drawable.ic_baseline_directions_car_24)
+            resources.getDrawable(com.example.searchvehicleapp.R.drawable.ic_baseline_directions_car_24)
         binding.tabs.getTabAt(2)?.icon =
-            resources.getDrawable(R.drawable.ic_baseline_directions_bus_24)
+            resources.getDrawable(com.example.searchvehicleapp.R.drawable.ic_baseline_directions_bus_24)
+        binding.tabs.getTabAt(0)?.select()
+        binding.tabs.getTabAt(1)?.select()
+        binding.tabs.getTabAt(2)?.select()
+
     }
 }

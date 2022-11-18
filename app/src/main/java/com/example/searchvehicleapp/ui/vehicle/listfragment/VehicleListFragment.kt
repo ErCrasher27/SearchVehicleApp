@@ -56,10 +56,11 @@ class VehicleListFragment(
         binding.recyclerView.adapter = adapter
         // Attach an observer on the allItems list to update the UI automatically when the data
         // changes.
+
         vehicleViewModel.getAllVehiclesByTypeOrderedByName(enumTypeOfVehicle)
             .observe(this.viewLifecycleOwner)
-            { items ->
-                items.let {
+            { vehicles ->
+                vehicles.let {
                     adapter.submitList(it)
                 }
             }

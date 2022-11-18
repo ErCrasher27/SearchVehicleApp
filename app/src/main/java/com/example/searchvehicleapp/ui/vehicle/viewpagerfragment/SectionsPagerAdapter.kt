@@ -38,4 +38,5 @@ class SectionsPagerAdapter(private val context: Context?, fm: FragmentManager?) 
     fun addFragment(fragment: Fragment) {
         mFragmentList.add(fragment)
     }
+
 }
