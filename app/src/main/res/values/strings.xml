@@ -8,6 +8,8 @@
     <string name="plate_input_layout">Plate</string>
     <string name="model_input_layout">Model</string>
     <string name="brand_input_layout">Brand</string>
-    <string name="cd_fabAdd">Add Vehicle</string>
+    <string name="cd_fab_add">Add Vehicle</string>
+    <string name="cd_go_details">Show more details</string>
+    <string name="cd_fab_save">Save</string>
 
 </resources>

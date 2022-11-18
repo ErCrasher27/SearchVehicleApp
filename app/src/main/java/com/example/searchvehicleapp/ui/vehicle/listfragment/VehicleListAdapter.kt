@@ -37,6 +37,7 @@ class VehicleListAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(vehicle: Vehicle, onVehicleClicked: (Vehicle) -> Unit) {
+            binding.plate.text = vehicle.plate
             binding.model.text = vehicle.model
             binding.brand.text = vehicle.brand
             binding.buttonGoDetail.setOnClickListener { onVehicleClicked(vehicle) }
