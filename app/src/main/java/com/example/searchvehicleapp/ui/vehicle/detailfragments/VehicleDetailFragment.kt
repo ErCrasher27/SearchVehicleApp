@@ -75,7 +75,9 @@ class VehicleDetailFragment : Fragment() {
 
     private fun goToEdit() {
         val action =
-            VehicleDetailFragmentDirections.actionVehicleDetailFragmentToAddEditFragment(EDIT)
+            VehicleDetailFragmentDirections.actionVehicleDetailFragmentToAddEditFragment(
+                EDIT
+            )
         findNavController().navigate(action)
     }
 

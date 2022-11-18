@@ -46,12 +46,20 @@
         android:label="AddEditFragment ({function})">
         <action
             android:id="@+id/action_addEditFragment_to_vehicleDetailFragment"
-            app:destination="@id/vehicleDetailFragment" />
+            app:destination="@id/vehicleDetailFragment"
+            app:popUpTo="@id/vehicleDetailFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_addEditFragment_to_viewPagerFragment"
-            app:destination="@id/viewPagerFragment" />
+            app:destination="@id/viewPagerFragment"
+            app:popUpTo="@id/viewPagerFragment"
+            app:popUpToInclusive="true" />
         <argument
             android:name="function"
             app:argType="com.example.searchvehicleapp.utils.AddOrEdit" />
+        <argument
+            android:name="vehicle_id"
+            android:defaultValue="-1"
+            app:argType="integer" />
     </fragment>
 </navigation>

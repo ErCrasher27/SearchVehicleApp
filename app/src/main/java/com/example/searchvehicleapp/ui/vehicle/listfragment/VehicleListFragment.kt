@@ -1,6 +1,7 @@
 package com.example.searchvehicleapp.ui.vehicle.listfragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,16 +50,15 @@ class VehicleListFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = VehicleListAdapter {
-            onVehicleClicked
-        }
+        val adapter = VehicleListAdapter(onVehicleClicked = onVehicleClicked)
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
         binding.recyclerView.adapter = adapter
         // Attach an observer on the allItems list to update the UI automatically when the data
         // changes.
         vehicleViewModel.getAllVehiclesByTypeOrderedByName(enumTypeOfVehicle)
-            .observe(this.viewLifecycleOwner) { items ->
+            .observe(this.viewLifecycleOwner)
+            { items ->
                 items.let {
                     adapter.submitList(it)
                 }

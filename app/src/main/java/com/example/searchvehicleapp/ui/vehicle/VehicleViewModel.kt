@@ -1,6 +1,5 @@
 package com.example.searchvehicleapp.ui.vehicle.listfragment
 
-import android.content.ClipData
 import androidx.lifecycle.*
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.database.VehicleDao
@@ -9,6 +8,10 @@ import kotlinx.coroutines.launch
 
 class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
 
+    // currentTypeOfVehicle
+    private val _currentTypeOfVehicle = MutableLiveData<EnumTypeOfVehicle>()
+    val currentTypeOfVehicle: LiveData<EnumTypeOfVehicle> = _currentTypeOfVehicle
+
     // Cache all items form the database using LiveData.
     fun getAllVehiclesByTypeOrderedByName(typeOfVehicle: EnumTypeOfVehicle): LiveData<List<Vehicle>> =
         vehicleDao.getAllVehiclesByTypeOrderedByName(typeOfVehicle).asLiveData()
@@ -16,14 +19,60 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
     /**
      * Retrieve a vehicle from the repository.
      */
-    fun getVehicleById(id: Int): LiveData<Vehicle> {
-        return vehicleDao.getVehicleById(id).asLiveData()
+    fun getVehicleById(id: Int): LiveData<Vehicle> = vehicleDao.getVehicleById(id).asLiveData()
+
+    /**
+     * Returns an instance of the [Vehicle] entity class with the vehicle info entered by the user.
+     * This will be used to add a new entry to the Vehicle database.
+     */
+    private fun getNewVehicleEntry(
+        plate: String, brand: String, model: String, typeOfVehicle: EnumTypeOfVehicle
+    ): Vehicle {
+        return Vehicle(
+            plate = plate, brand = brand, model = model, typeOfVehicle = typeOfVehicle
+        )
+    }
+
+    /**
+     * Called to update an existing entry in the Vehicle database.
+     * Returns an instance of the [Vehicle] entity class with the vehicle info updated by the user.
+     */
+    private fun getUpdatedVehicleEntry(
+        id: Int, plate: String, brand: String, model: String, typeOfVehicle: EnumTypeOfVehicle
+    ): Vehicle {
+        return Vehicle(
+            id = id, plate = plate, brand = brand, model = model, typeOfVehicle = typeOfVehicle
+        )
+    }
+
+    /**
+     * Inserts the new Vehicle into database.
+     */
+    fun addNewVehicle(
+        plate: String, brand: String, model: String, typeOfVehicle: EnumTypeOfVehicle
+    ) {
+        val newVehicle = getNewVehicleEntry(
+            plate = plate, brand = brand, model = model, typeOfVehicle = typeOfVehicle
+        )
+        insertVehicle(newVehicle)
+    }
+
+    /**
+     * Updates an existing Vehicle in the database.
+     */
+    fun updateVehicle(
+        id: Int, plate: String, brand: String, model: String, typeOfVehicle: EnumTypeOfVehicle
+    ) {
+        val updateVehicle = getUpdatedVehicleEntry(
+            id = id, plate = plate, brand = brand, model = model, typeOfVehicle = typeOfVehicle
+        )
+        updateVehicle(updateVehicle)
     }
 
     /**
      * Launching a new coroutine to insert a vehicle in a non-blocking way
      */
-    private fun insertItem(vehicle: Vehicle) {
+    private fun insertVehicle(vehicle: Vehicle) {
         viewModelScope.launch {
             vehicleDao.insert(
                 vehicle = vehicle
@@ -34,7 +83,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
     /**
      * Launching a new coroutine to update a vehicle in a non-blocking way
      */
-    private fun updateItem(vehicle: Vehicle) {
+    private fun updateVehicle(vehicle: Vehicle) {
         viewModelScope.launch {
             vehicleDao.update(
                 vehicle = vehicle
@@ -45,7 +94,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
     /**
      * Launching a new coroutine to delete a vehicle in a non-blocking way
      */
-    private fun deleteItem(vehicle: Vehicle) {
+    private fun deleteVehicle(vehicle: Vehicle) {
         viewModelScope.launch {
             vehicleDao.delete(
                 vehicle = vehicle
@@ -54,25 +103,21 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
     }
 
     /**
-     * Returns an instance of the [Item] entity class with the item info entered by the user.
-     * This will be used to add a new entry to the Inventory database.
-     */
-    private fun getNewItemEntry(plate: String, brand: String, model: String): Vehicle {
-        return Vehicle(
-            plate = plate,
-            brand = brand,
-            model = model
-        )
-    }
-
-    /**
      * Returns true if the EditTexts are not empty
      */
-    fun isEntryValid(itemName: String, itemPrice: String, itemCount: String): Boolean {
-        if (itemName.isBlank() || itemPrice.isBlank() || itemCount.isBlank()) {
+    fun isEntryValid(
+        plate: String,
+        brand: String,
+        model: String,
+    ): Boolean {
+        if (plate.isBlank() || brand.isBlank() || model.isBlank()) {
             return false
         }
         return true
+    }
+
+    fun setCurrentTypeOfVehicle(enumTypeOfVehicle: EnumTypeOfVehicle) {
+        _currentTypeOfVehicle.value = enumTypeOfVehicle
     }
 }
 

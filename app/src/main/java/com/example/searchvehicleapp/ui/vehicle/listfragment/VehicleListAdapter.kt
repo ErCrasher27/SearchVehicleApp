@@ -1,13 +1,10 @@
 package com.example.searchvehicleapp.ui.vehicle.listfragment
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.searchvehicleapp.R
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.databinding.VehicleListItemBinding
 
@@ -16,7 +13,9 @@ import com.example.searchvehicleapp.databinding.VehicleListItemBinding
  * [ListAdapter] implementation for the recyclerview.
  */
 
-class VehicleListAdapter(private val onVehicleClicked: (Vehicle) -> Unit) :
+class VehicleListAdapter(
+    private val onVehicleClicked: (Vehicle) -> Unit,
+) :
     ListAdapter<Vehicle, VehicleListAdapter.ItemViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -31,19 +30,16 @@ class VehicleListAdapter(private val onVehicleClicked: (Vehicle) -> Unit) :
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val current = getItem(position)
-        holder.itemView.setOnClickListener {
-            onVehicleClicked(current)
-        }
-        holder.bind(current)
+        holder.bind(current, onVehicleClicked)
     }
 
     class ItemViewHolder(private var binding: VehicleListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(vehicle: Vehicle) {
+        fun bind(vehicle: Vehicle, onVehicleClicked: (Vehicle) -> Unit) {
             binding.model.text = vehicle.model
             binding.brand.text = vehicle.brand
-
+            binding.buttonGoDetail.setOnClickListener { onVehicleClicked(vehicle) }
             /*if (vehicle.image != null) {
                 binding.image.setImageBitmap(
                     Bitmap.createScaledBitmap(

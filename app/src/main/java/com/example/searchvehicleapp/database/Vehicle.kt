@@ -30,5 +30,5 @@ data class Vehicle(
 
     //@ColumnInfo(name = "cv") val cV: Int,
 
-    @ColumnInfo(name = "type") val type: EnumTypeOfVehicle
+    @ColumnInfo(name = "type_of_vehicle") val typeOfVehicle: EnumTypeOfVehicle
 )

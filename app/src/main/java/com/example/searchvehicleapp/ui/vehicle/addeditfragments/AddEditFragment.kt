@@ -28,7 +28,7 @@ class AddEditFragment : Fragment() {
 
     lateinit var vehicle: Vehicle
 
-    private val navigationArgs: VehicleDetailFragmentArgs by navArgs()
+    private val vehicleDetailNavigationArgs: VehicleDetailFragmentArgs by navArgs()
 
     private var _binding: FragmentAddEditBinding? = null
 
@@ -37,8 +37,7 @@ class AddEditFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentAddEditBinding.inflate(inflater, container, false)
 
@@ -47,6 +46,22 @@ class AddEditFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val id = vehicleDetailNavigationArgs.vehicleId
+        if (id > 0) {
+            vehicleViewModel.getVehicleById(id)
+                .observe(this.viewLifecycleOwner) { vehicleSelected ->
+                    vehicle = vehicleSelected
+                    bindForUpdate(vehicle)
+                }
+        } else {
+            binding.fabSave.setOnClickListener {
+                addNewItem()
+            }
+        }
     }
 
     /**
@@ -63,10 +78,10 @@ class AddEditFragment : Fragment() {
     /**
      * Binds views with the passed in [Vehicle] information.
      */
-    private fun bind(vehicle: Vehicle) {
+    private fun bindForUpdate(vehicle: Vehicle) {
         binding.apply {
             plate.setText(vehicle.plate, TextView.BufferType.SPANNABLE)
-            brand.setText(vehicle.brand.toString(), TextView.BufferType.SPANNABLE)
+            brand.setText(vehicle.brand, TextView.BufferType.SPANNABLE)
             model.setText(vehicle.model, TextView.BufferType.SPANNABLE)
             fabSave.setOnClickListener { updateItem() }
         }
@@ -77,12 +92,13 @@ class AddEditFragment : Fragment() {
      */
     private fun addNewItem() {
         if (isEntryValid()) {
-            vehicleViewModel.insertItem(
+            vehicleViewModel.addNewVehicle(
                 binding.plate.text.toString(),
                 binding.brand.text.toString(),
                 binding.model.text.toString(),
+                vehicleViewModel.currentTypeOfVehicle.value!!
             )
-            val action = AddItemFragmentDirections.actionAddItemFragmentToItemListFragment()
+            val action = AddEditFragmentDirections.actionAddEditFragmentToViewPagerFragment()
             findNavController().navigate(action)
         }
     }
@@ -92,13 +108,15 @@ class AddEditFragment : Fragment() {
      */
     private fun updateItem() {
         if (isEntryValid()) {
-            vehicleViewModel.updateItem(
-                this.navigationArgs.vehicleId,
+            vehicleViewModel.updateVehicle(
+                this.vehicleDetailNavigationArgs.vehicleId,
                 this.binding.plate.text.toString(),
                 this.binding.brand.text.toString(),
-                this.binding.model.text.toString()
+                this.binding.model.text.toString(),
+                vehicleViewModel.currentTypeOfVehicle.value!!
             )
-            val action = AddEditFragmentDirections.actionAddEditFragmentToViewPagerFragment()
+            val action =
+                AddEditFragmentDirections.actionAddEditFragmentToVehicleDetailFragment(this.vehicleDetailNavigationArgs.vehicleId)
             findNavController().navigate(action)
         }
     }

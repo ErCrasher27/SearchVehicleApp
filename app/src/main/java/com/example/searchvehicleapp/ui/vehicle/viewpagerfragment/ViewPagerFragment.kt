@@ -5,11 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.example.searchvehicleapp.R
+import com.example.searchvehicleapp.application.VehicleApplication
 import com.example.searchvehicleapp.databinding.FragmentViewPagerBinding
 import com.example.searchvehicleapp.ui.vehicle.listfragment.VehicleListFragment
+import com.example.searchvehicleapp.ui.vehicle.listfragment.VehicleViewModel
+import com.example.searchvehicleapp.ui.vehicle.listfragment.VehicleViewModelFactory
 import com.example.searchvehicleapp.utils.AddOrEdit
 import com.example.searchvehicleapp.utils.EnumTypeOfVehicle
 
@@ -21,9 +25,16 @@ class ViewPagerFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    // Use the 'by activityViewModels()' Kotlin property delegate from the fragment-ktx artifact
+    // to share the ViewModel across fragments.
+    private val vehicleViewModel: VehicleViewModel by activityViewModels {
+        VehicleViewModelFactory(
+            (activity?.application as VehicleApplication).database.vehicleDao()
+        )
+    }
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentViewPagerBinding.inflate(inflater, container, false)
@@ -39,9 +50,27 @@ class ViewPagerFragment : Fragment() {
 
         // Set FloatingActionButton
         binding.fab.setOnClickListener {
-            val action =
-                ViewPagerFragmentDirections.actionViewPagerFragmentToAddEditFragment(AddOrEdit.ADD)
+            setCurrentTabOpened()
+            val action = ViewPagerFragmentDirections.actionViewPagerFragmentToAddEditFragment(
+                AddOrEdit.ADD
+            )
             this.findNavController().navigate(action)
+        }
+
+
+    }
+
+    private fun setCurrentTabOpened() {
+        when (binding.tabs.selectedTabPosition) {
+            0 -> vehicleViewModel.setCurrentTypeOfVehicle(
+                enumTypeOfVehicle = EnumTypeOfVehicle.MOTORCYCLE
+            )
+            1 -> vehicleViewModel.setCurrentTypeOfVehicle(
+                enumTypeOfVehicle = EnumTypeOfVehicle.CAR
+            )
+            2 -> vehicleViewModel.setCurrentTypeOfVehicle(
+                enumTypeOfVehicle = EnumTypeOfVehicle.TRUCK
+            )
         }
     }
 
@@ -51,8 +80,7 @@ class ViewPagerFragment : Fragment() {
     private fun setupViewPager(sectionsPagerAdapter: SectionsPagerAdapter, viewPager: ViewPager) {
         //index 0
         sectionsPagerAdapter.addFragment(
-            VehicleListFragment(
-                enumTypeOfVehicle = EnumTypeOfVehicle.MOTORCYCLE,
+            VehicleListFragment(enumTypeOfVehicle = EnumTypeOfVehicle.MOTORCYCLE,
                 onVehicleClicked = {
                     val action =
                         ViewPagerFragmentDirections.actionViewPagerFragmentToVehicleDetailFragment(
@@ -63,25 +91,23 @@ class ViewPagerFragment : Fragment() {
         )
         //index 1
         sectionsPagerAdapter.addFragment(
-            VehicleListFragment(enumTypeOfVehicle = EnumTypeOfVehicle.CAR,
-                onVehicleClicked = {
-                    val action =
-                        ViewPagerFragmentDirections.actionViewPagerFragmentToVehicleDetailFragment(
-                            it.id
-                        )
-                    findNavController().navigate(action)
-                })
+            VehicleListFragment(enumTypeOfVehicle = EnumTypeOfVehicle.CAR, onVehicleClicked = {
+                val action =
+                    ViewPagerFragmentDirections.actionViewPagerFragmentToVehicleDetailFragment(
+                        it.id
+                    )
+                findNavController().navigate(action)
+            })
         )
         //index 2
         sectionsPagerAdapter.addFragment(
-            VehicleListFragment(enumTypeOfVehicle = EnumTypeOfVehicle.TRUCK,
-                onVehicleClicked = {
-                    val action =
-                        ViewPagerFragmentDirections.actionViewPagerFragmentToVehicleDetailFragment(
-                            it.id
-                        )
-                    findNavController().navigate(action)
-                })
+            VehicleListFragment(enumTypeOfVehicle = EnumTypeOfVehicle.TRUCK, onVehicleClicked = {
+                val action =
+                    ViewPagerFragmentDirections.actionViewPagerFragmentToVehicleDetailFragment(
+                        it.id
+                    )
+                findNavController().navigate(action)
+            })
         )
         viewPager.adapter = sectionsPagerAdapter
         binding.tabs.setupWithViewPager(viewPager)
