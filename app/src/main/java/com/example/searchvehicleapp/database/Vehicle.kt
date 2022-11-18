@@ -20,7 +20,7 @@ data class Vehicle(
 
     @ColumnInfo(name = "brand") val brand: String,
 
-    //@ColumnInfo(name = "year") val year: Int,
+    @ColumnInfo(name = "year") val year: Int,
 
     //@ColumnInfo(name = "logo_fuel", typeAffinity = ColumnInfo.BLOB) val logoFuel: ByteArray,
 

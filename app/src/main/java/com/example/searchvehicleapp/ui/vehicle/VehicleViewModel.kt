@@ -26,10 +26,10 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
      * This will be used to add a new entry to the Vehicle database.
      */
     private fun getNewVehicleEntry(
-        plate: String, brand: String, model: String, typeOfVehicle: EnumTypeOfVehicle
+        plate: String, brand: String, model: String, typeOfVehicle: EnumTypeOfVehicle, year: Int
     ): Vehicle {
         return Vehicle(
-            plate = plate, brand = brand, model = model, typeOfVehicle = typeOfVehicle
+            plate = plate, brand = brand, model = model, typeOfVehicle = typeOfVehicle, year = year
         )
     }
 
@@ -38,10 +38,20 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
      * Returns an instance of the [Vehicle] entity class with the vehicle info updated by the user.
      */
     private fun getUpdatedVehicleEntry(
-        id: Int, plate: String, brand: String, model: String, typeOfVehicle: EnumTypeOfVehicle
+        id: Int,
+        plate: String,
+        brand: String,
+        model: String,
+        typeOfVehicle: EnumTypeOfVehicle,
+        year: Int
     ): Vehicle {
         return Vehicle(
-            id = id, plate = plate, brand = brand, model = model, typeOfVehicle = typeOfVehicle
+            id = id,
+            plate = plate,
+            brand = brand,
+            model = model,
+            typeOfVehicle = typeOfVehicle,
+            year = year
         )
     }
 
@@ -49,10 +59,10 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
      * Inserts the new Vehicle into database.
      */
     fun addNewVehicle(
-        plate: String, brand: String, model: String, typeOfVehicle: EnumTypeOfVehicle
+        plate: String, brand: String, model: String, typeOfVehicle: EnumTypeOfVehicle, year: Int
     ) {
         val newVehicle = getNewVehicleEntry(
-            plate = plate, brand = brand, model = model, typeOfVehicle = typeOfVehicle
+            plate = plate, brand = brand, model = model, typeOfVehicle = typeOfVehicle, year = year
         )
         insertVehicle(newVehicle)
     }
@@ -61,10 +71,20 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
      * Updates an existing Vehicle in the database.
      */
     fun updateVehicle(
-        id: Int, plate: String, brand: String, model: String, typeOfVehicle: EnumTypeOfVehicle
+        id: Int,
+        plate: String,
+        brand: String,
+        model: String,
+        typeOfVehicle: EnumTypeOfVehicle,
+        year: Int
     ) {
         val updateVehicle = getUpdatedVehicleEntry(
-            id = id, plate = plate, brand = brand, model = model, typeOfVehicle = typeOfVehicle
+            id = id,
+            plate = plate,
+            brand = brand,
+            model = model,
+            typeOfVehicle = typeOfVehicle,
+            year = year
         )
         updateVehicle(updateVehicle)
     }
@@ -109,8 +129,9 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         plate: String,
         brand: String,
         model: String,
+        year: String
     ): Boolean {
-        if (plate.isBlank() || brand.isBlank() || model.isBlank()) {
+        if (plate.isBlank() || brand.isBlank() || model.isBlank() || year.isBlank()) {
             return false
         }
         return true

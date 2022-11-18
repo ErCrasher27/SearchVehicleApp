@@ -71,6 +71,8 @@ class VehicleDetailFragment : Fragment() {
         binding.apply {
             model.text = vehicle.model
             brand.text = vehicle.brand
+            plate.text = vehicle.plate
+            year.text = vehicle.year.toString()
         }
     }
 

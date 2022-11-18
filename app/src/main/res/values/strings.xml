@@ -11,5 +11,6 @@
     <string name="cd_fab_add">Add Vehicle</string>
     <string name="cd_go_details">Show more details</string>
     <string name="cd_fab_save">Save</string>
+    <string name="year_input_layout">Year</string>
 
 </resources>

@@ -12,9 +12,9 @@ import androidx.navigation.fragment.navArgs
 import com.example.searchvehicleapp.application.VehicleApplication
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.databinding.FragmentAddEditBinding
-import com.example.searchvehicleapp.ui.vehicle.detailfragments.VehicleDetailFragmentArgs
 import com.example.searchvehicleapp.ui.vehicle.VehicleViewModel
 import com.example.searchvehicleapp.ui.vehicle.VehicleViewModelFactory
+import com.example.searchvehicleapp.ui.vehicle.detailfragments.VehicleDetailFragmentArgs
 
 class AddEditFragment : Fragment() {
 
@@ -72,6 +72,7 @@ class AddEditFragment : Fragment() {
             binding.plate.text.toString(),
             binding.brand.text.toString(),
             binding.model.text.toString(),
+            binding.year.text.toString()
         )
     }
 
@@ -93,10 +94,11 @@ class AddEditFragment : Fragment() {
     private fun addNewItem() {
         if (isEntryValid()) {
             vehicleViewModel.addNewVehicle(
-                binding.plate.text.toString(),
-                binding.brand.text.toString(),
-                binding.model.text.toString(),
-                vehicleViewModel.currentTypeOfVehicle.value!!
+                plate = binding.plate.text.toString(),
+                brand = binding.brand.text.toString(),
+                model = binding.model.text.toString(),
+                typeOfVehicle = vehicleViewModel.currentTypeOfVehicle.value!!,
+                year = binding.year.text.toString().toInt()
             )
             val action = AddEditFragmentDirections.actionAddEditFragmentToViewPagerFragment()
             findNavController().navigate(action)
@@ -109,11 +111,13 @@ class AddEditFragment : Fragment() {
     private fun updateItem() {
         if (isEntryValid()) {
             vehicleViewModel.updateVehicle(
-                this.vehicleDetailNavigationArgs.vehicleId,
-                this.binding.plate.text.toString(),
-                this.binding.brand.text.toString(),
-                this.binding.model.text.toString(),
-                vehicleViewModel.currentTypeOfVehicle.value!!
+                id = this.vehicleDetailNavigationArgs.vehicleId,
+                plate = this.binding.plate.text.toString(),
+                brand = this.binding.brand.text.toString(),
+                model = this.binding.model.text.toString(),
+                typeOfVehicle = vehicleViewModel.currentTypeOfVehicle.value!!,
+                year = binding.year.text.toString().toInt()
+
             )
             val action =
                 AddEditFragmentDirections.actionAddEditFragmentToVehicleDetailFragment(
