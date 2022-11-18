@@ -1,5 +1,9 @@
 package com.example.searchvehicleapp.ui.vehicle.addeditfragments
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +19,7 @@ import com.example.searchvehicleapp.databinding.FragmentAddEditBinding
 import com.example.searchvehicleapp.ui.vehicle.VehicleViewModel
 import com.example.searchvehicleapp.ui.vehicle.VehicleViewModelFactory
 import com.example.searchvehicleapp.ui.vehicle.detailfragments.VehicleDetailFragmentArgs
+
 
 class AddEditFragment : Fragment() {
 
@@ -50,6 +55,7 @@ class AddEditFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.importImage.setOnClickListener { imageChooser() }
         val id = vehicleDetailNavigationArgs.vehicleId
         if (id > 0) {
             vehicleViewModel.getVehicleById(id)
@@ -84,6 +90,17 @@ class AddEditFragment : Fragment() {
             plate.setText(vehicle.plate, TextView.BufferType.SPANNABLE)
             brand.setText(vehicle.brand, TextView.BufferType.SPANNABLE)
             model.setText(vehicle.model, TextView.BufferType.SPANNABLE)
+            if (vehicle.image != null) {
+                binding.previewImage.setImageBitmap(
+                    Bitmap.createScaledBitmap(
+                        BitmapFactory.decodeByteArray(
+                            vehicle.image, 0, vehicle.image.size
+                        ), binding.previewImage.width, binding.previewImage.height, false
+                    )
+                )
+            } else {
+                binding.previewImage.setImageResource(com.example.searchvehicleapp.R.drawable.ic_baseline_directions_car_24)
+            }
             fabSave.setOnClickListener { updateItem() }
         }
     }
@@ -98,7 +115,8 @@ class AddEditFragment : Fragment() {
                 brand = binding.brand.text.toString(),
                 model = binding.model.text.toString(),
                 typeOfVehicle = vehicleViewModel.currentTypeOfVehicle.value!!,
-                year = binding.year.text.toString().toInt()
+                year = binding.year.text.toString().toInt(),
+                image = createBitmapFromView(binding.previewImage)
             )
             val action = AddEditFragmentDirections.actionAddEditFragmentToViewPagerFragment()
             findNavController().navigate(action)
@@ -116,15 +134,53 @@ class AddEditFragment : Fragment() {
                 brand = this.binding.brand.text.toString(),
                 model = this.binding.model.text.toString(),
                 typeOfVehicle = vehicleViewModel.currentTypeOfVehicle.value!!,
-                year = binding.year.text.toString().toInt()
-
+                year = binding.year.text.toString().toInt(),
+                image = createBitmapFromView(binding.previewImage)
             )
-            val action =
-                AddEditFragmentDirections.actionAddEditFragmentToVehicleDetailFragment(
-                    vehicleDetailNavigationArgs.vehicleId
-                )
+            val action = AddEditFragmentDirections.actionAddEditFragmentToVehicleDetailFragment(
+                vehicleDetailNavigationArgs.vehicleId
+            )
             findNavController().navigate(action)
         }
+    }
+
+    // this function is triggered when
+    // the Select Image Button is clicked
+    private fun imageChooser() {
+        // create an instance of the
+        // intent of the type image
+        val i = Intent()
+        i.type = "image/*"
+        i.action = Intent.ACTION_GET_CONTENT
+
+        // pass the constant to compare it
+        // with the returned requestCode
+        startActivityForResult(Intent.createChooser(i, "Select Picture"), 200)
+    }
+
+    // this function is triggered when user
+    // selects the image from the imageChooser
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK) {
+
+            // compare the resultCode with the
+            // SELECT_PICTURE constant
+            if (requestCode == 200) {
+                // Get the url of the image from data
+                val selectedImageUri = data?.data
+                if (null != selectedImageUri) {
+                    // update the preview image in the layout
+                    binding.previewImage.setImageURI(selectedImageUri)
+                }
+            }
+        }
+    }
+
+    private fun createBitmapFromView(view: View): Bitmap {
+        view.isDrawingCacheEnabled = true
+        view.buildDrawingCache()
+        return view.drawingCache
     }
 
     override fun onDestroyView() {

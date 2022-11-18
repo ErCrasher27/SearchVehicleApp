@@ -51,9 +51,9 @@ class VehicleListAdapter(
                 )
             } else {
                 binding.image.setImageResource(R.drawable.ic_baseline_directions_car_24)
-            }
+            }*/
 
-            binding.logoBrand.setImageBitmap(
+            /*binding.logoBrand.setImageBitmap(
                 Bitmap.createScaledBitmap(
                     BitmapFactory.decodeByteArray(
                         vehicle.logoBrand, 0, vehicle.logoBrand.size

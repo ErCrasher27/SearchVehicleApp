@@ -1,10 +1,12 @@
 package com.example.searchvehicleapp.ui.vehicle
 
+import android.graphics.Bitmap
 import androidx.lifecycle.*
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.database.VehicleDao
 import com.example.searchvehicleapp.utils.EnumTypeOfVehicle
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
 
 class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
 
@@ -26,10 +28,20 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
      * This will be used to add a new entry to the Vehicle database.
      */
     private fun getNewVehicleEntry(
-        plate: String, brand: String, model: String, typeOfVehicle: EnumTypeOfVehicle, year: Int
+        plate: String,
+        brand: String,
+        model: String,
+        typeOfVehicle: EnumTypeOfVehicle,
+        year: Int,
+        image: ByteArray?
     ): Vehicle {
         return Vehicle(
-            plate = plate, brand = brand, model = model, typeOfVehicle = typeOfVehicle, year = year
+            plate = plate,
+            brand = brand,
+            model = model,
+            typeOfVehicle = typeOfVehicle,
+            year = year,
+            image = image
         )
     }
 
@@ -43,7 +55,8 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         brand: String,
         model: String,
         typeOfVehicle: EnumTypeOfVehicle,
-        year: Int
+        year: Int,
+        image: ByteArray?
     ): Vehicle {
         return Vehicle(
             id = id,
@@ -51,7 +64,8 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             brand = brand,
             model = model,
             typeOfVehicle = typeOfVehicle,
-            year = year
+            year = year,
+            image = image
         )
     }
 
@@ -59,10 +73,20 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
      * Inserts the new Vehicle into database.
      */
     fun addNewVehicle(
-        plate: String, brand: String, model: String, typeOfVehicle: EnumTypeOfVehicle, year: Int
+        plate: String,
+        brand: String,
+        model: String,
+        typeOfVehicle: EnumTypeOfVehicle,
+        year: Int,
+        image: Bitmap
     ) {
         val newVehicle = getNewVehicleEntry(
-            plate = plate, brand = brand, model = model, typeOfVehicle = typeOfVehicle, year = year
+            plate = plate,
+            brand = brand,
+            model = model,
+            typeOfVehicle = typeOfVehicle,
+            year = year,
+            image = image.toByteArray()
         )
         insertVehicle(newVehicle)
     }
@@ -76,7 +100,8 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         brand: String,
         model: String,
         typeOfVehicle: EnumTypeOfVehicle,
-        year: Int
+        year: Int,
+        image: Bitmap
     ) {
         val updateVehicle = getUpdatedVehicleEntry(
             id = id,
@@ -84,7 +109,8 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             brand = brand,
             model = model,
             typeOfVehicle = typeOfVehicle,
-            year = year
+            year = year,
+            image = image.toByteArray()
         )
         updateVehicle(updateVehicle)
     }
@@ -126,10 +152,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
      * Returns true if the EditTexts are not empty
      */
     fun isEntryValid(
-        plate: String,
-        brand: String,
-        model: String,
-        year: String
+        plate: String, brand: String, model: String, year: String
     ): Boolean {
         if (plate.isBlank() || brand.isBlank() || model.isBlank() || year.isBlank()) {
             return false
@@ -139,6 +162,12 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
 
     fun setCurrentTypeOfVehicle(enumTypeOfVehicle: EnumTypeOfVehicle) {
         _currentTypeOfVehicle.value = enumTypeOfVehicle
+    }
+
+    private fun Bitmap.toByteArray(quality: Int = 50): ByteArray {
+        val stream = ByteArrayOutputStream()
+        compress(Bitmap.CompressFormat.JPEG, quality, stream)
+        return stream.toByteArray()
     }
 }
 

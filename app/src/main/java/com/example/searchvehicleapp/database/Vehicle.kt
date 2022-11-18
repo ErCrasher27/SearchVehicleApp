@@ -12,7 +12,7 @@ data class Vehicle(
 
     @ColumnInfo(name = "plate") val plate: String,
 
-    //@ColumnInfo(name = "image", typeAffinity = ColumnInfo.BLOB) val image: ByteArray?,
+    @ColumnInfo(name = "image", typeAffinity = ColumnInfo.BLOB) val image: ByteArray?,
 
     @ColumnInfo(name = "model") val model: String,
 
