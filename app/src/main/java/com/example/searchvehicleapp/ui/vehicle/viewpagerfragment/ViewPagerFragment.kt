@@ -48,7 +48,7 @@ class ViewPagerFragment : Fragment() {
 
 
         setupViewPager(
-            sectionsPagerAdapter = SectionsPagerAdapter(context, parentFragmentManager),
+            sectionsPagerAdapter = SectionsPagerAdapter(context, childFragmentManager),
             viewPager = binding.container
         )
 
