@@ -19,6 +19,7 @@
         <action
             android:id="@+id/action_vehicleDetailFragment_to_addEditFragment"
             app:destination="@id/addEditFragment" />
+
         <argument
             android:name="vehicle_id"
             app:argType="integer" />
@@ -57,9 +58,9 @@
         <argument
             android:name="function"
             app:argType="com.example.searchvehicleapp.utils.AddOrEdit" />
+
         <argument
             android:name="vehicle_id"
-            android:defaultValue="-1"
             app:argType="integer" />
     </fragment>
 </navigation>

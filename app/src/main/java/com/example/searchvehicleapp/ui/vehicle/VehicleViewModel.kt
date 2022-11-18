@@ -1,4 +1,4 @@
-package com.example.searchvehicleapp.ui.vehicle.listfragment
+package com.example.searchvehicleapp.ui.vehicle
 
 import androidx.lifecycle.*
 import com.example.searchvehicleapp.database.Vehicle
@@ -94,7 +94,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
     /**
      * Launching a new coroutine to delete a vehicle in a non-blocking way
      */
-    private fun deleteVehicle(vehicle: Vehicle) {
+    fun deleteVehicle(vehicle: Vehicle) {
         viewModelScope.launch {
             vehicleDao.delete(
                 vehicle = vehicle

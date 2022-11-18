@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.searchvehicleapp.application.VehicleApplication
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.databinding.FragmentVehicleListBinding
+import com.example.searchvehicleapp.ui.vehicle.VehicleViewModel
+import com.example.searchvehicleapp.ui.vehicle.VehicleViewModelFactory
 import com.example.searchvehicleapp.utils.EnumTypeOfVehicle
 
 /**
@@ -37,7 +39,7 @@ class VehicleListFragment(
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentVehicleListBinding.inflate(inflater, container, false)
 
         binding.apply {

@@ -10,11 +10,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.example.searchvehicleapp.application.VehicleApplication
 import com.example.searchvehicleapp.databinding.FragmentViewPagerBinding
+import com.example.searchvehicleapp.ui.vehicle.VehicleViewModel
+import com.example.searchvehicleapp.ui.vehicle.VehicleViewModelFactory
 import com.example.searchvehicleapp.ui.vehicle.listfragment.VehicleListFragment
-import com.example.searchvehicleapp.ui.vehicle.listfragment.VehicleViewModel
-import com.example.searchvehicleapp.ui.vehicle.listfragment.VehicleViewModelFactory
 import com.example.searchvehicleapp.utils.AddOrEdit
 import com.example.searchvehicleapp.utils.EnumTypeOfVehicle
+import com.google.android.material.tabs.TabLayout
 
 
 class ViewPagerFragment : Fragment() {
@@ -35,7 +36,7 @@ class ViewPagerFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentViewPagerBinding.inflate(inflater, container, false)
 
@@ -45,34 +46,19 @@ class ViewPagerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         setupViewPager(
             sectionsPagerAdapter = SectionsPagerAdapter(context, childFragmentManager),
             viewPager = binding.container
         )
 
+        listenerViewPagerAndTabs()
+
         // Set FloatingActionButton
         binding.fab.setOnClickListener {
-            setCurrentTabOpened()
             val action = ViewPagerFragmentDirections.actionViewPagerFragmentToAddEditFragment(
-                AddOrEdit.ADD
+                AddOrEdit.ADD, 0
             )
             this.findNavController().navigate(action)
-        }
-    }
-
-    private fun setCurrentTabOpened() {
-        when (binding.tabs.selectedTabPosition) {
-            0 -> vehicleViewModel.setCurrentTypeOfVehicle(
-                enumTypeOfVehicle = EnumTypeOfVehicle.MOTORCYCLE
-            )
-            1 -> vehicleViewModel.setCurrentTypeOfVehicle(
-                enumTypeOfVehicle = EnumTypeOfVehicle.CAR
-            )
-            2 -> vehicleViewModel.setCurrentTypeOfVehicle(
-                enumTypeOfVehicle = EnumTypeOfVehicle.TRUCK
-            )
         }
     }
 
@@ -82,7 +68,8 @@ class ViewPagerFragment : Fragment() {
     private fun setupViewPager(sectionsPagerAdapter: SectionsPagerAdapter, viewPager: ViewPager) {
         //index 0
         sectionsPagerAdapter.addFragment(
-            VehicleListFragment(enumTypeOfVehicle = EnumTypeOfVehicle.MOTORCYCLE,
+            VehicleListFragment(
+                enumTypeOfVehicle = EnumTypeOfVehicle.MOTORCYCLE,
                 onVehicleClicked = {
                     val action =
                         ViewPagerFragmentDirections.actionViewPagerFragmentToVehicleDetailFragment(
@@ -119,9 +106,62 @@ class ViewPagerFragment : Fragment() {
             resources.getDrawable(com.example.searchvehicleapp.R.drawable.ic_baseline_directions_car_24)
         binding.tabs.getTabAt(2)?.icon =
             resources.getDrawable(com.example.searchvehicleapp.R.drawable.ic_baseline_directions_bus_24)
-        binding.tabs.getTabAt(0)?.select()
-        binding.tabs.getTabAt(1)?.select()
-        binding.tabs.getTabAt(2)?.select()
 
+        //if values are not null, the tab selected will be as last shown
+        vehicleViewModel.currentTypeOfVehicle.value?.let {
+            getIndexByEnumVehicleType(
+                it
+            )
+        }?.let {
+            binding.tabs.getTabAt(it)
+                ?.select()
+        }
+    }
+
+    /**
+     * Responsible for retrieve methods on change tab selected
+     */
+    private fun listenerViewPagerAndTabs() {
+        binding.container.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(binding.tabs))
+
+        binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                binding.container.currentItem = tab.position
+                setCurrentTabOpened()
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab) {
+
+            }
+        })
+    }
+
+    /**
+     * Responsible for setting enumTypeOfVehicle on [vehicleViewModel] instance
+     */
+    private fun setCurrentTabOpened() {
+        when (binding.tabs.selectedTabPosition) {
+            0 -> vehicleViewModel.setCurrentTypeOfVehicle(
+                enumTypeOfVehicle = EnumTypeOfVehicle.MOTORCYCLE
+            )
+            1 -> vehicleViewModel.setCurrentTypeOfVehicle(
+                enumTypeOfVehicle = EnumTypeOfVehicle.CAR
+            )
+            2 -> vehicleViewModel.setCurrentTypeOfVehicle(
+                enumTypeOfVehicle = EnumTypeOfVehicle.TRUCK
+            )
+        }
+    }
+
+    private fun getIndexByEnumVehicleType(enumTypeOfVehicle: EnumTypeOfVehicle): Int {
+        return when (enumTypeOfVehicle) {
+            EnumTypeOfVehicle.MOTORCYCLE -> 0
+            EnumTypeOfVehicle.CAR -> 1
+            EnumTypeOfVehicle.TRUCK -> 2
+        }
     }
 }

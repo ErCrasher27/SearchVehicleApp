@@ -11,8 +11,8 @@ import androidx.navigation.fragment.navArgs
 import com.example.searchvehicleapp.application.VehicleApplication
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.databinding.FragmentVehicleDetailBinding
-import com.example.searchvehicleapp.ui.vehicle.listfragment.VehicleViewModel
-import com.example.searchvehicleapp.ui.vehicle.listfragment.VehicleViewModelFactory
+import com.example.searchvehicleapp.ui.vehicle.VehicleViewModel
+import com.example.searchvehicleapp.ui.vehicle.VehicleViewModelFactory
 import com.example.searchvehicleapp.utils.AddOrEdit.EDIT
 
 class VehicleDetailFragment : Fragment() {
@@ -37,7 +37,7 @@ class VehicleDetailFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentVehicleDetailBinding.inflate(inflater, container, false)
 
         binding.apply {
@@ -46,6 +46,7 @@ class VehicleDetailFragment : Fragment() {
 
 
         binding.fabEdit.setOnClickListener { goToEdit() }
+        binding.fabDelete.setOnClickListener { goToListAfterDelete() }
 
         return binding.root
     }
@@ -76,8 +77,16 @@ class VehicleDetailFragment : Fragment() {
     private fun goToEdit() {
         val action =
             VehicleDetailFragmentDirections.actionVehicleDetailFragmentToAddEditFragment(
-                EDIT
+                EDIT,
+                navigationArgs.vehicleId
             )
+        findNavController().navigate(action)
+    }
+
+    private fun goToListAfterDelete() {
+        vehicleViewModel.deleteVehicle(vehicle)
+        val action =
+            VehicleDetailFragmentDirections.actionVehicleDetailFragmentToViewPagerFragment()
         findNavController().navigate(action)
     }
 

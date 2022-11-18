@@ -13,8 +13,8 @@ import com.example.searchvehicleapp.application.VehicleApplication
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.databinding.FragmentAddEditBinding
 import com.example.searchvehicleapp.ui.vehicle.detailfragments.VehicleDetailFragmentArgs
-import com.example.searchvehicleapp.ui.vehicle.listfragment.VehicleViewModel
-import com.example.searchvehicleapp.ui.vehicle.listfragment.VehicleViewModelFactory
+import com.example.searchvehicleapp.ui.vehicle.VehicleViewModel
+import com.example.searchvehicleapp.ui.vehicle.VehicleViewModelFactory
 
 class AddEditFragment : Fragment() {
 
@@ -38,7 +38,7 @@ class AddEditFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentAddEditBinding.inflate(inflater, container, false)
 
         binding.apply {
@@ -116,7 +116,9 @@ class AddEditFragment : Fragment() {
                 vehicleViewModel.currentTypeOfVehicle.value!!
             )
             val action =
-                AddEditFragmentDirections.actionAddEditFragmentToVehicleDetailFragment(this.vehicleDetailNavigationArgs.vehicleId)
+                AddEditFragmentDirections.actionAddEditFragmentToVehicleDetailFragment(
+                    vehicleDetailNavigationArgs.vehicleId
+                )
             findNavController().navigate(action)
         }
     }
