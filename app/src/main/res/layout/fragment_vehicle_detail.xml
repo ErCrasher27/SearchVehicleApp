@@ -7,7 +7,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.vehicle.detailfragments.VehicleDetailFragment">
+        tools:context=".ui.vehicle.detailfragment.VehicleDetailFragment">
 
         <TextView
             android:id="@+id/plate"
@@ -49,11 +49,22 @@
             android:id="@+id/year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/line"
+            app:layout_constraintStart_toStartOf="@+id/line"
+            app:layout_constraintTop_toBottomOf="@+id/line"
+            tools:text="(2009)" />
+
+        <TextView
+            android:id="@+id/line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/model"
             app:layout_constraintStart_toStartOf="@+id/model"
             app:layout_constraintTop_toBottomOf="@+id/model"
-            tools:text="(2009)" />
+            tools:text="1.9 TDI Elegance" />
 
         <ImageView
             android:id="@+id/brand_logo"

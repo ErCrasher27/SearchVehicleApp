@@ -108,12 +108,12 @@ class ViewPagerFragment : Fragment() {
             resources.getDrawable(com.example.searchvehicleapp.R.drawable.ic_baseline_directions_bus_24)
 
         //if values are not null, the tab selected will be as last shown
-        vehicleViewModel.currentTypeOfVehicle.value?.let {
-            getIndexByEnumVehicleType(
-                it
-            )
-        }?.let {
-            binding.tabs.getTabAt(it)
+        if (vehicleViewModel.currentTypeOfVehicle.value == null) {
+            //if null, set to motorcycle (first page)
+            vehicleViewModel.setCurrentTypeOfVehicle(EnumTypeOfVehicle.MOTORCYCLE)
+            binding.tabs.getTabAt(0)
+        } else {
+            binding.tabs.getTabAt(getIndexByEnumVehicleType(vehicleViewModel.currentTypeOfVehicle.value!!))
                 ?.select()
         }
     }

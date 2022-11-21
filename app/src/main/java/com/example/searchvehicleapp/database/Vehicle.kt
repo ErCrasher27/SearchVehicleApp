@@ -3,6 +3,7 @@ package com.example.searchvehicleapp.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.searchvehicleapp.utils.EnumTypeOfFuel
 import com.example.searchvehicleapp.utils.EnumTypeOfVehicle
 
 
@@ -26,9 +27,15 @@ data class Vehicle(
 
     //@ColumnInfo(name = "type_fuel") val typeFuel: String,
 
-    //@ColumnInfo(name = "kw") val kW: Int,
+    @ColumnInfo(name = "kw") val kW: Int,
 
-    //@ColumnInfo(name = "cv") val cV: Int,
+    @ColumnInfo(name = "cv") val cV: Int,
 
-    @ColumnInfo(name = "type_of_vehicle") val typeOfVehicle: EnumTypeOfVehicle
+    //pattern example: 1.9 TDI Stylance
+    @ColumnInfo(name = "line") val line: String,
+
+    @ColumnInfo(name = "type_of_vehicle") val typeOfVehicle: EnumTypeOfVehicle,
+
+    @ColumnInfo(name = "type_of_fuel") val typeOfFuel: EnumTypeOfFuel
+
 )

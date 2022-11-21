@@ -1,4 +1,4 @@
-package com.example.searchvehicleapp.ui.vehicle.addeditfragments
+package com.example.searchvehicleapp.ui.vehicle.addeditfragment
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -19,7 +21,8 @@ import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.databinding.FragmentAddEditBinding
 import com.example.searchvehicleapp.ui.vehicle.VehicleViewModel
 import com.example.searchvehicleapp.ui.vehicle.VehicleViewModelFactory
-import com.example.searchvehicleapp.ui.vehicle.detailfragments.VehicleDetailFragmentArgs
+import com.example.searchvehicleapp.ui.vehicle.detailfragment.VehicleDetailFragmentArgs
+import com.example.searchvehicleapp.utils.EnumTypeOfFuel
 
 
 class AddEditFragment : Fragment() {
@@ -57,6 +60,7 @@ class AddEditFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.importImage.setOnClickListener { imageChooser() }
+        loadSpinner()
         val id = vehicleDetailNavigationArgs.vehicleId
         if (id > 0) {
             vehicleViewModel.getVehicleById(id)
@@ -76,10 +80,14 @@ class AddEditFragment : Fragment() {
      */
     private fun isEntryValid(): Boolean {
         return vehicleViewModel.isEntryValid(
-            binding.plate.text.toString(),
-            binding.brand.text.toString(),
-            binding.model.text.toString(),
-            binding.year.text.toString(),
+            plate = binding.plate.text.toString(),
+            brand = binding.brand.text.toString(),
+            model = binding.model.text.toString(),
+            year = binding.year.text.toString(),
+            cV = binding.cv.text.toString(),
+            kW = binding.kw.text.toString(),
+            line = binding.line.text.toString(),
+            typeOfFuel = binding.typeOfFuelSpinner.toString()
         )
     }
 
@@ -92,6 +100,10 @@ class AddEditFragment : Fragment() {
             brand.setText(vehicle.brand, TextView.BufferType.SPANNABLE)
             model.setText(vehicle.model, TextView.BufferType.SPANNABLE)
             year.setText(vehicle.year.toString(), TextView.BufferType.SPANNABLE)
+            cv.setText(vehicle.cV.toString(), TextView.BufferType.SPANNABLE)
+            kw.setText(vehicle.kW.toString(), TextView.BufferType.SPANNABLE)
+            line.setText(vehicle.line, TextView.BufferType.SPANNABLE)
+            setSpinnerToValue(typeOfFuelSpinner, vehicle.typeOfFuel.name)
             if (vehicle.image != null) {
                 previewImage.setImageBitmap(
                     Bitmap.createScaledBitmap(
@@ -118,7 +130,11 @@ class AddEditFragment : Fragment() {
                 model = binding.model.text.toString(),
                 typeOfVehicle = vehicleViewModel.currentTypeOfVehicle.value!!,
                 year = binding.year.text.toString().toInt(),
-                image = checkIfInsertIsNull(createBitmapFromView(binding.previewImage))
+                image = checkIfInsertIsNull(createBitmapFromView(binding.previewImage)),
+                cV = binding.cv.text.toString().toInt(),
+                kW = binding.kw.text.toString().toInt(),
+                line = binding.line.text.toString(),
+                typeOfFuel = getEnumBySpinnerOfTypeOfFuel(binding.typeOfFuelSpinner.selectedItem as String)
             )
             val action = AddEditFragmentDirections.actionAddEditFragmentToViewPagerFragment()
             findNavController().navigate(action)
@@ -137,7 +153,11 @@ class AddEditFragment : Fragment() {
                 model = this.binding.model.text.toString(),
                 typeOfVehicle = vehicleViewModel.currentTypeOfVehicle.value!!,
                 year = binding.year.text.toString().toInt(),
-                image = checkIfInsertIsNull(createBitmapFromView(binding.previewImage))
+                image = checkIfInsertIsNull(createBitmapFromView(binding.previewImage)),
+                cV = binding.cv.text.toString().toInt(),
+                kW = binding.kw.text.toString().toInt(),
+                line = binding.line.text.toString(),
+                typeOfFuel = getEnumBySpinnerOfTypeOfFuel(binding.typeOfFuelSpinner.selectedItem as String)
             )
             val action = AddEditFragmentDirections.actionAddEditFragmentToVehicleDetailFragment(
                 vehicleDetailNavigationArgs.vehicleId
@@ -194,6 +214,42 @@ class AddEditFragment : Fragment() {
             null
         }
     }
+
+    private fun getEnumBySpinnerOfTypeOfFuel(typeOfFuel: String): EnumTypeOfFuel {
+        return when (typeOfFuel) {
+            "GAS" -> EnumTypeOfFuel.GAS
+            "DIESEL" -> EnumTypeOfFuel.DIESEL
+            "ELECTRIC" -> EnumTypeOfFuel.ELECTRIC
+            else -> {
+                EnumTypeOfFuel.GAS
+            }
+        }
+    }
+
+    private fun loadSpinner() {
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter.createFromResource(
+            requireContext(), R.array.type_of_fuel, android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            binding.typeOfFuelSpinner.adapter = adapter
+        }
+    }
+
+    private fun setSpinnerToValue(spinner: Spinner, value: String) {
+        var index = 0
+        val adapter = spinner.adapter
+        for (i in 0 until adapter.count) {
+            if (adapter.getItem(i) == value) {
+                index = i
+                break // terminate loop
+            }
+        }
+        spinner.setSelection(index)
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

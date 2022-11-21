@@ -1,10 +1,10 @@
 package com.example.searchvehicleapp.ui.vehicle
 
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.database.VehicleDao
+import com.example.searchvehicleapp.utils.EnumTypeOfFuel
 import com.example.searchvehicleapp.utils.EnumTypeOfVehicle
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
@@ -34,7 +34,11 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         model: String,
         typeOfVehicle: EnumTypeOfVehicle,
         year: Int,
-        image: ByteArray?
+        image: ByteArray?,
+        kW: Int,
+        cV: Int,
+        line: String,
+        typeOfFuel: EnumTypeOfFuel
     ): Vehicle {
         return Vehicle(
             plate = plate,
@@ -42,7 +46,11 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             model = model,
             typeOfVehicle = typeOfVehicle,
             year = year,
-            image = image
+            image = image,
+            kW = kW,
+            cV = cV,
+            line = line,
+            typeOfFuel = typeOfFuel
         )
     }
 
@@ -57,7 +65,11 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         model: String,
         typeOfVehicle: EnumTypeOfVehicle,
         year: Int,
-        image: ByteArray?
+        image: ByteArray?,
+        kW: Int,
+        cV: Int,
+        line: String,
+        typeOfFuel: EnumTypeOfFuel
     ): Vehicle {
         return Vehicle(
             id = id,
@@ -66,7 +78,11 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             model = model,
             typeOfVehicle = typeOfVehicle,
             year = year,
-            image = image
+            image = image,
+            kW = kW,
+            cV = cV,
+            line = line,
+            typeOfFuel = typeOfFuel
         )
     }
 
@@ -79,16 +95,23 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         model: String,
         typeOfVehicle: EnumTypeOfVehicle,
         year: Int,
-        image: Bitmap?
+        image: Bitmap?,
+        kW: Int,
+        cV: Int,
+        line: String,
+        typeOfFuel: EnumTypeOfFuel
     ) {
-        Log.d("è nullo??", image.toString())
         val newVehicle = getNewVehicleEntry(
             plate = plate,
             brand = brand,
             model = model,
             typeOfVehicle = typeOfVehicle,
             year = year,
-            image = image?.toByteArray()
+            image = image?.toByteArray(),
+            kW = kW,
+            cV = cV,
+            line = line,
+            typeOfFuel = typeOfFuel
         )
         insertVehicle(newVehicle)
     }
@@ -103,7 +126,11 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         model: String,
         typeOfVehicle: EnumTypeOfVehicle,
         year: Int,
-        image: Bitmap?
+        image: Bitmap?,
+        kW: Int,
+        cV: Int,
+        line: String,
+        typeOfFuel: EnumTypeOfFuel
     ) {
         val updateVehicle = getUpdatedVehicleEntry(
             id = id,
@@ -112,7 +139,11 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             model = model,
             typeOfVehicle = typeOfVehicle,
             year = year,
-            image = image?.toByteArray()
+            image = image?.toByteArray(),
+            kW = kW,
+            cV = cV,
+            line = line,
+            typeOfFuel = typeOfFuel
         )
         updateVehicle(updateVehicle)
     }
@@ -154,9 +185,16 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
      * Returns true if the EditTexts are not empty
      */
     fun isEntryValid(
-        plate: String, brand: String, model: String, year: String
+        plate: String,
+        brand: String,
+        model: String,
+        year: String,
+        cV: String,
+        kW: String,
+        line: String,
+        typeOfFuel: String
     ): Boolean {
-        if (plate.isBlank() || brand.isBlank() || model.isBlank() || year.isBlank()) {
+        if (plate.isBlank() || brand.isBlank() || model.isBlank() || year.isBlank() || cV.isBlank() || kW.isBlank() || line.isBlank() || typeOfFuel.isBlank()) {
             return false
         }
         return true

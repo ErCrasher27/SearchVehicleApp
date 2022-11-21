@@ -1,4 +1,4 @@
-package com.example.searchvehicleapp.ui.vehicle.detailfragments
+package com.example.searchvehicleapp.ui.vehicle.detailfragment
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -10,12 +10,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.searchvehicleapp.R
 import com.example.searchvehicleapp.application.VehicleApplication
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.databinding.FragmentVehicleDetailBinding
 import com.example.searchvehicleapp.ui.vehicle.VehicleViewModel
 import com.example.searchvehicleapp.ui.vehicle.VehicleViewModelFactory
 import com.example.searchvehicleapp.utils.AddOrEdit.EDIT
+import com.example.searchvehicleapp.utils.EnumTypeOfFuel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class VehicleDetailFragment : Fragment() {
 
@@ -48,7 +51,7 @@ class VehicleDetailFragment : Fragment() {
 
 
         binding.fabEdit.setOnClickListener { goToEdit() }
-        binding.fabDelete.setOnClickListener { goToListAfterDelete() }
+        binding.fabDelete.setOnClickListener { showConfirmationDialog() }
 
         return binding.root
     }
@@ -71,10 +74,22 @@ class VehicleDetailFragment : Fragment() {
      */
     private fun bind(vehicle: Vehicle) {
         binding.apply {
-            model.text = vehicle.model
-            brand.text = vehicle.brand
-            plate.text = vehicle.plate
-            year.text = vehicle.year.toString()
+            model.text = vehicle.model.uppercase()
+            brand.text = vehicle.brand.lowercase()
+            plate.text = vehicle.plate.uppercase()
+            fuelType.text = vehicle.typeOfFuel.name.lowercase()
+            year.text = getString(
+                R.string.year_format, vehicle.year.toString()
+            )
+            cV.text = getString(
+                R.string.cv_format, vehicle.cV.toString()
+            )
+            kW.text = getString(
+                R.string.kw_format, vehicle.kW.toString()
+            )
+            line.text = vehicle.line.uppercase()
+            fuelLogo.setImageResource(getIconFromTypeOfFuel(vehicle.typeOfFuel))
+
             if (vehicle.image != null) {
                 image.setImageBitmap(
                     Bitmap.createScaledBitmap(
@@ -84,7 +99,7 @@ class VehicleDetailFragment : Fragment() {
                     )
                 )
             } else {
-                image.setImageResource(com.example.searchvehicleapp.R.drawable.ic_baseline_directions_car_24)
+                image.setImageResource(R.drawable.ic_baseline_directions_car_24)
             }
         }
     }
@@ -103,6 +118,28 @@ class VehicleDetailFragment : Fragment() {
         val action =
             VehicleDetailFragmentDirections.actionVehicleDetailFragmentToViewPagerFragment()
         findNavController().navigate(action)
+    }
+
+    /**
+     * Displays an alert dialog to get the user's confirmation before deleting the vehicle.
+     */
+    private fun showConfirmationDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(android.R.string.dialog_alert_title))
+            .setMessage(getString(R.string.delete_question))
+            .setCancelable(false)
+            .setNegativeButton(getString(R.string.no)) { _, _ -> }
+            .setPositiveButton(getString(R.string.yes)) { _, _ ->
+                goToListAfterDelete()
+            }
+            .show()
+    }
+
+    private fun getIconFromTypeOfFuel(typeOfFuel: EnumTypeOfFuel): Int {
+        return when (typeOfFuel) {
+            EnumTypeOfFuel.ELECTRIC -> R.drawable.ic_baseline_electric_bolt_24
+            else -> R.drawable.ic_baseline_local_gas_station_24
+        }
     }
 
     override fun onDestroyView() {

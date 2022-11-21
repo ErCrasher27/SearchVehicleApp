@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/vehicleDetailFragment"
-        android:name="com.example.searchvehicleapp.ui.vehicle.detailfragments.VehicleDetailFragment"
+        android:name="com.example.searchvehicleapp.ui.vehicle.detailfragment.VehicleDetailFragment"
         android:label="Vehicle"
         tools:layout="@layout/fragment_vehicle_detail">
         <action
@@ -43,7 +43,7 @@
 
     <fragment
         android:id="@+id/addEditFragment"
-        android:name="com.example.searchvehicleapp.ui.vehicle.addeditfragments.AddEditFragment"
+        android:name="com.example.searchvehicleapp.ui.vehicle.addeditfragment.AddEditFragment"
         android:label="AddEditFragment ({function})">
         <action
             android:id="@+id/action_addEditFragment_to_vehicleDetailFragment"

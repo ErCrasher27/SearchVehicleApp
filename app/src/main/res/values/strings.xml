@@ -9,15 +9,35 @@
     <string name="model_input_layout">Model</string>
     <string name="brand_input_layout">Brand</string>
     <string name="year_input_layout">Year</string>
+    <string name="kw_input_layout">KW</string>
+    <string name="cv_input_layout">CV</string>
+    <string name="line_input_layout">Line</string>
+
+
+    <string-array name="type_of_fuel">
+        <item>GAS</item>
+        <item>DIESEL</item>
+        <item>ELECTRIC</item>
+    </string-array>
 
     <string name="cd_fab_add">Add Vehicle</string>
     <string name="cd_fab_save">Save</string>
     <string name="cd_fab_delete_vehicle">Delete Vehicle</string>
     <string name="cd_fab_edit_vehicle">Edit Vehicle</string>
 
+    <string name="cd_import_image">Import Image</string>
+    <string name="cd_type_of_fuel">Choose type of fuel</string>
+
     <string name="cd_go_details">Show more details</string>
 
-    <string name="btn_import_image">import image...</string>
+    <string name="btn_import_image">import image…</string>
+
+    <string name="year_format">(%s)</string>
+    <string name="kw_format">%s KW</string>
+    <string name="cv_format">(%s CV)</string>
+    <string name="no">no</string>
+    <string name="yes">yes</string>
+    <string name="delete_question">Are you sure you want to delete?</string>
 
 
 </resources>
