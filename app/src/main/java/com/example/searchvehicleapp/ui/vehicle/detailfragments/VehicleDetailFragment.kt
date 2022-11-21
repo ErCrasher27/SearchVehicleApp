@@ -1,5 +1,7 @@
 package com.example.searchvehicleapp.ui.vehicle.detailfragments
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -73,6 +75,17 @@ class VehicleDetailFragment : Fragment() {
             brand.text = vehicle.brand
             plate.text = vehicle.plate
             year.text = vehicle.year.toString()
+            if (vehicle.image != null) {
+                image.setImageBitmap(
+                    Bitmap.createScaledBitmap(
+                        BitmapFactory.decodeByteArray(
+                            vehicle.image, 0, vehicle.image.size
+                        ), 200, 200, false
+                    )
+                )
+            } else {
+                image.setImageResource(com.example.searchvehicleapp.R.drawable.ic_baseline_directions_car_24)
+            }
         }
     }
 

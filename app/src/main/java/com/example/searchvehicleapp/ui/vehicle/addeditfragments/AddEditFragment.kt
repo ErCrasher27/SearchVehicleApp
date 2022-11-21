@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.searchvehicleapp.R
 import com.example.searchvehicleapp.application.VehicleApplication
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.databinding.FragmentAddEditBinding
@@ -78,7 +79,7 @@ class AddEditFragment : Fragment() {
             binding.plate.text.toString(),
             binding.brand.text.toString(),
             binding.model.text.toString(),
-            binding.year.text.toString()
+            binding.year.text.toString(),
         )
     }
 
@@ -90,16 +91,17 @@ class AddEditFragment : Fragment() {
             plate.setText(vehicle.plate, TextView.BufferType.SPANNABLE)
             brand.setText(vehicle.brand, TextView.BufferType.SPANNABLE)
             model.setText(vehicle.model, TextView.BufferType.SPANNABLE)
+            year.setText(vehicle.year.toString(), TextView.BufferType.SPANNABLE)
             if (vehicle.image != null) {
-                binding.previewImage.setImageBitmap(
+                previewImage.setImageBitmap(
                     Bitmap.createScaledBitmap(
                         BitmapFactory.decodeByteArray(
                             vehicle.image, 0, vehicle.image.size
-                        ), binding.previewImage.width, binding.previewImage.height, false
+                        ), 100, 100, false
                     )
                 )
             } else {
-                binding.previewImage.setImageResource(com.example.searchvehicleapp.R.drawable.ic_baseline_directions_car_24)
+                previewImage.setImageResource(R.drawable.ic_baseline_directions_car_24)
             }
             fabSave.setOnClickListener { updateItem() }
         }
@@ -116,7 +118,7 @@ class AddEditFragment : Fragment() {
                 model = binding.model.text.toString(),
                 typeOfVehicle = vehicleViewModel.currentTypeOfVehicle.value!!,
                 year = binding.year.text.toString().toInt(),
-                image = createBitmapFromView(binding.previewImage)
+                image = checkIfInsertIsNull(createBitmapFromView(binding.previewImage))
             )
             val action = AddEditFragmentDirections.actionAddEditFragmentToViewPagerFragment()
             findNavController().navigate(action)
@@ -135,7 +137,7 @@ class AddEditFragment : Fragment() {
                 model = this.binding.model.text.toString(),
                 typeOfVehicle = vehicleViewModel.currentTypeOfVehicle.value!!,
                 year = binding.year.text.toString().toInt(),
-                image = createBitmapFromView(binding.previewImage)
+                image = checkIfInsertIsNull(createBitmapFromView(binding.previewImage))
             )
             val action = AddEditFragmentDirections.actionAddEditFragmentToVehicleDetailFragment(
                 vehicleDetailNavigationArgs.vehicleId
@@ -160,6 +162,7 @@ class AddEditFragment : Fragment() {
 
     // this function is triggered when user
     // selects the image from the imageChooser
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
@@ -172,6 +175,7 @@ class AddEditFragment : Fragment() {
                 if (null != selectedImageUri) {
                     // update the preview image in the layout
                     binding.previewImage.setImageURI(selectedImageUri)
+                    binding.previewImage.tag = "is_not_null"
                 }
             }
         }
@@ -181,6 +185,14 @@ class AddEditFragment : Fragment() {
         view.isDrawingCacheEnabled = true
         view.buildDrawingCache()
         return view.drawingCache
+    }
+
+    private fun checkIfInsertIsNull(image: Bitmap): Bitmap? {
+        return if (binding.previewImage.tag == "is_not_null") {
+            image
+        } else {
+            null
+        }
     }
 
     override fun onDestroyView() {

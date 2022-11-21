@@ -1,6 +1,7 @@
 package com.example.searchvehicleapp.ui.vehicle
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.database.VehicleDao
@@ -78,15 +79,16 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         model: String,
         typeOfVehicle: EnumTypeOfVehicle,
         year: Int,
-        image: Bitmap
+        image: Bitmap?
     ) {
+        Log.d("è nullo??", image.toString())
         val newVehicle = getNewVehicleEntry(
             plate = plate,
             brand = brand,
             model = model,
             typeOfVehicle = typeOfVehicle,
             year = year,
-            image = image.toByteArray()
+            image = image?.toByteArray()
         )
         insertVehicle(newVehicle)
     }
@@ -101,7 +103,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         model: String,
         typeOfVehicle: EnumTypeOfVehicle,
         year: Int,
-        image: Bitmap
+        image: Bitmap?
     ) {
         val updateVehicle = getUpdatedVehicleEntry(
             id = id,
@@ -110,7 +112,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             model = model,
             typeOfVehicle = typeOfVehicle,
             year = year,
-            image = image.toByteArray()
+            image = image?.toByteArray()
         )
         updateVehicle(updateVehicle)
     }

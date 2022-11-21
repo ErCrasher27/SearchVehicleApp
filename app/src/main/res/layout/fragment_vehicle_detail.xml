@@ -23,11 +23,12 @@
 
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/image"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
+            android:importantForAccessibility="no"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/plate"
             tools:src="@drawable/ic_baseline_directions_car_24" />
@@ -39,9 +40,9 @@
             android:layout_marginTop="8dp"
             android:textAllCaps="true"
             android:textSize="32sp"
-            app:layout_constraintEnd_toEndOf="@+id/imageView"
-            app:layout_constraintStart_toStartOf="@+id/imageView"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="@+id/image"
+            app:layout_constraintStart_toStartOf="@+id/image"
+            app:layout_constraintTop_toBottomOf="@+id/image"
             tools:text="Altea XL" />
 
         <TextView
@@ -60,9 +61,10 @@
             android:layout_height="24dp"
             android:layout_marginStart="24dp"
             android:layout_marginBottom="136dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="@+id/imageView"
+            android:importantForAccessibility="no"
+            app:layout_constraintBottom_toBottomOf="@+id/image"
+            app:layout_constraintStart_toEndOf="@+id/image"
+            app:layout_constraintTop_toTopOf="@+id/image"
             tools:src="@drawable/ic_baseline_scatter_plot_24" />
 
         <TextView
@@ -83,6 +85,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginTop="16dp"
+            android:importantForAccessibility="no"
             app:layout_constraintStart_toStartOf="@+id/brand_logo"
             app:layout_constraintTop_toBottomOf="@+id/brand_logo"
             tools:src="@drawable/ic_baseline_local_gas_station_24" />
@@ -127,6 +130,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="20dp"
+            android:contentDescription="@string/cd_fab_delete_vehicle"
             android:src="@drawable/ic_baseline_delete_24"
             app:backgroundTint="#FF0000"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -138,6 +142,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="20dp"
+            android:contentDescription="@string/cd_fab_edit_vehicle"
             android:src="@drawable/ic_baseline_edit_24"
             app:backgroundTint="#0004FF"
             app:layout_constraintBottom_toTopOf="@+id/fab_delete"

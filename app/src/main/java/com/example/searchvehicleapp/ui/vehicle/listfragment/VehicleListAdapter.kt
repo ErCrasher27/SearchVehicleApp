@@ -1,5 +1,7 @@
 package com.example.searchvehicleapp.ui.vehicle.listfragment
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -37,30 +39,33 @@ class VehicleListAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(vehicle: Vehicle, onVehicleClicked: (Vehicle) -> Unit) {
-            binding.plate.text = vehicle.plate
-            binding.model.text = vehicle.model
-            binding.brand.text = vehicle.brand
-            binding.buttonGoDetail.setOnClickListener { onVehicleClicked(vehicle) }
-            /*if (vehicle.image != null) {
-                binding.image.setImageBitmap(
+            binding.apply {
+                plate.text = vehicle.plate
+                model.text = vehicle.model
+                brand.text = vehicle.brand
+                buttonGoDetail.setOnClickListener { onVehicleClicked(vehicle) }
+                if (vehicle.image != null) {
+                    image.setImageBitmap(
+                        Bitmap.createScaledBitmap(
+                            BitmapFactory.decodeByteArray(
+                                vehicle.image, 0, vehicle.image.size
+                            ), 100, 100, false
+                        )
+                    )
+                } else {
+                    image.setImageResource(com.example.searchvehicleapp.R.drawable.ic_baseline_directions_car_24)
+                }
+
+
+                /*binding.logoBrand.setImageBitmap(
                     Bitmap.createScaledBitmap(
                         BitmapFactory.decodeByteArray(
-                            vehicle.image, 0, vehicle.image.size
-                        ), binding.image.width, binding.image.height, false
+                            vehicle.logoBrand, 0, vehicle.logoBrand.size
+                        ), binding.logoBrand.width, binding.logoBrand.height, false
                     )
-                )
-            } else {
-                binding.image.setImageResource(R.drawable.ic_baseline_directions_car_24)
-            }*/
+                )*/
 
-            /*binding.logoBrand.setImageBitmap(
-                Bitmap.createScaledBitmap(
-                    BitmapFactory.decodeByteArray(
-                        vehicle.logoBrand, 0, vehicle.logoBrand.size
-                    ), binding.logoBrand.width, binding.logoBrand.height, false
-                )
-            )*/
-
+            }
         }
     }
 
