@@ -1,15 +1,28 @@
 package com.example.searchvehicleapp.ui.vehicle
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.database.VehicleDao
+import com.example.searchvehicleapp.network.CarMDApi
+import com.example.searchvehicleapp.network.YearVehicle
 import com.example.searchvehicleapp.utils.EnumTypeOfFuel
 import com.example.searchvehicleapp.utils.EnumTypeOfVehicle
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 
+enum class CarMDStatus { LOADING, ERROR, DONE }
+
 class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
+
+    // Status CarMDApi
+    private val _status = MutableLiveData<CarMDStatus>()
+    val status: LiveData<CarMDStatus> = _status
+
+    // Status CarMDApi
+    private val _year = MutableLiveData<List<YearVehicle>>()
+    val year: LiveData<List<YearVehicle>> = _year
 
     // currentTypeOfVehicle
     private val _currentTypeOfVehicle = MutableLiveData<EnumTypeOfVehicle>()
@@ -208,6 +221,23 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         val stream = ByteArrayOutputStream()
         compress(Bitmap.CompressFormat.JPEG, quality, stream)
         return stream.toByteArray()
+    }
+
+    /**
+     * Gets YearVehicle information from the Vehicle API Retrofit service and updates the
+     * [YearVehicle] [List] [LiveData].
+     */
+    fun getYearVehicle() {
+        viewModelScope.launch {
+            _status.value = CarMDStatus.LOADING
+            try {
+                _year.value = CarMDApi.retrofitService.getYearVehicle()
+                _status.value = CarMDStatus.DONE
+            } catch (e: java.lang.Exception) {
+                _status.value = CarMDStatus.ERROR
+                _year.value = listOf()
+            }
+        }
     }
 }
 
