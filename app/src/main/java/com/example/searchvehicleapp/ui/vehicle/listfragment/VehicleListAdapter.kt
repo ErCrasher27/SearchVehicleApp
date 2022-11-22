@@ -55,16 +55,6 @@ class VehicleListAdapter(
                 } else {
                     image.setImageResource(com.example.searchvehicleapp.R.drawable.ic_baseline_directions_car_24)
                 }
-
-
-                /*binding.logoBrand.setImageBitmap(
-                    Bitmap.createScaledBitmap(
-                        BitmapFactory.decodeByteArray(
-                            vehicle.logoBrand, 0, vehicle.logoBrand.size
-                        ), binding.logoBrand.width, binding.logoBrand.height, false
-                    )
-                )*/
-
             }
         }
     }
