@@ -67,7 +67,7 @@ class VehicleListFragment(
                 }
             }
         vehicleViewModel.getYearVehicle()
-        Log.d("aaaaaaaaaaaaaaaaaa", vehicleViewModel.year.value.toString())
+        Log.d("aaaaaaaaaaaaaaaaaa", "year value = " + vehicleViewModel.year.value.toString())
     }
 
     override fun onDestroyView() {

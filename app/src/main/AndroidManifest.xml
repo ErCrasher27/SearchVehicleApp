@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- INTERNET permission for API -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name="com.example.searchvehicleapp.application.VehicleApplication"
         android:allowBackup="true"

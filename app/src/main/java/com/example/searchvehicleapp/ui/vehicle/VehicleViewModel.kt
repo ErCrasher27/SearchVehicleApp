@@ -234,6 +234,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
                 _year.value = CarMDApi.retrofitService.getYearVehicle()
                 _status.value = CarMDStatus.DONE
             } catch (e: java.lang.Exception) {
+                Log.d("aaaaaaaaaaaaaaaaaa", "error: " + e.message.toString())
                 _status.value = CarMDStatus.ERROR
                 _year.value = listOf()
             }
