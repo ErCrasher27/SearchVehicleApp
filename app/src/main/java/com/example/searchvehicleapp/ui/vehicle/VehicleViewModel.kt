@@ -6,8 +6,6 @@ import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.database.VehicleDao
 import com.example.searchvehicleapp.network.VehicleApi
 import com.example.searchvehicleapp.network.VehicleInfo
-import com.example.searchvehicleapp.utils.EnumTypeOfFuel
-import com.example.searchvehicleapp.utils.EnumTypeOfTransmission
 import com.example.searchvehicleapp.utils.EnumTypeOfVehicle
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
@@ -46,11 +44,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         year: Int,
         brand: String,
         model: String,
-        displacement: String,
-        typeOfFuel: EnumTypeOfFuel,
-        forwardGearRatios: Int,
-        typeOfTransmission: EnumTypeOfTransmission,
-        cv: Int,
+        line: String,
         image: ByteArray?,
         typeOfVehicle: EnumTypeOfVehicle
     ): Vehicle {
@@ -59,11 +53,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             year = year,
             brand = brand,
             model = model,
-            displacement = displacement,
-            typeOfFuel = typeOfFuel,
-            forwardGearRatios = forwardGearRatios,
-            typeOfTransmission = typeOfTransmission,
-            cv = cv,
+            line = line,
             image = image,
             typeOfVehicle = typeOfVehicle,
         )
@@ -79,11 +69,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         year: Int,
         brand: String,
         model: String,
-        displacement: String,
-        typeOfFuel: EnumTypeOfFuel,
-        forwardGearRatios: Int,
-        typeOfTransmission: EnumTypeOfTransmission,
-        cv: Int,
+        line: String,
         image: ByteArray?,
         typeOfVehicle: EnumTypeOfVehicle
     ): Vehicle {
@@ -93,11 +79,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             year = year,
             brand = brand,
             model = model,
-            displacement = displacement,
-            typeOfFuel = typeOfFuel,
-            forwardGearRatios = forwardGearRatios,
-            typeOfTransmission = typeOfTransmission,
-            cv = cv,
+            line = line,
             image = image,
             typeOfVehicle = typeOfVehicle,
         )
@@ -115,17 +97,16 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         image: Bitmap?,
         typeOfVehicle: EnumTypeOfVehicle,
     ) {
-        //TODO HERE SCOMPACT AND SET CASE
-        /*val newVehicle = getNewVehicleEntry(
-            plate = plate,
+        val newVehicle = getNewVehicleEntry(
+            plate = plate.uppercase(),
             year = year,
-            brand = brand,
-            model = model,
-
+            brand = brand.replaceFirstChar { it.uppercase() },
+            model = model.uppercase(),
+            line = line.uppercase(),
             image = image?.toByteArray(),
             typeOfVehicle = typeOfVehicle,
         )
-        insertVehicle(newVehicle)*/
+        insertVehicle(newVehicle)
     }
 
     /**
@@ -141,18 +122,17 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         image: Bitmap?,
         typeOfVehicle: EnumTypeOfVehicle,
     ) {
-        //TODO HERE SCOMPACT AND SET CASE
-        /*val updateVehicle = getUpdatedVehicleEntry(
+        val updateVehicle = getUpdatedVehicleEntry(
             id = id,
-            plate = plate,
+            plate = plate.uppercase(),
             year = year,
-            brand = brand,
-            model = model,
-
+            brand = brand.replaceFirstChar { it.uppercase() },
+            model = model.uppercase(),
+            line = line.uppercase(),
             image = image?.toByteArray(),
             typeOfVehicle = typeOfVehicle,
         )
-        updateVehicle(updateVehicle)*/
+        updateVehicle(updateVehicle)
     }
 
     /**
@@ -230,6 +210,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             }
         }
     }
+
 }
 
 

@@ -1,7 +1,6 @@
 package com.example.searchvehicleapp.ui.vehicle.listfragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -66,7 +65,6 @@ class VehicleListFragment(
                     adapter.submitList(it)
                 }
             }
-        vehicleViewModel.getVehicleInfo()
     }
 
     override fun onDestroyView() {

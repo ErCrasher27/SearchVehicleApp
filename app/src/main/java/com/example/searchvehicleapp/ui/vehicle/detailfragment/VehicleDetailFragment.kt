@@ -78,7 +78,6 @@ class VehicleDetailFragment : Fragment() {
             model.text = vehicle.model.uppercase()
             brand.text = vehicle.brand.lowercase()
             plate.text = vehicle.plate.uppercase()
-            fuelType.text = vehicle.typeOfFuel.name.lowercase()
             year.text = getString(
                 R.string.year_format, vehicle.year.toString()
             )
@@ -89,7 +88,7 @@ class VehicleDetailFragment : Fragment() {
                 R.string.kw_format, vehicle.kW.toString()
             )
             line.text = vehicle.line.uppercase()*/
-            fuelLogo.setImageResource(getIconFromTypeOfFuel(vehicle.typeOfFuel))
+            //fuelLogo.setImageResource(getIconFromTypeOfFuel(vehicle.typeOfFuel))
 
             if (vehicle.image != null) {
                 image.setImageBitmap(

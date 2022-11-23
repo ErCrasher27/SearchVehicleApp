@@ -7,12 +7,11 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -21,11 +20,11 @@ import com.example.searchvehicleapp.R
 import com.example.searchvehicleapp.application.VehicleApplication
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.databinding.FragmentAddEditBinding
+import com.example.searchvehicleapp.network.VehicleInfo
 import com.example.searchvehicleapp.ui.vehicle.VehicleViewModel
 import com.example.searchvehicleapp.ui.vehicle.VehicleViewModelFactory
 import com.example.searchvehicleapp.ui.vehicle.detailfragment.VehicleDetailFragmentArgs
 import com.example.searchvehicleapp.utils.EnumTypeOfFuel
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 
@@ -40,6 +39,8 @@ class AddEditFragment : Fragment() {
     }
 
     lateinit var vehicle: Vehicle
+
+    private var vehicleInfo: List<VehicleInfo>? = null
 
     private val vehicleDetailNavigationArgs: VehicleDetailFragmentArgs by navArgs()
 
@@ -63,24 +64,23 @@ class AddEditFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        vehicleViewModel.getVehicleInfo()
+        vehicleInfo = vehicleViewModel.vehiclesInfo.value
         binding.previewImage.setOnClickListener { imageChooser() }
-        val orderInputEditText: List<TextInputEditText> = listOf(
-            binding.year,
-            binding.brand,
-            binding.model,
-            binding.line
+        val orderInputEditText: List<EditText> = listOf(
+            binding.year, binding.brand, binding.model, binding.line
         )
         setInputEditTextEnableInOrderAndValidation(
-            orderInputEditText = orderInputEditText,
-            inputEditText = binding.year
+            orderInputEditText = orderInputEditText, inputEditText = binding.year
         )
         setInputEditTextEnableInOrderAndValidation(
-            orderInputEditText = orderInputEditText,
-            inputEditText = binding.brand
+            orderInputEditText = orderInputEditText, inputEditText = binding.brand
         )
         setInputEditTextEnableInOrderAndValidation(
-            orderInputEditText = orderInputEditText,
-            inputEditText = binding.model
+            orderInputEditText = orderInputEditText, inputEditText = binding.model
+        )
+        setInputEditTextEnableInOrderAndValidation(
+            orderInputEditText = orderInputEditText, inputEditText = binding.line
         )
 
         val id = vehicleDetailNavigationArgs.vehicleId
@@ -119,7 +119,7 @@ class AddEditFragment : Fragment() {
             brand.setText(vehicle.brand, TextView.BufferType.SPANNABLE)
             model.setText(vehicle.model, TextView.BufferType.SPANNABLE)
             year.setText(vehicle.year.toString(), TextView.BufferType.SPANNABLE)
-            //TODO HERE COMPACT
+            line.setText(vehicle.line, TextView.BufferType.SPANNABLE)
             //line.setText()
             if (vehicle.image != null) {
                 previewImage.setImageBitmap(
@@ -260,33 +260,56 @@ class AddEditFragment : Fragment() {
         spinner.setSelection(index)
     }
 
+    private fun loadAutoCompleteView(
+        autoCompleteTextView: AutoCompleteTextView,
+    ) {
+        val vehicleInfoField = vehicleViewModel.vehiclesInfo.value?.map {
+            when (autoCompleteTextView.tag.toString()) {
+                getString(R.string.year_tag) -> it.year
+                getString(R.string.maker_tag) -> it.maker
+                getString(R.string.model_tag) -> it.model
+                getString(R.string.full_model_name_tag) -> it.fullModelName
+                else -> {
+                    null
+                }
+            }
+        }
+
+        val vehicleFiltered =
+            vehicleInfoField?.filter { it!!.contains(autoCompleteTextView.text) }?.distinct()
+        val arrayAdapter = ArrayAdapter(
+            requireContext(), R.layout.dropdown_list_item, vehicleFiltered ?: listOf("loading...")
+        )
+        autoCompleteTextView.setAdapter(arrayAdapter)
+    }
+
     private fun setInputEditTextEnableInOrderAndValidation(
-        orderInputEditText: List<TextInputEditText>,
-        inputEditText: TextInputEditText
+        orderInputEditText: List<EditText>, inputEditText: AutoCompleteTextView
     ) {
         inputEditText.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable) {
-                val index = orderInputEditText.indexOf(inputEditText)
-                val parent = orderInputEditText[index + 1].parent.parent as TextInputLayout
-                if (inputEditText.text?.isNotEmpty()!!) {
-                    parent.isEnabled = true
-                } else {
-                    parent.isEnabled = false
-                    orderInputEditText[index + 1].text = null
-                }
+                loadAutoCompleteView(inputEditText)
             }
 
             override fun beforeTextChanged(
-                s: CharSequence, start: Int,
-                count: Int, after: Int
+                s: CharSequence, start: Int, count: Int, after: Int
             ) {
             }
 
             override fun onTextChanged(
-                s: CharSequence, start: Int,
-                before: Int, count: Int
+                s: CharSequence, start: Int, before: Int, count: Int
             ) {
+                if (inputEditText.tag.toString() != getString(R.string.full_model_name_tag)) {
+                    val index = orderInputEditText.indexOf(inputEditText)
+                    val parent = orderInputEditText[index + 1].parent.parent as TextInputLayout
+                    if (inputEditText.text?.isNotEmpty()!!) {
+                        parent.isEnabled = true
+                    } else {
+                        parent.isEnabled = false
+                        orderInputEditText[index + 1].text = null
+                    }
+                }
             }
         })
     }
