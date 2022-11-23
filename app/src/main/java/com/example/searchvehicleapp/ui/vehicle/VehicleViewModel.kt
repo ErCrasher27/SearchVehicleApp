@@ -1,7 +1,6 @@
 package com.example.searchvehicleapp.ui.vehicle
 
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.database.VehicleDao
@@ -230,13 +229,10 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
     fun getVehicleInfo() {
         viewModelScope.launch {
             _status.value = CarMDStatus.LOADING
-            Log.d("aaaaaaaaaaaaaaaaaa", "loading: " + vehiclesInfo.value.toString())
             try {
-                Log.d("aaaaaaaaaaaaaaaaaa", "done: " + vehiclesInfo.value.toString())
                 _vehiclesInfo.value = VehicleApi.retrofitService.getVehicleInfo()
                 _status.value = CarMDStatus.DONE
             } catch (e: java.lang.Exception) {
-                Log.d("aaaaaaaaaaaaaaaaaa", "error: " + e.message.toString())
                 _status.value = CarMDStatus.ERROR
                 _vehiclesInfo.value = listOf()
             }

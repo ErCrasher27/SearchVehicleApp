@@ -5,6 +5,8 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +25,8 @@ import com.example.searchvehicleapp.ui.vehicle.VehicleViewModel
 import com.example.searchvehicleapp.ui.vehicle.VehicleViewModelFactory
 import com.example.searchvehicleapp.ui.vehicle.detailfragment.VehicleDetailFragmentArgs
 import com.example.searchvehicleapp.utils.EnumTypeOfFuel
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 
 
 class AddEditFragment : Fragment() {
@@ -59,8 +63,27 @@ class AddEditFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.importImage.setOnClickListener { imageChooser() }
         loadSpinner()
+        binding.importImage.setOnClickListener { imageChooser() }
+        val orderInputEditText: List<TextInputEditText> = listOf(
+            binding.year,
+            binding.brand,
+            binding.model,
+            binding.line
+        )
+        setInputEditTextEnableInOrderAndValidation(
+            orderInputEditText = orderInputEditText,
+            inputEditText = binding.year
+        )
+        setInputEditTextEnableInOrderAndValidation(
+            orderInputEditText = orderInputEditText,
+            inputEditText = binding.brand
+        )
+        setInputEditTextEnableInOrderAndValidation(
+            orderInputEditText = orderInputEditText,
+            inputEditText = binding.model
+        )
+
         val id = vehicleDetailNavigationArgs.vehicleId
         if (id > 0) {
             vehicleViewModel.getVehicleById(id)
@@ -250,6 +273,36 @@ class AddEditFragment : Fragment() {
         spinner.setSelection(index)
     }
 
+    private fun setInputEditTextEnableInOrderAndValidation(
+        orderInputEditText: List<TextInputEditText>,
+        inputEditText: TextInputEditText
+    ) {
+        inputEditText.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {
+                val index = orderInputEditText.indexOf(inputEditText)
+                val parent = orderInputEditText[index + 1].parent.parent as TextInputLayout
+                if (inputEditText.text?.isNotEmpty()!!) {
+                    parent.isEnabled = true
+                } else {
+                    parent.isEnabled = false
+                    orderInputEditText[index + 1].text = null
+                }
+            }
+
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+            }
+        })
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
