@@ -5,8 +5,8 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.database.VehicleDao
-import com.example.searchvehicleapp.network.CarMDApi
-import com.example.searchvehicleapp.network.YearVehicle
+import com.example.searchvehicleapp.network.VehicleApi
+import com.example.searchvehicleapp.network.VehicleInfo
 import com.example.searchvehicleapp.utils.EnumTypeOfFuel
 import com.example.searchvehicleapp.utils.EnumTypeOfVehicle
 import kotlinx.coroutines.launch
@@ -21,8 +21,8 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
     val status: LiveData<CarMDStatus> = _status
 
     // Status CarMDApi
-    private val _year = MutableLiveData<List<YearVehicle>>()
-    val year: LiveData<List<YearVehicle>> = _year
+    private val _vehiclesInfo = MutableLiveData<List<VehicleInfo>>()
+    val vehiclesInfo: LiveData<List<VehicleInfo>> = _vehiclesInfo
 
     // currentTypeOfVehicle
     private val _currentTypeOfVehicle = MutableLiveData<EnumTypeOfVehicle>()
@@ -225,18 +225,20 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
 
     /**
      * Gets YearVehicle information from the Vehicle API Retrofit service and updates the
-     * [YearVehicle] [List] [LiveData].
+     * [_vehiclesInfo] [List] [LiveData].
      */
-    fun getYearVehicle() {
+    fun getVehicleInfo() {
         viewModelScope.launch {
             _status.value = CarMDStatus.LOADING
+            Log.d("aaaaaaaaaaaaaaaaaa", "loading: " + vehiclesInfo.value.toString())
             try {
-                _year.value = CarMDApi.retrofitService.getYearVehicle()
+                Log.d("aaaaaaaaaaaaaaaaaa", "done: " + vehiclesInfo.value.toString())
+                _vehiclesInfo.value = VehicleApi.retrofitService.getVehicleInfo()
                 _status.value = CarMDStatus.DONE
             } catch (e: java.lang.Exception) {
                 Log.d("aaaaaaaaaaaaaaaaaa", "error: " + e.message.toString())
                 _status.value = CarMDStatus.ERROR
-                _year.value = listOf()
+                _vehiclesInfo.value = listOf()
             }
         }
     }

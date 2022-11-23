@@ -26,25 +26,24 @@ private val retrofit =
     Retrofit.Builder().addConverterFactory(GsonConverterFactory.create(gson)).baseUrl(BASE_URL)
         .build()
 
-
 /**
- * A public interface that exposes the [getYearVehicle] method
+ * A public interface that exposes the [getVehicleInfo] method
  */
-interface CarMDApiService {
+interface VehicleApiService {
     /**
-     * Returns a [List] of [YearVehicle] and this method can be called from a Coroutine.
+     * Returns a [List] of [VehicleInfo] and this method can be called from a Coroutine.
      * The @GET annotation indicates that the "year" endpoint will be requested with the GET
      * HTTP method
      */
 
     @Headers("Content-Type: application/json")
     @GET("jsondata.json")
-    suspend fun getYearVehicle(): List<YearVehicle>
+    suspend fun getVehicleInfo(): List<VehicleInfo>
 }
 
 /**
  * A public Api object that exposes the lazy-initialized Retrofit service
  */
-object CarMDApi {
-    val retrofitService: CarMDApiService by lazy { retrofit.create(CarMDApiService::class.java) }
+object VehicleApi {
+    val retrofitService: VehicleApiService by lazy { retrofit.create(VehicleApiService::class.java) }
 }
