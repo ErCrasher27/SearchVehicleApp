@@ -74,6 +74,7 @@ class VehicleDetailFragment : Fragment() {
      */
     private fun bind(vehicle: Vehicle) {
         binding.apply {
+            //TODO DETAILS AND LEAVE CASE
             model.text = vehicle.model.uppercase()
             brand.text = vehicle.brand.lowercase()
             plate.text = vehicle.plate.uppercase()
@@ -81,13 +82,13 @@ class VehicleDetailFragment : Fragment() {
             year.text = getString(
                 R.string.year_format, vehicle.year.toString()
             )
-            cV.text = getString(
-                R.string.cv_format, vehicle.cV.toString()
+            /*cV.text = getString(
+                R.string.cv_format, vehiclecV.toString()
             )
             kW.text = getString(
                 R.string.kw_format, vehicle.kW.toString()
             )
-            line.text = vehicle.line.uppercase()
+            line.text = vehicle.line.uppercase()*/
             fuelLogo.setImageResource(getIconFromTypeOfFuel(vehicle.typeOfFuel))
 
             if (vehicle.image != null) {

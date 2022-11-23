@@ -103,9 +103,9 @@ class AddEditFragment : Fragment() {
     private fun isEntryValid(): Boolean {
         return vehicleViewModel.isEntryValid(
             plate = binding.plate.text.toString(),
+            year = binding.year.text.toString(),
             brand = binding.brand.text.toString(),
             model = binding.model.text.toString(),
-            year = binding.year.text.toString(),
             line = binding.line.text.toString(),
         )
     }
@@ -119,7 +119,8 @@ class AddEditFragment : Fragment() {
             brand.setText(vehicle.brand, TextView.BufferType.SPANNABLE)
             model.setText(vehicle.model, TextView.BufferType.SPANNABLE)
             year.setText(vehicle.year.toString(), TextView.BufferType.SPANNABLE)
-            line.setText(vehicle.line, TextView.BufferType.SPANNABLE)
+            //TODO HERE COMPACT
+            //line.setText()
             if (vehicle.image != null) {
                 previewImage.setImageBitmap(
                     Bitmap.createScaledBitmap(
@@ -142,12 +143,12 @@ class AddEditFragment : Fragment() {
         if (isEntryValid()) {
             vehicleViewModel.addNewVehicle(
                 plate = binding.plate.text.toString(),
+                year = binding.year.text.toString().toInt(),
                 brand = binding.brand.text.toString(),
                 model = binding.model.text.toString(),
-                typeOfVehicle = vehicleViewModel.currentTypeOfVehicle.value!!,
-                year = binding.year.text.toString().toInt(),
-                image = checkIfInsertIsNull(createBitmapFromView(binding.previewImage)),
                 line = binding.line.text.toString(),
+                image = checkIfInsertIsNull(createBitmapFromView(binding.previewImage)),
+                typeOfVehicle = vehicleViewModel.currentTypeOfVehicle.value!!,
             )
             val action = AddEditFragmentDirections.actionAddEditFragmentToViewPagerFragment()
             findNavController().navigate(action)
@@ -161,13 +162,13 @@ class AddEditFragment : Fragment() {
         if (isEntryValid()) {
             vehicleViewModel.updateVehicle(
                 id = this.vehicleDetailNavigationArgs.vehicleId,
-                plate = this.binding.plate.text.toString(),
-                brand = this.binding.brand.text.toString(),
-                model = this.binding.model.text.toString(),
-                typeOfVehicle = vehicleViewModel.currentTypeOfVehicle.value!!,
+                plate = binding.plate.text.toString(),
                 year = binding.year.text.toString().toInt(),
-                image = checkIfInsertIsNull(createBitmapFromView(binding.previewImage)),
+                brand = binding.brand.text.toString(),
+                model = binding.model.text.toString(),
                 line = binding.line.text.toString(),
+                image = checkIfInsertIsNull(createBitmapFromView(binding.previewImage)),
+                typeOfVehicle = vehicleViewModel.currentTypeOfVehicle.value!!,
             )
             val action = AddEditFragmentDirections.actionAddEditFragmentToVehicleDetailFragment(
                 vehicleDetailNavigationArgs.vehicleId

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -31,17 +30,18 @@
                     android:id="@+id/plate"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="textAutoComplete|textCapWords"
+                    android:inputType="textAutoComplete|textCapCharacters"
                     android:singleLine="true" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/year_input_layout"
-                android:layout_width="0dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="24dp"
                 android:hint="@string/year_input_layout"
-                app:layout_constraintStart_toStartOf="parent"                app:layout_constraintTop_toBottomOf="@+id/plate_input_layout">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/plate_input_layout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/year"

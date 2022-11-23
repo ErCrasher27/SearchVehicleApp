@@ -108,25 +108,24 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
      */
     fun addNewVehicle(
         plate: String,
+        year: Int,
         brand: String,
         model: String,
-        typeOfVehicle: EnumTypeOfVehicle,
-        year: Int,
-        image: Bitmap?,
         line: String,
+        image: Bitmap?,
+        typeOfVehicle: EnumTypeOfVehicle,
     ) {
-        val newVehicle = getNewVehicleEntry(
+        //TODO HERE SCOMPACT AND SET CASE
+        /*val newVehicle = getNewVehicleEntry(
             plate = plate,
+            year = year,
             brand = brand,
             model = model,
-            typeOfVehicle = typeOfVehicle,
-            year = year,
+
             image = image?.toByteArray(),
-            cV = cV,
-            line = line,
-            typeOfFuel = typeOfFuel
+            typeOfVehicle = typeOfVehicle,
         )
-        insertVehicle(newVehicle)
+        insertVehicle(newVehicle)*/
     }
 
     /**
@@ -135,26 +134,25 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
     fun updateVehicle(
         id: Int,
         plate: String,
+        year: Int,
         brand: String,
         model: String,
-        typeOfVehicle: EnumTypeOfVehicle,
-        year: Int,
-        image: Bitmap?,
         line: String,
+        image: Bitmap?,
+        typeOfVehicle: EnumTypeOfVehicle,
     ) {
-        val updateVehicle = getUpdatedVehicleEntry(
+        //TODO HERE SCOMPACT AND SET CASE
+        /*val updateVehicle = getUpdatedVehicleEntry(
             id = id,
             plate = plate,
+            year = year,
             brand = brand,
             model = model,
-            typeOfVehicle = typeOfVehicle,
-            year = year,
+
             image = image?.toByteArray(),
-            cV = cV,
-            line = line,
-            typeOfFuel = typeOfFuel
+            typeOfVehicle = typeOfVehicle,
         )
-        updateVehicle(updateVehicle)
+        updateVehicle(updateVehicle)*/
     }
 
     /**
@@ -195,15 +193,12 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
      */
     fun isEntryValid(
         plate: String,
+        year: String,
         brand: String,
         model: String,
-        year: String,
-        cV: String,
-        kW: String,
         line: String,
-        typeOfFuel: String
     ): Boolean {
-        if (plate.isBlank() || brand.isBlank() || model.isBlank() || year.isBlank() || cV.isBlank() || kW.isBlank() || line.isBlank() || typeOfFuel.isBlank()) {
+        if (plate.isBlank() || year.isBlank() || brand.isBlank() || model.isBlank() || line.isBlank()) {
             return false
         }
         return true
