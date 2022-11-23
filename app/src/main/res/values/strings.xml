@@ -29,7 +29,7 @@
 
     <string name="cd_go_details">Show more details</string>
 
-    <string name="btn_import_image">import image… (optional)</string>
+    <string name="click_to_select_an_image_optional">click to select an image (optional)</string>
 
     <string name="year_format">(%s)</string>
     <string name="kw_format">%s KW</string>

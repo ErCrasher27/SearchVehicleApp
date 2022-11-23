@@ -63,8 +63,7 @@ class AddEditFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loadSpinner()
-        binding.importImage.setOnClickListener { imageChooser() }
+        binding.previewImage.setOnClickListener { imageChooser() }
         val orderInputEditText: List<TextInputEditText> = listOf(
             binding.year,
             binding.brand,
@@ -107,10 +106,7 @@ class AddEditFragment : Fragment() {
             brand = binding.brand.text.toString(),
             model = binding.model.text.toString(),
             year = binding.year.text.toString(),
-            cV = binding.cv.text.toString(),
-            kW = binding.kw.text.toString(),
             line = binding.line.text.toString(),
-            typeOfFuel = binding.typeOfFuelSpinner.toString()
         )
     }
 
@@ -123,10 +119,7 @@ class AddEditFragment : Fragment() {
             brand.setText(vehicle.brand, TextView.BufferType.SPANNABLE)
             model.setText(vehicle.model, TextView.BufferType.SPANNABLE)
             year.setText(vehicle.year.toString(), TextView.BufferType.SPANNABLE)
-            cv.setText(vehicle.cV.toString(), TextView.BufferType.SPANNABLE)
-            kw.setText(vehicle.kW.toString(), TextView.BufferType.SPANNABLE)
             line.setText(vehicle.line, TextView.BufferType.SPANNABLE)
-            setSpinnerToValue(typeOfFuelSpinner, vehicle.typeOfFuel.name)
             if (vehicle.image != null) {
                 previewImage.setImageBitmap(
                     Bitmap.createScaledBitmap(
@@ -154,10 +147,7 @@ class AddEditFragment : Fragment() {
                 typeOfVehicle = vehicleViewModel.currentTypeOfVehicle.value!!,
                 year = binding.year.text.toString().toInt(),
                 image = checkIfInsertIsNull(createBitmapFromView(binding.previewImage)),
-                cV = binding.cv.text.toString().toInt(),
-                kW = binding.kw.text.toString().toInt(),
                 line = binding.line.text.toString(),
-                typeOfFuel = getEnumBySpinnerOfTypeOfFuel(binding.typeOfFuelSpinner.selectedItem as String)
             )
             val action = AddEditFragmentDirections.actionAddEditFragmentToViewPagerFragment()
             findNavController().navigate(action)
@@ -177,10 +167,7 @@ class AddEditFragment : Fragment() {
                 typeOfVehicle = vehicleViewModel.currentTypeOfVehicle.value!!,
                 year = binding.year.text.toString().toInt(),
                 image = checkIfInsertIsNull(createBitmapFromView(binding.previewImage)),
-                cV = binding.cv.text.toString().toInt(),
-                kW = binding.kw.text.toString().toInt(),
                 line = binding.line.text.toString(),
-                typeOfFuel = getEnumBySpinnerOfTypeOfFuel(binding.typeOfFuelSpinner.selectedItem as String)
             )
             val action = AddEditFragmentDirections.actionAddEditFragmentToVehicleDetailFragment(
                 vehicleDetailNavigationArgs.vehicleId
@@ -249,7 +236,7 @@ class AddEditFragment : Fragment() {
         }
     }
 
-    private fun loadSpinner() {
+    private fun loadSpinner(spinner: Spinner) {
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
             requireContext(), R.array.type_of_fuel, android.R.layout.simple_spinner_item
@@ -257,7 +244,6 @@ class AddEditFragment : Fragment() {
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             // Apply the adapter to the spinner
-            binding.typeOfFuelSpinner.adapter = adapter
         }
     }
 

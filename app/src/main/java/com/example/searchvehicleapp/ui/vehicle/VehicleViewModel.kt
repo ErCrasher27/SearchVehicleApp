@@ -7,6 +7,7 @@ import com.example.searchvehicleapp.database.VehicleDao
 import com.example.searchvehicleapp.network.VehicleApi
 import com.example.searchvehicleapp.network.VehicleInfo
 import com.example.searchvehicleapp.utils.EnumTypeOfFuel
+import com.example.searchvehicleapp.utils.EnumTypeOfTransmission
 import com.example.searchvehicleapp.utils.EnumTypeOfVehicle
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
@@ -42,27 +43,29 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
      */
     private fun getNewVehicleEntry(
         plate: String,
+        year: Int,
         brand: String,
         model: String,
-        typeOfVehicle: EnumTypeOfVehicle,
-        year: Int,
+        displacement: String,
+        typeOfFuel: EnumTypeOfFuel,
+        forwardGearRatios: Int,
+        typeOfTransmission: EnumTypeOfTransmission,
+        cv: Int,
         image: ByteArray?,
-        kW: Int,
-        cV: Int,
-        line: String,
-        typeOfFuel: EnumTypeOfFuel
+        typeOfVehicle: EnumTypeOfVehicle
     ): Vehicle {
         return Vehicle(
             plate = plate,
+            year = year,
             brand = brand,
             model = model,
-            typeOfVehicle = typeOfVehicle,
-            year = year,
+            displacement = displacement,
+            typeOfFuel = typeOfFuel,
+            forwardGearRatios = forwardGearRatios,
+            typeOfTransmission = typeOfTransmission,
+            cv = cv,
             image = image,
-            kW = kW,
-            cV = cV,
-            line = line,
-            typeOfFuel = typeOfFuel
+            typeOfVehicle = typeOfVehicle,
         )
     }
 
@@ -73,28 +76,30 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
     private fun getUpdatedVehicleEntry(
         id: Int,
         plate: String,
+        year: Int,
         brand: String,
         model: String,
-        typeOfVehicle: EnumTypeOfVehicle,
-        year: Int,
+        displacement: String,
+        typeOfFuel: EnumTypeOfFuel,
+        forwardGearRatios: Int,
+        typeOfTransmission: EnumTypeOfTransmission,
+        cv: Int,
         image: ByteArray?,
-        kW: Int,
-        cV: Int,
-        line: String,
-        typeOfFuel: EnumTypeOfFuel
+        typeOfVehicle: EnumTypeOfVehicle
     ): Vehicle {
         return Vehicle(
             id = id,
             plate = plate,
+            year = year,
             brand = brand,
             model = model,
-            typeOfVehicle = typeOfVehicle,
-            year = year,
+            displacement = displacement,
+            typeOfFuel = typeOfFuel,
+            forwardGearRatios = forwardGearRatios,
+            typeOfTransmission = typeOfTransmission,
+            cv = cv,
             image = image,
-            kW = kW,
-            cV = cV,
-            line = line,
-            typeOfFuel = typeOfFuel
+            typeOfVehicle = typeOfVehicle,
         )
     }
 
@@ -108,10 +113,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         typeOfVehicle: EnumTypeOfVehicle,
         year: Int,
         image: Bitmap?,
-        kW: Int,
-        cV: Int,
         line: String,
-        typeOfFuel: EnumTypeOfFuel
     ) {
         val newVehicle = getNewVehicleEntry(
             plate = plate,
@@ -120,7 +122,6 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             typeOfVehicle = typeOfVehicle,
             year = year,
             image = image?.toByteArray(),
-            kW = kW,
             cV = cV,
             line = line,
             typeOfFuel = typeOfFuel
@@ -139,10 +140,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         typeOfVehicle: EnumTypeOfVehicle,
         year: Int,
         image: Bitmap?,
-        kW: Int,
-        cV: Int,
         line: String,
-        typeOfFuel: EnumTypeOfFuel
     ) {
         val updateVehicle = getUpdatedVehicleEntry(
             id = id,
@@ -152,7 +150,6 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             typeOfVehicle = typeOfVehicle,
             year = year,
             image = image?.toByteArray(),
-            kW = kW,
             cV = cV,
             line = line,
             typeOfFuel = typeOfFuel
