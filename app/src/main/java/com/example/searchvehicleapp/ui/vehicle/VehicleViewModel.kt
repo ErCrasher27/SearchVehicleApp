@@ -1,7 +1,6 @@
 package com.example.searchvehicleapp.ui.vehicle
 
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.database.VehicleDao
@@ -206,39 +205,38 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             _status.value = CarMDStatus.LOADING
             try {
                 _vehiclesDataApi.value = VehicleApi.retrofitService.getVehicleInfo()
-                _vehiclesInfo.value = _vehiclesDataApi.value
+                resetVehicleInfo()
                 _status.value = CarMDStatus.DONE
             } catch (e: java.lang.Exception) {
                 _status.value = CarMDStatus.ERROR
                 _vehiclesDataApi.value = listOf()
-                _vehiclesInfo.value = _vehiclesDataApi.value
+                resetVehicleInfo()
             }
         }
     }
 
     fun resetVehicleInfo() {
-        Log.d("oooooo", "ho resettato")
         _vehiclesInfo.value = _vehiclesDataApi.value
-        Log.d("oooooo", _vehiclesInfo.value.toString())
-
     }
 
     fun setVehicleInfoFilteredForYear(year: String) {
+        resetVehicleInfo()
         _vehiclesInfo.value =
-            vehiclesDataApi.value?.filter { it.year.contains(year, ignoreCase = true) }
+            vehiclesInfo.value?.filter { it.year.contains(year, ignoreCase = true) }
 
     }
 
     fun setVehicleInfoFilteredForBrand(brand: String) {
+        resetVehicleInfo()
         _vehiclesInfo.value =
-            vehiclesDataApi.value?.filter { it.maker.contains(brand, ignoreCase = true) }
+            vehiclesInfo.value?.filter { it.maker.contains(brand, ignoreCase = true) }
 
     }
 
     fun setVehicleInfoFilteredForModel(model: String) {
+        resetVehicleInfo()
         _vehiclesInfo.value =
-            vehiclesDataApi.value?.filter { it.model.contains(model, ignoreCase = true) }
-
+            _vehiclesInfo.value?.filter { it.model.contains(model, ignoreCase = true) }
     }
 
 }

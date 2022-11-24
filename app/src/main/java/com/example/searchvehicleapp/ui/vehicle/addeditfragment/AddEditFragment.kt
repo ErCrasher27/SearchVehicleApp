@@ -9,6 +9,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
@@ -23,7 +24,6 @@ import com.example.searchvehicleapp.ui.vehicle.VehicleViewModel
 import com.example.searchvehicleapp.ui.vehicle.VehicleViewModelFactory
 import com.example.searchvehicleapp.ui.vehicle.detailfragment.VehicleDetailFragmentArgs
 import com.example.searchvehicleapp.utils.EnumTypeOfFuel
-import com.google.android.material.textfield.TextInputLayout
 
 
 class AddEditFragment : Fragment() {
@@ -39,6 +39,8 @@ class AddEditFragment : Fragment() {
     lateinit var vehicle: Vehicle
 
     private val vehicleDetailNavigationArgs: VehicleDetailFragmentArgs by navArgs()
+
+    private var vehicleInfoField: MutableList<String>? = null
 
     private var _binding: FragmentAddEditBinding? = null
 
@@ -259,66 +261,71 @@ class AddEditFragment : Fragment() {
     private fun loadAutoCompleteView(
         autoCompleteTextView: AutoCompleteTextView,
     ) {
-        val vehicleInfoField: List<String>?
 
-        when (autoCompleteTextView.tag.toString()) {
-            getString(R.string.year_tag) -> {
-                vehicleInfoField = vehicleViewModel.vehiclesInfo.value?.map { it.year }
-            }
-            getString(R.string.maker_tag) -> {
-                vehicleViewModel.setVehicleInfoFilteredForYear(binding.year.text.toString())
-                vehicleInfoField = vehicleViewModel.vehiclesInfo.value?.map { it.maker }
-            }
-            getString(R.string.model_tag) -> {
-                vehicleViewModel.setVehicleInfoFilteredForBrand(binding.brand.text.toString())
-                vehicleInfoField = vehicleViewModel.vehiclesInfo.value?.map { it.model }
-            }
-            else -> {
-                vehicleViewModel.setVehicleInfoFilteredForModel(binding.model.text.toString())
-                vehicleInfoField =
-                    vehicleViewModel.vehiclesInfo.value?.map { it.fullModelName }
-            }
+        if (autoCompleteTextView.text.isNotBlank()) {
+            val vehicleInfoFieldFiltered =
+                vehicleInfoField?.filter {
+                    it.contains(
+                        autoCompleteTextView.text,
+                        ignoreCase = true
+                    )
+                }
+                    ?.distinct()
+
+            val arrayAdapter = ArrayAdapter(
+                requireContext(),
+                R.layout.dropdown_list_item,
+                vehicleInfoFieldFiltered ?: listOf("loading...")
+            )
+            autoCompleteTextView.setAdapter(arrayAdapter)
+        } else {
+            autoCompleteTextView.setAdapter(null)
         }
 
-        val vehicleInfoFieldFiltered =
-            vehicleInfoField?.filter { it.contains(autoCompleteTextView.text, ignoreCase = true) }
-                ?.distinct()
-
-        val arrayAdapter = ArrayAdapter(
-            requireContext(),
-            R.layout.dropdown_list_item,
-            vehicleInfoFieldFiltered ?: listOf("loading...")
-        )
-        autoCompleteTextView.setAdapter(arrayAdapter)
     }
 
     private fun setInputEditTextEnableInOrderAndValidation(
         orderInputEditText: List<EditText>, inputEditText: AutoCompleteTextView
     ) {
+        inputEditText.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
+            vehicleInfoField?.clear()
+            when (inputEditText.tag.toString()) {
+                getString(R.string.year_tag) -> {
+                    vehicleInfoField =
+                        vehicleViewModel.vehiclesInfo.value?.map { it.year } as MutableList<String>?
+                }
+                getString(R.string.maker_tag) -> {
+                    vehicleViewModel.setVehicleInfoFilteredForYear(binding.year.text.toString())
+                    vehicleInfoField =
+                        vehicleViewModel.vehiclesInfo.value?.map { it.maker } as MutableList<String>?
+                }
+                getString(R.string.model_tag) -> {
+                    vehicleViewModel.setVehicleInfoFilteredForBrand(binding.brand.text.toString())
+                    vehicleInfoField =
+                        vehicleViewModel.vehiclesInfo.value?.map { it.model } as MutableList<String>?
+                }
+                else -> {
+                    vehicleViewModel.setVehicleInfoFilteredForModel(binding.model.text.toString())
+                    vehicleInfoField =
+                        vehicleViewModel.vehiclesInfo.value?.map { it.fullModelName } as MutableList<String>?
+                }
+            }
+        }
+
         inputEditText.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable) {
-                loadAutoCompleteView(inputEditText)
             }
 
             override fun beforeTextChanged(
                 s: CharSequence, start: Int, count: Int, after: Int
             ) {
-                if (inputEditText.tag.toString() != getString(R.string.full_model_name_tag)) {
-                    val index = orderInputEditText.indexOf(inputEditText)
-                    val parent = orderInputEditText[index + 1].parent.parent as TextInputLayout
-                    if (inputEditText.text?.isNotEmpty()!!) {
-                        parent.isEnabled = true
-                    } else {
-                        parent.isEnabled = false
-                        orderInputEditText[index + 1].text = null
-                    }
-                }
             }
 
             override fun onTextChanged(
                 s: CharSequence, start: Int, before: Int, count: Int
             ) {
+                loadAutoCompleteView(inputEditText)
             }
         })
     }
