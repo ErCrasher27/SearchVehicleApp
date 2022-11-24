@@ -16,12 +16,6 @@
     <string name="model_tag">model</string>
     <string name="full_model_name_tag">full_model_name</string>
 
-    <string-array name="type_of_fuel">
-        <item>GAS</item>
-        <item>DIESEL</item>
-        <item>ELECTRIC</item>
-    </string-array>
-
     <string name="cd_fab_add">Add Vehicle</string>
     <string name="cd_fab_save">Save</string>
     <string name="cd_fab_delete_vehicle">Delete Vehicle</string>
@@ -37,5 +31,6 @@
     <string name="delete_question">Are you sure you want to delete?</string>
     <string name="no">no</string>
     <string name="yes">yes</string>
+    <string name="type_of_fuel_input_layout">Type Of Fuel*</string>
 
 </resources>

@@ -6,6 +6,7 @@ import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.database.VehicleDao
 import com.example.searchvehicleapp.network.VehicleApi
 import com.example.searchvehicleapp.network.VehicleInfo
+import com.example.searchvehicleapp.utils.EnumTypeOfFuel
 import com.example.searchvehicleapp.utils.EnumTypeOfVehicle
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
@@ -47,6 +48,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         brand: String,
         model: String,
         line: String,
+        typeOfFuel: EnumTypeOfFuel,
         image: ByteArray?,
         typeOfVehicle: EnumTypeOfVehicle
     ): Vehicle {
@@ -56,6 +58,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             brand = brand,
             model = model,
             line = line,
+            typeOfFuel = typeOfFuel,
             image = image,
             typeOfVehicle = typeOfVehicle,
         )
@@ -72,6 +75,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         brand: String,
         model: String,
         line: String,
+        typeOfFuel: EnumTypeOfFuel,
         image: ByteArray?,
         typeOfVehicle: EnumTypeOfVehicle
     ): Vehicle {
@@ -82,6 +86,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             brand = brand,
             model = model,
             line = line,
+            typeOfFuel = typeOfFuel,
             image = image,
             typeOfVehicle = typeOfVehicle,
         )
@@ -96,6 +101,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         brand: String,
         model: String,
         line: String,
+        typeOfFuel: EnumTypeOfFuel,
         image: Bitmap?,
         typeOfVehicle: EnumTypeOfVehicle,
     ) {
@@ -105,6 +111,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             brand = brand.replaceFirstChar { it.uppercase() },
             model = model.uppercase(),
             line = line.uppercase(),
+            typeOfFuel = typeOfFuel,
             image = image?.toByteArray(),
             typeOfVehicle = typeOfVehicle,
         )
@@ -121,6 +128,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         brand: String,
         model: String,
         line: String,
+        typeOfFuel: EnumTypeOfFuel,
         image: Bitmap?,
         typeOfVehicle: EnumTypeOfVehicle,
     ) {
@@ -131,6 +139,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             brand = brand.replaceFirstChar { it.uppercase() },
             model = model.uppercase(),
             line = line.uppercase(),
+            typeOfFuel = typeOfFuel,
             image = image?.toByteArray(),
             typeOfVehicle = typeOfVehicle,
         )
