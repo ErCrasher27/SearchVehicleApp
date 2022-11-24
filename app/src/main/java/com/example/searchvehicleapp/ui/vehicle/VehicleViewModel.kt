@@ -1,6 +1,7 @@
 package com.example.searchvehicleapp.ui.vehicle
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.database.VehicleDao
@@ -14,11 +15,13 @@ enum class CarMDStatus { LOADING, ERROR, DONE }
 
 class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
 
-    // Status CarMDApi
+    // Status Api
     private val _status = MutableLiveData<CarMDStatus>()
     val status: LiveData<CarMDStatus> = _status
 
-    // Status CarMDApi
+    private val _vehiclesDataApi = MutableLiveData<List<VehicleInfo>>()
+    val vehiclesDataApi: LiveData<List<VehicleInfo>> = _vehiclesDataApi
+
     private val _vehiclesInfo = MutableLiveData<List<VehicleInfo>>()
     val vehiclesInfo: LiveData<List<VehicleInfo>> = _vehiclesInfo
 
@@ -202,13 +205,40 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         viewModelScope.launch {
             _status.value = CarMDStatus.LOADING
             try {
-                _vehiclesInfo.value = VehicleApi.retrofitService.getVehicleInfo()
+                _vehiclesDataApi.value = VehicleApi.retrofitService.getVehicleInfo()
+                _vehiclesInfo.value = _vehiclesDataApi.value
                 _status.value = CarMDStatus.DONE
             } catch (e: java.lang.Exception) {
                 _status.value = CarMDStatus.ERROR
-                _vehiclesInfo.value = listOf()
+                _vehiclesDataApi.value = listOf()
+                _vehiclesInfo.value = _vehiclesDataApi.value
             }
         }
+    }
+
+    fun resetVehicleInfo() {
+        Log.d("oooooo", "ho resettato")
+        _vehiclesInfo.value = _vehiclesDataApi.value
+        Log.d("oooooo", _vehiclesInfo.value.toString())
+
+    }
+
+    fun setVehicleInfoFilteredForYear(year: String) {
+        _vehiclesInfo.value =
+            vehiclesDataApi.value?.filter { it.year.contains(year, ignoreCase = true) }
+
+    }
+
+    fun setVehicleInfoFilteredForBrand(brand: String) {
+        _vehiclesInfo.value =
+            vehiclesDataApi.value?.filter { it.maker.contains(brand, ignoreCase = true) }
+
+    }
+
+    fun setVehicleInfoFilteredForModel(model: String) {
+        _vehiclesInfo.value =
+            vehiclesDataApi.value?.filter { it.model.contains(model, ignoreCase = true) }
+
     }
 
 }

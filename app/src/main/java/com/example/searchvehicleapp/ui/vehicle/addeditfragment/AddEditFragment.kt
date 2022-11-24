@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,6 @@ import com.example.searchvehicleapp.R
 import com.example.searchvehicleapp.application.VehicleApplication
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.databinding.FragmentAddEditBinding
-import com.example.searchvehicleapp.network.VehicleInfo
 import com.example.searchvehicleapp.ui.vehicle.VehicleViewModel
 import com.example.searchvehicleapp.ui.vehicle.VehicleViewModelFactory
 import com.example.searchvehicleapp.ui.vehicle.detailfragment.VehicleDetailFragmentArgs
@@ -39,8 +37,6 @@ class AddEditFragment : Fragment() {
     }
 
     lateinit var vehicle: Vehicle
-
-    private var vehicleInfo: List<VehicleInfo>? = null
 
     private val vehicleDetailNavigationArgs: VehicleDetailFragmentArgs by navArgs()
 
@@ -65,7 +61,7 @@ class AddEditFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         vehicleViewModel.getVehicleInfo()
-        vehicleInfo = vehicleViewModel.vehiclesInfo.value
+        vehicleViewModel.resetVehicleInfo()
         binding.previewImage.setOnClickListener { imageChooser() }
         val orderInputEditText: List<EditText> = listOf(
             binding.year, binding.brand, binding.model, binding.line
@@ -263,22 +259,35 @@ class AddEditFragment : Fragment() {
     private fun loadAutoCompleteView(
         autoCompleteTextView: AutoCompleteTextView,
     ) {
-        val vehicleInfoField = vehicleViewModel.vehiclesInfo.value?.map {
-            when (autoCompleteTextView.tag.toString()) {
-                getString(R.string.year_tag) -> it.year
-                getString(R.string.maker_tag) -> it.maker
-                getString(R.string.model_tag) -> it.model
-                getString(R.string.full_model_name_tag) -> it.fullModelName
-                else -> {
-                    null
-                }
+        val vehicleInfoField: List<String>?
+
+        when (autoCompleteTextView.tag.toString()) {
+            getString(R.string.year_tag) -> {
+                vehicleInfoField = vehicleViewModel.vehiclesInfo.value?.map { it.year }
+            }
+            getString(R.string.maker_tag) -> {
+                vehicleViewModel.setVehicleInfoFilteredForYear(binding.year.text.toString())
+                vehicleInfoField = vehicleViewModel.vehiclesInfo.value?.map { it.maker }
+            }
+            getString(R.string.model_tag) -> {
+                vehicleViewModel.setVehicleInfoFilteredForBrand(binding.brand.text.toString())
+                vehicleInfoField = vehicleViewModel.vehiclesInfo.value?.map { it.model }
+            }
+            else -> {
+                vehicleViewModel.setVehicleInfoFilteredForModel(binding.model.text.toString())
+                vehicleInfoField =
+                    vehicleViewModel.vehiclesInfo.value?.map { it.fullModelName }
             }
         }
 
-        val vehicleFiltered =
-            vehicleInfoField?.filter { it!!.contains(autoCompleteTextView.text) }?.distinct()
+        val vehicleInfoFieldFiltered =
+            vehicleInfoField?.filter { it.contains(autoCompleteTextView.text, ignoreCase = true) }
+                ?.distinct()
+
         val arrayAdapter = ArrayAdapter(
-            requireContext(), R.layout.dropdown_list_item, vehicleFiltered ?: listOf("loading...")
+            requireContext(),
+            R.layout.dropdown_list_item,
+            vehicleInfoFieldFiltered ?: listOf("loading...")
         )
         autoCompleteTextView.setAdapter(arrayAdapter)
     }
@@ -295,11 +304,6 @@ class AddEditFragment : Fragment() {
             override fun beforeTextChanged(
                 s: CharSequence, start: Int, count: Int, after: Int
             ) {
-            }
-
-            override fun onTextChanged(
-                s: CharSequence, start: Int, before: Int, count: Int
-            ) {
                 if (inputEditText.tag.toString() != getString(R.string.full_model_name_tag)) {
                     val index = orderInputEditText.indexOf(inputEditText)
                     val parent = orderInputEditText[index + 1].parent.parent as TextInputLayout
@@ -310,6 +314,11 @@ class AddEditFragment : Fragment() {
                         orderInputEditText[index + 1].text = null
                     }
                 }
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int, before: Int, count: Int
+            ) {
             }
         })
     }
