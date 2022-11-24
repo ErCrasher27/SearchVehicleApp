@@ -143,7 +143,6 @@
             android:layout_margin="@dimen/fab_margin"
             android:contentDescription="@string/cd_fab_delete_vehicle"
             android:src="@drawable/ic_baseline_delete_24"
-            app:backgroundTint="#FF0000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -155,7 +154,6 @@
             android:layout_margin="@dimen/fab_margin"
             android:contentDescription="@string/cd_fab_edit_vehicle"
             android:src="@drawable/ic_baseline_edit_24"
-            app:backgroundTint="#0004FF"
             app:layout_constraintBottom_toTopOf="@+id/fab_delete"
             app:layout_constraintEnd_toEndOf="parent" />
 

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.searchvehicleapp.R
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.databinding.VehicleListItemBinding
 
@@ -40,7 +41,6 @@ class VehicleListAdapter(
 
         fun bind(vehicle: Vehicle, onVehicleClicked: (Vehicle) -> Unit) {
             binding.apply {
-                plate.text = vehicle.plate
                 model.text = vehicle.model
                 brand.text = vehicle.brand
                 buttonGoDetail.setOnClickListener { onVehicleClicked(vehicle) }
@@ -53,7 +53,7 @@ class VehicleListAdapter(
                         )
                     )
                 } else {
-                    image.setImageResource(com.example.searchvehicleapp.R.drawable.ic_baseline_directions_car_24)
+                    image.setImageResource(R.drawable.ic_baseline_directions_car_24)
                 }
             }
         }
