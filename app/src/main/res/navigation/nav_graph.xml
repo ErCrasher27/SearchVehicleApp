@@ -44,7 +44,7 @@
     <fragment
         android:id="@+id/addEditFragment"
         android:name="com.example.searchvehicleapp.ui.vehicle.addeditfragment.AddEditFragment"
-        android:label="AddEditFragment ({function})">
+        android:label="{function} Vehicle">
         <action
             android:id="@+id/action_addEditFragment_to_vehicleDetailFragment"
             app:destination="@id/vehicleDetailFragment"

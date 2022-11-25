@@ -9,6 +9,10 @@
         <item name="colorAccent">@color/secondaryColor</item>
     </style>
 
+    <style name="spy_agency_font" >
+        <item name="android:fontFamily">@font/spyagency3_2ital</item>
+    </style>
+
     <style name="Widget.Inventory.ListItemTextView" parent="Widget.MaterialComponents.TextView">
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_height">48dp</item>

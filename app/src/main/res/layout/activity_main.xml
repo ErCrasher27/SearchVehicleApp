@@ -20,7 +20,8 @@
             style="@style/toolBarStyle"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="@string/app_name" />
+            app:title="@string/app_name"
+            app:titleTextAppearance="@style/spy_agency_font" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

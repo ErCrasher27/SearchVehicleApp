@@ -297,7 +297,7 @@ class AddEditFragment : Fragment() {
                 it.contains(
                     autoCompleteTextView.text, ignoreCase = true
                 )
-            }?.distinct()
+            }?.distinct()?.sorted()
 
             val arrayAdapter = ArrayAdapter(
                 requireContext(),
