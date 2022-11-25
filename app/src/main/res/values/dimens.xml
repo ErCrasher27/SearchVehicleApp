@@ -9,8 +9,10 @@
     <dimen name="fab_margin">16dp</dimen>
 
 
-    <dimen name="label_start_in_tableRow_margin_start">2dp</dimen>
-    <dimen name="textview_in_tableRow_margin_start">2dp</dimen>
-    <dimen name="logo_in_tableRow_margin_end">2dp</dimen>
-    <dimen name="tabRow_margin">8dp</dimen>
+    <dimen name="label_start_in_tableRow_margin_start">4dp</dimen>
+    <dimen name="textview_in_tableRow_margin_start">4dp</dimen>
+    <dimen name="logo_in_tableRow_margin_end">4dp</dimen>
+    <dimen name="tabRow_margin">12dp</dimen>
+    <dimen name="constraintLayout_inside_tabRow_margin">6dp</dimen>
+    <dimen name="tabRow_cardCornerRadius">8dp</dimen>
 </resources>

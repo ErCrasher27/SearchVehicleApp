@@ -39,5 +39,6 @@
     <string name="delete_question">Are you sure you want to delete?</string>
     <string name="no">no</string>
     <string name="yes">yes</string>
+    <string name="cd_fab_action">Expand</string>
 
 </resources>

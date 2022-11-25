@@ -9,12 +9,10 @@
         android:layout_height="match_parent"
         tools:context=".ui.vehicle.detailfragment.VehicleDetailFragment">
 
-
         <TextView
             android:id="@+id/plate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
             android:textAllCaps="true"
             android:textColor="@color/secondaryColor"
             android:textSize="18sp"
@@ -29,19 +27,21 @@
             android:layout_width="0dp"
             android:layout_height="200dp"
             android:importantForAccessibility="no"
+            android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_baseline_directions_car_24" />
 
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
-            android:text="@string/action_fab_text"
-            app:icon="@drawable/ic_baseline_directions_car_24"
+            android:contentDescription="@string/cd_fab_action"
+            android:src="@drawable/ic_baseline_directions_car_24"
+            app:fabSize="normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -50,12 +50,14 @@
             android:id="@+id/fab_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
             android:contentDescription="@string/cd_fab_edit_vehicle"
             android:src="@drawable/ic_baseline_edit_24"
+            android:tint="@color/secondaryDarkColor"
+            app:fabSize="mini"
             app:layout_constraintBottom_toTopOf="@+id/fab_action"
-            app:layout_constraintEnd_toEndOf="@+id/fab_action" />
+            app:layout_constraintEnd_toEndOf="@+id/fab_action"
+            app:layout_constraintStart_toStartOf="@+id/fab_action" />
 
         <TextView
             android:id="@+id/fab_edit_text"
@@ -71,10 +73,10 @@
             android:id="@+id/fab_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
             android:contentDescription="@string/cd_fab_delete_vehicle"
             android:src="@drawable/ic_baseline_delete_24"
+            app:fabSize="mini"
             app:layout_constraintBottom_toTopOf="@+id/fab_edit"
             app:layout_constraintEnd_toEndOf="@+id/fab_edit"
             app:layout_constraintStart_toStartOf="@+id/fab_edit" />
@@ -89,17 +91,21 @@
             app:layout_constraintEnd_toStartOf="@+id/fab_delete"
             app:layout_constraintTop_toTopOf="@+id/fab_delete" />
 
-        <TableRow
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/brand_tableRow"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/tabRow_margin"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="@dimen/tabRow_cardCornerRadius"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/plate">
 
-            <androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/constraintLayout_inside_tabRow_margin">
 
                 <TextView
                     android:id="@+id/brand_label"
@@ -108,7 +114,7 @@
                     android:layout_marginStart="@dimen/label_start_in_tableRow_margin_start"
                     android:text="@string/brand_label"
                     android:textColor="@color/secondaryColor"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -119,10 +125,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/textview_in_tableRow_margin_start"
-                    android:letterSpacing="0.1"
-                    android:textAllCaps="false"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/brand_label"
                     app:layout_constraintStart_toEndOf="@+id/brand_label"
                     app:layout_constraintTop_toTopOf="@+id/brand_label"
                     tools:text="Seat" />
@@ -139,18 +143,23 @@
                     app:layout_constraintTop_toTopOf="@+id/brand" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </TableRow>
+        </com.google.android.material.card.MaterialCardView>
 
-        <TableRow
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/line_tableRow"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/tabRow_margin"
+            android:background="@color/primaryDarkColor"
+            app:cardCornerRadius="@dimen/tabRow_cardCornerRadius"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/brand_tableRow">
 
-            <androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/constraintLayout_inside_tabRow_margin">
 
                 <TextView
                     android:id="@+id/line_label"
@@ -159,7 +168,7 @@
                     android:layout_marginStart="@dimen/label_start_in_tableRow_margin_start"
                     android:text="@string/line_label"
                     android:textColor="@color/secondaryColor"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -170,7 +179,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/textview_in_tableRow_margin_start"
-                    android:letterSpacing="0.1"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="@+id/line_label"
                     app:layout_constraintStart_toEndOf="@+id/line_label"
@@ -179,19 +187,23 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </TableRow>
+        </com.google.android.material.card.MaterialCardView>
 
-        <TableRow
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/fuel_type_tableRow"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/tabRow_margin"
+            app:cardCornerRadius="@dimen/tabRow_cardCornerRadius"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/line_tableRow">
 
-            <androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/constraintLayout_inside_tabRow_margin">
 
                 <TextView
                     android:id="@+id/fuel_type_label"
@@ -200,7 +212,7 @@
                     android:layout_marginStart="@dimen/label_start_in_tableRow_margin_start"
                     android:text="@string/fuel_type_label"
                     android:textColor="@color/secondaryColor"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -211,8 +223,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/textview_in_tableRow_margin_start"
-                    android:letterSpacing="0.1"
-                    android:textAllCaps="false"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="@+id/fuel_type_label"
                     app:layout_constraintStart_toEndOf="@+id/fuel_type_label"
@@ -232,7 +242,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </TableRow>
+        </com.google.android.material.card.MaterialCardView>
 
         <TableRow
             android:id="@+id/model_and_year_tableRow"
@@ -248,7 +258,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textAllCaps="true"
                 android:textSize="26sp"
                 android:textStyle="bold"
                 tools:text="Altea XL" />
@@ -259,7 +268,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:textAllCaps="true"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 tools:text="(2009)" />
         </TableRow>
 

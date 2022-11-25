@@ -155,7 +155,6 @@ class VehicleDetailFragment : Fragment() {
         deleteFabText.visibility = View.GONE
 
         var allFabsVisibility = false
-        actionFab.shrink()
 
         actionFab.setOnClickListener {
             allFabsVisibility = if (!allFabsVisibility) {
@@ -163,14 +162,14 @@ class VehicleDetailFragment : Fragment() {
                 deleteFab.show()
                 editFabText.visibility = View.VISIBLE
                 deleteFabText.visibility = View.VISIBLE
-                actionFab.extend()
+                actionFab.setImageResource(R.drawable.ic_baseline_car_repair_24)
                 true
             } else {
                 editFab.hide()
                 deleteFab.hide()
                 editFabText.visibility = View.GONE
                 deleteFabText.visibility = View.GONE
-                actionFab.shrink()
+                actionFab.setImageResource(R.drawable.ic_baseline_directions_car_24)
                 false
             }
         }
