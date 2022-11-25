@@ -1,26 +1,20 @@
 <resources>
 
     <!-- Application theme for dark theme. -->
-    <style name="Theme.SearchVehicleApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.SearchVehicleApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorPrimaryVariant">@color/primaryDarkColor</item>
+        <item name="colorPrimaryVariant">@color/primaryColor</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/secondaryColor</item>
         <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.SearchVehicleApp.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <style name="toolBarStyle" parent="Widget.MaterialComponents.Toolbar">
+        <item name="titleTextColor">@color/white</item>
+        <item name="android:background">?attr/colorPrimaryVariant</item>
     </style>
-
-    <style name="Theme.SearchVehicleApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="Theme.SearchVehicleApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
