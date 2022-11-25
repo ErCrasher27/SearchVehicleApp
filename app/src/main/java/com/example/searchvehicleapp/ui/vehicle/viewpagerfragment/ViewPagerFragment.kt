@@ -154,27 +154,25 @@ class ViewPagerFragment : Fragment() {
         }
     }
 
+    /**
+     * Responsible for setting icon of tabs with colors appropriate
+     */
     private fun setupTabIcons(tabs: TabLayout) {
-
         tabs.getTabAt(0)?.icon =
             resources.getDrawable(com.example.searchvehicleapp.R.drawable.ic_baseline_sports_motorsports_24)
         tabs.getTabAt(1)?.icon =
             resources.getDrawable(com.example.searchvehicleapp.R.drawable.ic_baseline_directions_car_24)
         tabs.getTabAt(2)?.icon =
             resources.getDrawable(com.example.searchvehicleapp.R.drawable.ic_baseline_directions_bus_24)
-
         tabs.getTabAt(0)?.icon?.setColorFilter(
             resources.getColor(R.color.secondaryColor), PorterDuff.Mode.SRC_IN
         )
-
         tabs.getTabAt(1)?.icon?.setColorFilter(
             resources.getColor(R.color.primaryColor), PorterDuff.Mode.SRC_IN
         )
-
         tabs.getTabAt(2)?.icon?.setColorFilter(
             resources.getColor(R.color.primaryColor), PorterDuff.Mode.SRC_IN
         )
-
         tabs.setOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 tab.icon!!.setColorFilter(
@@ -192,6 +190,9 @@ class ViewPagerFragment : Fragment() {
         })
     }
 
+    /**
+     * private fun getIndexByEnumVehicleType(enumTypeOfVehicle: EnumTypeOfVehicle): Int
+     */
     private fun getIndexByEnumVehicleType(enumTypeOfVehicle: EnumTypeOfVehicle): Int {
         return when (enumTypeOfVehicle) {
             EnumTypeOfVehicle.MOTORCYCLE -> 0

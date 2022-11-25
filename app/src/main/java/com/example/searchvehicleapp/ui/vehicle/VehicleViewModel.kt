@@ -110,7 +110,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             year = year,
             brand = brand,
             model = model,
-            line = line.uppercase(),
+            line = line,
             typeOfFuel = typeOfFuel,
             image = image?.toByteArray(),
             typeOfVehicle = typeOfVehicle,
@@ -138,7 +138,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             year = year,
             brand = brand,
             model = model,
-            line = line.uppercase(),
+            line = line,
             typeOfFuel = typeOfFuel,
             image = image?.toByteArray(),
             typeOfVehicle = typeOfVehicle,
@@ -199,7 +199,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         _currentTypeOfVehicle.value = enumTypeOfVehicle
     }
 
-    private fun Bitmap.toByteArray(quality: Int = 50): ByteArray {
+    private fun Bitmap.toByteArray(quality: Int = 100): ByteArray {
         val stream = ByteArrayOutputStream()
         compress(Bitmap.CompressFormat.JPEG, quality, stream)
         return stream.toByteArray()

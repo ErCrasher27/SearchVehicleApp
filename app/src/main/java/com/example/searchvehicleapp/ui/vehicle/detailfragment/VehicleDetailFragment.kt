@@ -3,7 +3,6 @@ package com.example.searchvehicleapp.ui.vehicle.detailfragment
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,16 +48,12 @@ class VehicleDetailFragment : Fragment() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
         }
-
-
-        binding.fabEdit.setOnClickListener { goToEdit() }
-        binding.fabDelete.setOnClickListener { showConfirmationDialog() }
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setFloatingActionButtons()
         val id = navigationArgs.vehicleId
 
         // Retrieve the item details using the vehicleId.
@@ -75,22 +70,14 @@ class VehicleDetailFragment : Fragment() {
      */
     private fun bind(vehicle: Vehicle) {
         binding.apply {
-            //TODO DETAILS AND LEAVE CASE
-            model.text = vehicle.model.uppercase()
-            brand.text = vehicle.brand.lowercase()
-            plate.text = vehicle.plate.uppercase()
-            year.text = getString(
-                R.string.year_format, vehicle.year.toString()
-            )
-            /*cV.text = getString(
-                R.string.cv_format, vehiclecV.toString()
-            )
-            kW.text = getString(
-                R.string.kw_format, vehicle.kW.toString()
-            )
-            line.text = vehicle.line.uppercase()*/
-            //fuelLogo.setImageResource(getIconFromTypeOfFuel(vehicle.typeOfFuel))
-
+            plate.text = vehicle.plate
+            brand.text = vehicle.brand
+            model.text = vehicle.model
+            year.text =
+                getString(R.string.year_format, vehicle.year.toString())
+            fuelLogo.setImageResource(getIconFromTypeOfFuel(vehicle.typeOfFuel))
+            fuelType.text = vehicle.typeOfFuel.name
+            line.text = vehicle.line
             if (vehicle.image != null) {
                 image.setImageBitmap(
                     Bitmap.createScaledBitmap(
@@ -105,6 +92,9 @@ class VehicleDetailFragment : Fragment() {
         }
     }
 
+    /**
+     * private fun goToEdit()
+     */
     private fun goToEdit() {
         val action =
             VehicleDetailFragmentDirections.actionVehicleDetailFragmentToAddEditFragment(
@@ -114,11 +104,24 @@ class VehicleDetailFragment : Fragment() {
         findNavController().navigate(action)
     }
 
+    /**
+     * private fun goToListAfterDelete()
+     */
     private fun goToListAfterDelete() {
         vehicleViewModel.deleteVehicle(vehicle)
         val action =
             VehicleDetailFragmentDirections.actionVehicleDetailFragmentToViewPagerFragment()
         findNavController().navigate(action)
+    }
+
+    /**
+     * private fun getIconFromTypeOfFuel(typeOfFuel: EnumTypeOfFuel): Int
+     */
+    private fun getIconFromTypeOfFuel(typeOfFuel: EnumTypeOfFuel): Int {
+        return when (typeOfFuel) {
+            EnumTypeOfFuel.ELECTRIC -> R.drawable.ic_baseline_electric_bolt_24
+            else -> R.drawable.ic_baseline_local_gas_station_24
+        }
     }
 
     /**
@@ -136,11 +139,43 @@ class VehicleDetailFragment : Fragment() {
             .show()
     }
 
-    private fun getIconFromTypeOfFuel(typeOfFuel: EnumTypeOfFuel): Int {
-        return when (typeOfFuel) {
-            EnumTypeOfFuel.ELECTRIC -> R.drawable.ic_baseline_electric_bolt_24
-            else -> R.drawable.ic_baseline_local_gas_station_24
+    /**
+     * private fun setFloatingActionButtons()
+     */
+    private fun setFloatingActionButtons() {
+        val actionFab = binding.fabAction
+        val editFab = binding.fabEdit
+        val deleteFab = binding.fabDelete
+        val editFabText = binding.fabEditText
+        val deleteFabText = binding.fabDeleteText
+
+        editFab.visibility = View.GONE
+        deleteFab.visibility = View.GONE
+        editFabText.visibility = View.GONE
+        deleteFabText.visibility = View.GONE
+
+        var allFabsVisibility = false
+        actionFab.shrink()
+
+        actionFab.setOnClickListener {
+            allFabsVisibility = if (!allFabsVisibility) {
+                editFab.show()
+                deleteFab.show()
+                editFabText.visibility = View.VISIBLE
+                deleteFabText.visibility = View.VISIBLE
+                actionFab.extend()
+                true
+            } else {
+                editFab.hide()
+                deleteFab.hide()
+                editFabText.visibility = View.GONE
+                deleteFabText.visibility = View.GONE
+                actionFab.shrink()
+                false
+            }
         }
+        editFab.setOnClickListener { goToEdit() }
+        deleteFab.setOnClickListener { showConfirmationDialog() }
     }
 
     override fun onDestroyView() {
