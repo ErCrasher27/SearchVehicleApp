@@ -81,14 +81,7 @@ class VehicleDetailFragment : Fragment() {
             line.text = vehicle.line
             if (vehicle.image != null) {
                 val bmp = BitmapFactory.decodeByteArray(vehicle.image, 0, vehicle.image.size)
-                image.setImageBitmap(
-                    Bitmap.createScaledBitmap(
-                        bmp,
-                        1100,
-                        550,
-                        false
-                    )
-                )
+                image.setImageBitmap(bmp)
             } else {
                 image.setImageResource(R.drawable.ic_baseline_directions_car_24)
             }

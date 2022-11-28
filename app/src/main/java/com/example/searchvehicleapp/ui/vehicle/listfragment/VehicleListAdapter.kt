@@ -46,14 +46,7 @@ class VehicleListAdapter(
                 buttonGoDetail.setOnClickListener { onVehicleClicked(vehicle) }
                 if (vehicle.image != null) {
                     val bmp = BitmapFactory.decodeByteArray(vehicle.image, 0, vehicle.image.size)
-                    image.setImageBitmap(
-                        Bitmap.createScaledBitmap(
-                            bmp,
-                            275,
-                            275,
-                            false
-                        )
-                    )
+                    image.setImageBitmap(bmp)
                 } else {
                     image.setImageResource(R.drawable.ic_baseline_directions_car_24)
                 }

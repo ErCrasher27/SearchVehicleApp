@@ -16,12 +16,6 @@ data class Vehicle(
     @ColumnInfo(name = "model") val model: String,
     @ColumnInfo(name = "line") val line: String,
     @ColumnInfo(name = "type_of_fuel") val typeOfFuel: EnumTypeOfFuel,
-    //LINE FROM JSON
-    /*@ColumnInfo(name = "displacement") val displacement: String,
-    @ColumnInfo(name = "forward_gear_ratios") val forwardGearRatios: Int,
-    @ColumnInfo(name = "type_of_transmission") val typeOfTransmission: EnumTypeOfTransmission,
-    @ColumnInfo(name = "cv") val cv: Int,*/
-    // END HERE
     @ColumnInfo(name = "image", typeAffinity = ColumnInfo.BLOB) val image: ByteArray?,
     @ColumnInfo(name = "type_of_vehicle") val typeOfVehicle: EnumTypeOfVehicle,
 )

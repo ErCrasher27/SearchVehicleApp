@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnFocusChangeListener
@@ -28,7 +27,6 @@ import com.example.searchvehicleapp.ui.vehicle.VehicleViewModelFactory
 import com.example.searchvehicleapp.ui.vehicle.detailfragment.VehicleDetailFragmentArgs
 import com.example.searchvehicleapp.utils.EnumTypeOfFuel
 import java.io.ByteArrayOutputStream
-import java.nio.ByteBuffer
 
 
 class AddEditFragment : Fragment() {
@@ -115,14 +113,8 @@ class AddEditFragment : Fragment() {
             loadTypeOfFuel(binding.typeOfFuel)
             if (vehicle.image != null) {
                 val bmp = BitmapFactory.decodeByteArray(vehicle.image, 0, vehicle.image.size)
-                previewImage.setImageBitmap(
-                    Bitmap.createScaledBitmap(
-                        bmp,
-                        275,
-                        275,
-                        false
-                    )
-                )
+                previewImage.setImageBitmap(bmp)
+
             } else {
                 previewImage.setImageResource(R.drawable.ic_baseline_directions_car_24)
             }
@@ -204,8 +196,7 @@ class AddEditFragment : Fragment() {
      */
     private fun createBitmapFromView(view: View): Bitmap? {
         view.buildDrawingCache()
-        val bitmapImageView = view.drawingCache
-        return bitmapImageView
+        return view.drawingCache
     }
 
     /**
@@ -217,7 +208,6 @@ class AddEditFragment : Fragment() {
         compress(Bitmap.CompressFormat.PNG, 100, stream)
         return stream.toByteArray()
     }
-
 
     /**
      * private fun checkIfInsertIsNull(image: Bitmap): Bitmap?
