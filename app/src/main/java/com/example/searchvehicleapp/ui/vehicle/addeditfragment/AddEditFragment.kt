@@ -237,11 +237,13 @@ class AddEditFragment : Fragment() {
      */
     private fun getEnumByAutoCompleteViewOfTypeOfFuel(typeOfFuel: String): EnumTypeOfFuel {
         return when (typeOfFuel) {
-            "GAS" -> EnumTypeOfFuel.GAS
+            "GASOLINE" -> EnumTypeOfFuel.GASOLINE
             "DIESEL" -> EnumTypeOfFuel.DIESEL
-            else -> {
-                EnumTypeOfFuel.ELECTRIC
-            }
+            "GAS" -> EnumTypeOfFuel.GAS
+            "BEV" -> EnumTypeOfFuel.BEV
+            "HEV" -> EnumTypeOfFuel.HEV
+            "MHEV" -> EnumTypeOfFuel.MHEV
+            else -> EnumTypeOfFuel.PHEV
         }
     }
 

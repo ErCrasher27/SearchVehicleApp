@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -14,14 +13,12 @@ import com.example.searchvehicleapp.R
 import com.example.searchvehicleapp.application.VehicleApplication
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.databinding.FragmentVehicleDetailBinding
-import com.example.searchvehicleapp.network.logosapi.Logo
 import com.example.searchvehicleapp.ui.vehicle.VehicleViewModel
 import com.example.searchvehicleapp.ui.vehicle.VehicleViewModelFactory
 import com.example.searchvehicleapp.utils.AddOrEdit.EDIT
 import com.example.searchvehicleapp.utils.EnumTypeOfFuel
 import com.example.searchvehicleapp.utils.setAndGetUriByBrandParsingListOfLogoAndImageView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.squareup.picasso.Picasso
 
 class VehicleDetailFragment : Fragment() {
 
@@ -122,8 +119,11 @@ class VehicleDetailFragment : Fragment() {
      */
     private fun getIconFromTypeOfFuel(typeOfFuel: EnumTypeOfFuel): Int {
         return when (typeOfFuel) {
-            EnumTypeOfFuel.ELECTRIC -> R.drawable.ic_baseline_electric_bolt_24
-            else -> R.drawable.ic_baseline_local_gas_station_24
+            EnumTypeOfFuel.GASOLINE -> R.drawable.ic_baseline_local_gas_station_24
+            EnumTypeOfFuel.DIESEL -> R.drawable.ic_baseline_local_gas_station_24
+            EnumTypeOfFuel.GAS -> R.drawable.ic_baseline_local_gas_station_24
+            EnumTypeOfFuel.BEV -> R.drawable.ic_baseline_electric_bolt_24
+            else -> R.drawable.ic_hybrid_car
         }
     }
 

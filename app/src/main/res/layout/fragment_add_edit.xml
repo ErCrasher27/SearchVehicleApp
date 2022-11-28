@@ -8,6 +8,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/plate_input_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="24dp"
@@ -39,12 +40,10 @@
                 android:id="@+id/year"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/year_input_layout"
                 android:inputType="number"
                 android:maxLength="4"
                 android:singleLine="true"
                 android:tag="@string/year_tag" />
-
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -64,7 +63,6 @@
                 android:id="@+id/brand"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/brand_input_layout"
                 android:inputType="textAutoComplete|textCapWords"
                 android:singleLine="true"
                 android:tag="@string/maker_tag" />
@@ -73,12 +71,11 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/model_input_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="160dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="24dp"
-            android:layout_marginStart="299dp"
-            android:layout_marginEnd="323dp"
             android:hint="@string/model_input_layout"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/brand_input_layout">
 
@@ -87,7 +84,6 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/model_input_layout"
                 android:inputType="textAutoComplete|textCapWords"
                 android:singleLine="true"
                 android:tag="@string/model_tag" />
@@ -96,14 +92,13 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/type_of_fuel_input_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="120dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="24dp"
             android:hint="@string/type_of_fuel_input_layout"
-            app:layout_constraintBottom_toBottomOf="@+id/model_input_layout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/model_input_layout"
-            app:layout_constraintTop_toTopOf="@+id/model_input_layout">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/model_input_layout">
 
             <AutoCompleteTextView
                 android:id="@+id/type_of_fuel"
@@ -119,17 +114,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="24dp"
-            android:layout_marginEnd="323dp"
             android:hint="@string/line_input_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/model_input_layout">
+            app:layout_constraintTop_toBottomOf="@+id/type_of_fuel_input_layout">
 
             <AutoCompleteTextView
                 android:id="@+id/line"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/line_input_layout"
                 android:inputType="textAutoComplete|textCapWords"
                 android:singleLine="true"
                 android:tag="@string/full_model_name_tag" />
