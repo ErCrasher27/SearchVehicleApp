@@ -9,7 +9,6 @@ import com.example.searchvehicleapp.network.VehicleInfo
 import com.example.searchvehicleapp.utils.EnumTypeOfFuel
 import com.example.searchvehicleapp.utils.EnumTypeOfVehicle
 import kotlinx.coroutines.launch
-import java.io.ByteArrayOutputStream
 
 enum class CarMDStatus { LOADING, ERROR, DONE }
 
@@ -102,7 +101,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         model: String,
         line: String,
         typeOfFuel: EnumTypeOfFuel,
-        image: Bitmap?,
+        image: ByteArray?,
         typeOfVehicle: EnumTypeOfVehicle,
     ) {
         val newVehicle = getNewVehicleEntry(
@@ -112,7 +111,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             model = model,
             line = line,
             typeOfFuel = typeOfFuel,
-            image = image?.toByteArray(),
+            image = image,
             typeOfVehicle = typeOfVehicle,
         )
         insertVehicle(newVehicle)
@@ -129,7 +128,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         model: String,
         line: String,
         typeOfFuel: EnumTypeOfFuel,
-        image: Bitmap?,
+        image: ByteArray?,
         typeOfVehicle: EnumTypeOfVehicle,
     ) {
         val updateVehicle = getUpdatedVehicleEntry(
@@ -140,7 +139,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             model = model,
             line = line,
             typeOfFuel = typeOfFuel,
-            image = image?.toByteArray(),
+            image = image,
             typeOfVehicle = typeOfVehicle,
         )
         updateVehicle(updateVehicle)
@@ -197,12 +196,6 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
 
     fun setCurrentTypeOfVehicle(enumTypeOfVehicle: EnumTypeOfVehicle) {
         _currentTypeOfVehicle.value = enumTypeOfVehicle
-    }
-
-    private fun Bitmap.toByteArray(quality: Int = 100): ByteArray {
-        val stream = ByteArrayOutputStream()
-        compress(Bitmap.CompressFormat.JPEG, quality, stream)
-        return stream.toByteArray()
     }
 
     /**

@@ -19,6 +19,7 @@ import com.example.searchvehicleapp.ui.vehicle.VehicleViewModelFactory
 import com.example.searchvehicleapp.utils.AddOrEdit.EDIT
 import com.example.searchvehicleapp.utils.EnumTypeOfFuel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import java.nio.ByteBuffer
 
 class VehicleDetailFragment : Fragment() {
 
@@ -79,11 +80,13 @@ class VehicleDetailFragment : Fragment() {
             fuelType.text = vehicle.typeOfFuel.name
             line.text = vehicle.line
             if (vehicle.image != null) {
+                val bmp = BitmapFactory.decodeByteArray(vehicle.image, 0, vehicle.image.size)
                 image.setImageBitmap(
                     Bitmap.createScaledBitmap(
-                        BitmapFactory.decodeByteArray(
-                            vehicle.image, 0, vehicle.image.size
-                        ), 200, 200, false
+                        bmp,
+                        1100,
+                        550,
+                        false
                     )
                 )
             } else {
@@ -175,6 +178,40 @@ class VehicleDetailFragment : Fragment() {
         }
         editFab.setOnClickListener { goToEdit() }
         deleteFab.setOnClickListener { showConfirmationDialog() }
+    }
+
+    /**
+     * private fun getOutputImage(output: ByteBuffer): Bitmap?
+     */
+    private fun getOutputImage(output: ByteBuffer): Bitmap? {
+        output.rewind()
+        val outputWidth = binding.image.width
+        val outputHeight = binding.image.height
+        val bitmap = Bitmap.createBitmap(outputWidth, outputHeight, Bitmap.Config.RGB_565)
+        val pixels = IntArray(outputWidth * outputHeight)
+        for (i in 0 until outputWidth * outputHeight) {
+            //val a = 0xFF;
+            //float a = (float) 0xFF;
+
+            //val r: Float = output?.float!! * 255.0f;
+            //byte val = output.get();
+            val r = output.get().toFloat() * 255.0f
+            //float r = ((float) output.get());
+
+            //val g: Float = output?.float!! * 255.0f;
+            val g = output.get().toFloat() * 255.0f
+            //float g = ((float) output.get());
+
+            //val b: Float = output?.float!! * 255.0f;
+            val b = output.get().toFloat() * 255.0f
+            //float b = ((float) output.get());
+
+
+            //pixels[i] = a shl 24 or (r.toInt() shl 16) or (g.toInt() shl 8) or b.toInt()
+            pixels[i] = r.toInt() shl 16 or (g.toInt() shl 8) or b.toInt()
+        }
+        bitmap.setPixels(pixels, 0, outputWidth, 0, 0, outputWidth, outputHeight)
+        return bitmap
     }
 
     override fun onDestroyView() {

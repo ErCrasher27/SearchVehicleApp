@@ -45,11 +45,13 @@ class VehicleListAdapter(
                 brand.text = vehicle.brand
                 buttonGoDetail.setOnClickListener { onVehicleClicked(vehicle) }
                 if (vehicle.image != null) {
+                    val bmp = BitmapFactory.decodeByteArray(vehicle.image, 0, vehicle.image.size)
                     image.setImageBitmap(
                         Bitmap.createScaledBitmap(
-                            BitmapFactory.decodeByteArray(
-                                vehicle.image, 0, vehicle.image.size
-                            ), 100, 100, false
+                            bmp,
+                            275,
+                            275,
+                            false
                         )
                     )
                 } else {

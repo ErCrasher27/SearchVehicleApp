@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnFocusChangeListener
@@ -26,6 +27,8 @@ import com.example.searchvehicleapp.ui.vehicle.VehicleViewModel
 import com.example.searchvehicleapp.ui.vehicle.VehicleViewModelFactory
 import com.example.searchvehicleapp.ui.vehicle.detailfragment.VehicleDetailFragmentArgs
 import com.example.searchvehicleapp.utils.EnumTypeOfFuel
+import java.io.ByteArrayOutputStream
+import java.nio.ByteBuffer
 
 
 class AddEditFragment : Fragment() {
@@ -111,11 +114,13 @@ class AddEditFragment : Fragment() {
             typeOfFuel.setText(vehicle.typeOfFuel.name, TextView.BufferType.SPANNABLE)
             loadTypeOfFuel(binding.typeOfFuel)
             if (vehicle.image != null) {
+                val bmp = BitmapFactory.decodeByteArray(vehicle.image, 0, vehicle.image.size)
                 previewImage.setImageBitmap(
                     Bitmap.createScaledBitmap(
-                        BitmapFactory.decodeByteArray(
-                            vehicle.image, 0, vehicle.image.size
-                        ), 100, 100, false
+                        bmp,
+                        275,
+                        275,
+                        false
                     )
                 )
             } else {
@@ -137,7 +142,7 @@ class AddEditFragment : Fragment() {
                 model = binding.model.text.toString(),
                 line = binding.line.text.toString(),
                 typeOfFuel = getEnumByAutoCompleteViewOfTypeOfFuel(binding.typeOfFuel.text.toString()),
-                image = checkIfInsertIsNull(createBitmapFromView(binding.previewImage)),
+                image = checkIfInsertIsNull(createBitmapFromView(binding.previewImage)?.toByteArray()),
                 typeOfVehicle = vehicleViewModel.currentTypeOfVehicle.value!!,
             )
             val action = AddEditFragmentDirections.actionAddEditFragmentToViewPagerFragment()
@@ -158,7 +163,7 @@ class AddEditFragment : Fragment() {
                 model = binding.model.text.toString(),
                 line = binding.line.text.toString(),
                 typeOfFuel = getEnumByAutoCompleteViewOfTypeOfFuel(binding.typeOfFuel.text.toString()),
-                image = checkIfInsertIsNull(createBitmapFromView(binding.previewImage)),
+                image = checkIfInsertIsNull(createBitmapFromView(binding.previewImage)?.toByteArray()),
                 typeOfVehicle = vehicleViewModel.currentTypeOfVehicle.value!!,
             )
             val action = AddEditFragmentDirections.actionAddEditFragmentToVehicleDetailFragment(
@@ -197,16 +202,27 @@ class AddEditFragment : Fragment() {
     /**
      * private fun createBitmapFromView(view: View): Bitmap
      */
-    private fun createBitmapFromView(view: View): Bitmap {
-        view.isDrawingCacheEnabled = true
+    private fun createBitmapFromView(view: View): Bitmap? {
         view.buildDrawingCache()
-        return view.drawingCache
+        val bitmapImageView = view.drawingCache
+        return bitmapImageView
     }
+
+    /**
+     * private fun Bitmap.toByteArray(): ByteArray
+     */
+    private fun Bitmap.toByteArray(): ByteArray {
+        val stream =
+            ByteArrayOutputStream()
+        compress(Bitmap.CompressFormat.PNG, 100, stream)
+        return stream.toByteArray()
+    }
+
 
     /**
      * private fun checkIfInsertIsNull(image: Bitmap): Bitmap?
      */
-    private fun checkIfInsertIsNull(image: Bitmap): Bitmap? {
+    private fun checkIfInsertIsNull(image: ByteArray?): ByteArray? {
         return if (binding.previewImage.tag == "is_not_null") {
             image
         } else {
