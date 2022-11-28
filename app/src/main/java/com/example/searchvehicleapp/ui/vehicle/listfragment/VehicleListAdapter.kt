@@ -1,6 +1,5 @@
 package com.example.searchvehicleapp.ui.vehicle.listfragment
 
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.searchvehicleapp.R
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.databinding.VehicleListItemBinding
+import com.example.searchvehicleapp.network.logosapi.Logo
+import com.example.searchvehicleapp.utils.setAndGetUriByBrandParsingListOfLogoAndImageView
 
 
 /**
@@ -18,6 +19,7 @@ import com.example.searchvehicleapp.databinding.VehicleListItemBinding
 
 class VehicleListAdapter(
     private val onVehicleClicked: (Vehicle) -> Unit,
+    private val logoDataApi: List<Logo>?,
 ) :
     ListAdapter<Vehicle, VehicleListAdapter.ItemViewHolder>(DiffCallback) {
 
@@ -33,13 +35,13 @@ class VehicleListAdapter(
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current, onVehicleClicked)
+        holder.bind(current, onVehicleClicked, logoDataApi)
     }
 
     class ItemViewHolder(private var binding: VehicleListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(vehicle: Vehicle, onVehicleClicked: (Vehicle) -> Unit) {
+        fun bind(vehicle: Vehicle, onVehicleClicked: (Vehicle) -> Unit, logoDataApi: List<Logo>?) {
             binding.apply {
                 model.text = vehicle.model
                 brand.text = vehicle.brand
@@ -50,6 +52,11 @@ class VehicleListAdapter(
                 } else {
                     image.setImageResource(R.drawable.ic_baseline_directions_car_24)
                 }
+                setAndGetUriByBrandParsingListOfLogoAndImageView(
+                    logoDataApi,
+                    vehicle.brand,
+                    binding.logoBrand
+                )
             }
         }
     }

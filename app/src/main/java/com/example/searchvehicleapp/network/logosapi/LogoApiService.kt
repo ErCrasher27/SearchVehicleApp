@@ -1,4 +1,4 @@
-package com.example.searchvehicleapp.network
+package com.example.searchvehicleapp.network.logosapi
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -8,7 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 
 private const val BASE_URL =
-    "https://raw.githubusercontent.com/ElyesDer/Vehicule-data-DB/master/"
+    "https://raw.githubusercontent.com/ErCrasher27/carl-maker-logos.json/main/"
 
 /**
  * Build the Moshi object that Retrofit will be using, making sure to add the Kotlin adapter for
@@ -27,23 +27,23 @@ private val retrofit =
         .build()
 
 /**
- * A public interface that exposes the [getVehicleInfo] method
+ * A public interface that exposes the [getLogo] method
  */
-interface VehicleApiService {
+interface LogoApiService {
     /**
-     * Returns a [List] of [VehicleInfo] and this method can be called from a Coroutine.
+     * Returns a [List] of [Logo] and this method can be called from a Coroutine.
      * The @GET annotation indicates that the "year" endpoint will be requested with the GET
      * HTTP method
      */
 
     @Headers("Content-Type: application/json")
-    @GET("jsondata.json")
-    suspend fun getVehicleInfo(): List<VehicleInfo>
+    @GET("carl-maker-logos.json")
+    suspend fun getLogo(): List<Logo>
 }
 
 /**
  * A public Api object that exposes the lazy-initialized Retrofit service
  */
-object VehicleApi {
-    val retrofitService: VehicleApiService by lazy { retrofit.create(VehicleApiService::class.java) }
+object LogoApi {
+    val retrofitService: LogoApiService by lazy { retrofit.create(LogoApiService::class.java) }
 }

@@ -1,4 +1,4 @@
-package com.example.searchvehicleapp.network
+package com.example.searchvehicleapp.network.vehicleapi
 
 import com.google.gson.annotations.SerializedName
 

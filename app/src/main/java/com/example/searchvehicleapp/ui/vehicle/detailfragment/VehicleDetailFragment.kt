@@ -1,11 +1,11 @@
 package com.example.searchvehicleapp.ui.vehicle.detailfragment
 
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -14,12 +14,14 @@ import com.example.searchvehicleapp.R
 import com.example.searchvehicleapp.application.VehicleApplication
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.databinding.FragmentVehicleDetailBinding
+import com.example.searchvehicleapp.network.logosapi.Logo
 import com.example.searchvehicleapp.ui.vehicle.VehicleViewModel
 import com.example.searchvehicleapp.ui.vehicle.VehicleViewModelFactory
 import com.example.searchvehicleapp.utils.AddOrEdit.EDIT
 import com.example.searchvehicleapp.utils.EnumTypeOfFuel
+import com.example.searchvehicleapp.utils.setAndGetUriByBrandParsingListOfLogoAndImageView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import java.nio.ByteBuffer
+import com.squareup.picasso.Picasso
 
 class VehicleDetailFragment : Fragment() {
 
@@ -85,6 +87,11 @@ class VehicleDetailFragment : Fragment() {
             } else {
                 image.setImageResource(R.drawable.ic_baseline_directions_car_24)
             }
+            setAndGetUriByBrandParsingListOfLogoAndImageView(
+                vehicleViewModel.logoDataApi.value,
+                vehicle.brand,
+                binding.brandLogo
+            )
         }
     }
 
@@ -171,40 +178,6 @@ class VehicleDetailFragment : Fragment() {
         }
         editFab.setOnClickListener { goToEdit() }
         deleteFab.setOnClickListener { showConfirmationDialog() }
-    }
-
-    /**
-     * private fun getOutputImage(output: ByteBuffer): Bitmap?
-     */
-    private fun getOutputImage(output: ByteBuffer): Bitmap? {
-        output.rewind()
-        val outputWidth = binding.image.width
-        val outputHeight = binding.image.height
-        val bitmap = Bitmap.createBitmap(outputWidth, outputHeight, Bitmap.Config.RGB_565)
-        val pixels = IntArray(outputWidth * outputHeight)
-        for (i in 0 until outputWidth * outputHeight) {
-            //val a = 0xFF;
-            //float a = (float) 0xFF;
-
-            //val r: Float = output?.float!! * 255.0f;
-            //byte val = output.get();
-            val r = output.get().toFloat() * 255.0f
-            //float r = ((float) output.get());
-
-            //val g: Float = output?.float!! * 255.0f;
-            val g = output.get().toFloat() * 255.0f
-            //float g = ((float) output.get());
-
-            //val b: Float = output?.float!! * 255.0f;
-            val b = output.get().toFloat() * 255.0f
-            //float b = ((float) output.get());
-
-
-            //pixels[i] = a shl 24 or (r.toInt() shl 16) or (g.toInt() shl 8) or b.toInt()
-            pixels[i] = r.toInt() shl 16 or (g.toInt() shl 8) or b.toInt()
-        }
-        bitmap.setPixels(pixels, 0, outputWidth, 0, 0, outputWidth, outputHeight)
-        return bitmap
     }
 
     override fun onDestroyView() {

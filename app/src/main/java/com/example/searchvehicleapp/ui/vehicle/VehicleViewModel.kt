@@ -1,28 +1,37 @@
 package com.example.searchvehicleapp.ui.vehicle
 
-import android.graphics.Bitmap
 import androidx.lifecycle.*
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.database.VehicleDao
 import com.example.searchvehicleapp.network.VehicleApi
-import com.example.searchvehicleapp.network.VehicleInfo
+import com.example.searchvehicleapp.network.logosapi.Logo
+import com.example.searchvehicleapp.network.logosapi.LogoApi
+import com.example.searchvehicleapp.network.vehicleapi.VehicleInfo
 import com.example.searchvehicleapp.utils.EnumTypeOfFuel
 import com.example.searchvehicleapp.utils.EnumTypeOfVehicle
 import kotlinx.coroutines.launch
 
-enum class CarMDStatus { LOADING, ERROR, DONE }
+enum class VehicleApiStatus { LOADING, ERROR, DONE }
+enum class LogoApiStatus { LOADING, ERROR, DONE }
 
 class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
 
-    // Status Api
-    private val _status = MutableLiveData<CarMDStatus>()
-    val status: LiveData<CarMDStatus> = _status
+    // Status Vehicle Api
+    private val _statusVehicleApi = MutableLiveData<VehicleApiStatus>()
+    val statusVehicleApi: LiveData<VehicleApiStatus> = _statusVehicleApi
 
     private val _vehiclesDataApi = MutableLiveData<List<VehicleInfo>>()
     val vehiclesDataApi: LiveData<List<VehicleInfo>> = _vehiclesDataApi
 
     private val _vehiclesInfo = MutableLiveData<List<VehicleInfo>>()
     val vehiclesInfo: LiveData<List<VehicleInfo>> = _vehiclesInfo
+
+    // Status Logo Api
+    private val _statusLogApi = MutableLiveData<LogoApiStatus>()
+    val statusLogApi: LiveData<LogoApiStatus> = _statusLogApi
+
+    private val _logoDataApi = MutableLiveData<List<Logo>>()
+    val logoDataApi: LiveData<List<Logo>> = _logoDataApi
 
     // currentTypeOfVehicle
     private val _currentTypeOfVehicle = MutableLiveData<EnumTypeOfVehicle>()
@@ -199,18 +208,37 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
     }
 
     /**
-     * Gets YearVehicle information from the Vehicle API Retrofit service and updates the
+     * Gets Logo information from the Vehicle API Retrofit service and updates the
+     * [_logoDataApi] [List] [LiveData].
+     */
+    fun getLogo() {
+        viewModelScope.launch {
+            _statusLogApi.value = LogoApiStatus.LOADING
+            try {
+                _logoDataApi.value = LogoApi.retrofitService.getLogo()
+                resetVehicleInfo()
+                _statusLogApi.value = LogoApiStatus.DONE
+            } catch (e: java.lang.Exception) {
+                _statusLogApi.value = LogoApiStatus.ERROR
+                _logoDataApi.value = listOf()
+                resetVehicleInfo()
+            }
+        }
+    }
+
+    /**
+     * Gets VehicleInfo information from the Vehicle API Retrofit service and updates the
      * [_vehiclesInfo] [List] [LiveData].
      */
     fun getVehicleInfo() {
         viewModelScope.launch {
-            _status.value = CarMDStatus.LOADING
+            _statusVehicleApi.value = VehicleApiStatus.LOADING
             try {
                 _vehiclesDataApi.value = VehicleApi.retrofitService.getVehicleInfo()
                 resetVehicleInfo()
-                _status.value = CarMDStatus.DONE
+                _statusVehicleApi.value = VehicleApiStatus.DONE
             } catch (e: java.lang.Exception) {
-                _status.value = CarMDStatus.ERROR
+                _statusVehicleApi.value = VehicleApiStatus.ERROR
                 _vehiclesDataApi.value = listOf()
                 resetVehicleInfo()
             }
@@ -225,14 +253,12 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         resetVehicleInfo()
         _vehiclesInfo.value =
             vehiclesInfo.value?.filter { it.year.contains(year, ignoreCase = true) }
-
     }
 
     fun setVehicleInfoFilteredForBrand(brand: String) {
         resetVehicleInfo()
         _vehiclesInfo.value =
             vehiclesInfo.value?.filter { it.maker.contains(brand, ignoreCase = true) }
-
     }
 
     fun setVehicleInfoFilteredForModel(model: String) {
