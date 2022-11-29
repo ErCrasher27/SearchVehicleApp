@@ -31,7 +31,7 @@ class MyGarageReminderWorker(
 
         val builder = NotificationCompat.Builder(applicationContext, VehicleApplication.CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_baseline_directions_car_24)
-            .setContentTitle("Check your insurance!")
+            .setContentTitle("Check your car service!")
             .setContentText("Alert about kilometres of your $model")
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent)

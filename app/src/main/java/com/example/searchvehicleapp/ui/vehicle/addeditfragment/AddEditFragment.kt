@@ -167,7 +167,7 @@ class AddEditFragment : Fragment() {
                 model = binding.model.text.toString(),
                 line = binding.line.text.toString(),
                 typeOfFuel = getEnumByAutoCompleteViewOfTypeOfFuel(binding.typeOfFuel.text.toString()),
-                image = checkIfInsertIsNull(createBitmapFromView(binding.previewImage)?.toByteArray()),
+                image = createBitmapFromView(binding.previewImage)?.toByteArray(),
                 typeOfVehicle = vehicleViewModel.currentTypeOfVehicle.value!!,
                 km = binding.km.text.toString().toInt()
             )

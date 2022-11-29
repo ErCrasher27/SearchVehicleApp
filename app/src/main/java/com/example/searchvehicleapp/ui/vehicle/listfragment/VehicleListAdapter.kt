@@ -3,6 +3,7 @@ package com.example.searchvehicleapp.ui.vehicle.listfragment
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +20,7 @@ import com.example.searchvehicleapp.utils.setAndGetUriByBrandParsingListOfLogoAn
 
 class VehicleListAdapter(
     private val onVehicleClicked: (Vehicle) -> Unit,
-    private val logoDataApi: List<Logo>?,
+    private val logoDataApi: LiveData<List<Logo>>,
 ) :
     ListAdapter<Vehicle, VehicleListAdapter.ItemViewHolder>(DiffCallback) {
 
@@ -41,7 +42,7 @@ class VehicleListAdapter(
     class ItemViewHolder(private var binding: VehicleListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(vehicle: Vehicle, onVehicleClicked: (Vehicle) -> Unit, logoDataApi: List<Logo>?) {
+        fun bind(vehicle: Vehicle, onVehicleClicked: (Vehicle) -> Unit, logoDataApi: LiveData<List<Logo>>) {
             binding.apply {
                 model.text = vehicle.model
                 brand.text = vehicle.brand
@@ -53,7 +54,7 @@ class VehicleListAdapter(
                     image.setImageResource(R.drawable.ic_baseline_directions_car_24)
                 }
                 setAndGetUriByBrandParsingListOfLogoAndImageView(
-                    logoDataApi,
+                    logoDataApi.value,
                     vehicle.brand,
                     binding.logoBrand
                 )

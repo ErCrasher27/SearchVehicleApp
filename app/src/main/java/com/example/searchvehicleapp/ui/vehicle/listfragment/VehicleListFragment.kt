@@ -52,17 +52,15 @@ class VehicleListFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val adapter = VehicleListAdapter(
             onVehicleClicked = onVehicleClicked,
-            logoDataApi = vehicleViewModel.logoDataApi.value
+            logoDataApi = vehicleViewModel.logoDataApi
         )
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
         binding.recyclerView.adapter = adapter
-        // Attach an observer on the allItems list to update the UI automatically when the data
-        // changes.
 
-        vehicleViewModel.getLogo()
         vehicleViewModel.getAllVehiclesByTypeOrderedByName(enumTypeOfVehicle)
             .observe(this.viewLifecycleOwner)
             { vehicles ->
