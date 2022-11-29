@@ -26,7 +26,6 @@ import com.example.searchvehicleapp.ui.vehicle.VehicleViewModel
 import com.example.searchvehicleapp.ui.vehicle.VehicleViewModelFactory
 import com.example.searchvehicleapp.ui.vehicle.detailfragment.VehicleDetailFragmentArgs
 import com.example.searchvehicleapp.utils.EnumTypeOfFuel
-import com.example.searchvehicleapp.worker.MyGarageReminderWorker
 import java.io.ByteArrayOutputStream
 import java.util.concurrent.TimeUnit
 
@@ -144,9 +143,11 @@ class AddEditFragment : Fragment() {
                 km = binding.km.text.toString().toInt()
             )
             vehicleViewModel.scheduleReminder(
-                1,
+                5,
                 TimeUnit.SECONDS,
-                model = binding.model.text.toString()
+                model = binding.model.text.toString(),
+                plate = binding.plate.text.toString(),
+                km = binding.km.text.toString().toInt()
             )
             val action = AddEditFragmentDirections.actionAddEditFragmentToViewPagerFragment()
             findNavController().navigate(action)
@@ -173,8 +174,9 @@ class AddEditFragment : Fragment() {
             vehicleViewModel.scheduleReminder(
                 1,
                 TimeUnit.SECONDS,
-                model = binding.model.text.toString()
-            )
+                model = binding.model.text.toString(),
+                plate = binding.plate.text.toString(),
+                km = binding.km.text.toString().toInt()            )
             val action = AddEditFragmentDirections.actionAddEditFragmentToVehicleDetailFragment(
                 vehicleDetailNavigationArgs.vehicleId
             )

@@ -289,20 +289,25 @@ class VehicleViewModel(
     internal fun scheduleReminder(
         duration: Long,
         unit: TimeUnit,
-        model: String
+        plate: String,
+        model: String,
+        km: Int
     ) {
-        val data = Data.Builder().putString(MyGarageReminderWorker.nameKey, model).build()
-        val mygarageBuilder = OneTimeWorkRequestBuilder<MyGarageReminderWorker>()
-            .setInitialDelay(duration, unit)
-            .setInputData(data)
-            .build()
+        if (km >= 100000) {
+            val dataComp = "$model ($plate)"
+            val data = Data.Builder().putString(MyGarageReminderWorker.nameKey, dataComp).build()
+            val mygarageBuilder = OneTimeWorkRequestBuilder<MyGarageReminderWorker>()
+                .setInitialDelay(duration, unit)
+                .setInputData(data)
+                .build()
 
-        workManager
-            .enqueueUniqueWork(
-                model,
-                ExistingWorkPolicy.REPLACE,
-                mygarageBuilder
-            )
+            workManager
+                .enqueueUniqueWork(
+                    model,
+                    ExistingWorkPolicy.REPLACE,
+                    mygarageBuilder
+                )
+        }
     }
 
 }
