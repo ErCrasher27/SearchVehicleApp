@@ -26,7 +26,8 @@ class VehicleListFragment(
     // to share the ViewModel across fragments.
     private val vehicleViewModel: VehicleViewModel by activityViewModels {
         VehicleViewModelFactory(
-            (activity?.application as VehicleApplication).database.vehicleDao()
+            vehicleDao = (activity?.application as VehicleApplication).database.vehicleDao(),
+            application = requireActivity().application
         )
     }
 

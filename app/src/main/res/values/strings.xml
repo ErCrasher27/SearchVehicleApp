@@ -43,6 +43,8 @@
     <string name="delete_question">Are you sure you want to delete?</string>
     <string name="no">no</string>
     <string name="yes">yes</string>
+    <string name="channel_name">mygarage_channel</string>
+    <string name="channel_description">mygarage_reminder</string>
 
 
 </resources>

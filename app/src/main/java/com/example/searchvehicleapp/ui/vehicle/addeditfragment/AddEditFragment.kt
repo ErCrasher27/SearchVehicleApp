@@ -26,14 +26,17 @@ import com.example.searchvehicleapp.ui.vehicle.VehicleViewModel
 import com.example.searchvehicleapp.ui.vehicle.VehicleViewModelFactory
 import com.example.searchvehicleapp.ui.vehicle.detailfragment.VehicleDetailFragmentArgs
 import com.example.searchvehicleapp.utils.EnumTypeOfFuel
+import com.example.searchvehicleapp.worker.MyGarageReminderWorker
 import java.io.ByteArrayOutputStream
+import java.util.concurrent.TimeUnit
 
 
 class AddEditFragment : Fragment() {
 
     private val vehicleViewModel: VehicleViewModel by activityViewModels {
         VehicleViewModelFactory(
-            (activity?.application as VehicleApplication).database.vehicleDao()
+            vehicleDao = (activity?.application as VehicleApplication).database.vehicleDao(),
+            application = requireActivity().application
         )
     }
 
@@ -140,6 +143,11 @@ class AddEditFragment : Fragment() {
                 typeOfVehicle = vehicleViewModel.currentTypeOfVehicle.value!!,
                 km = binding.km.text.toString().toInt()
             )
+            vehicleViewModel.scheduleReminder(
+                1,
+                TimeUnit.SECONDS,
+                model = binding.model.text.toString()
+            )
             val action = AddEditFragmentDirections.actionAddEditFragmentToViewPagerFragment()
             findNavController().navigate(action)
         }
@@ -161,6 +169,11 @@ class AddEditFragment : Fragment() {
                 image = checkIfInsertIsNull(createBitmapFromView(binding.previewImage)?.toByteArray()),
                 typeOfVehicle = vehicleViewModel.currentTypeOfVehicle.value!!,
                 km = binding.km.text.toString().toInt()
+            )
+            vehicleViewModel.scheduleReminder(
+                1,
+                TimeUnit.SECONDS,
+                model = binding.model.text.toString()
             )
             val action = AddEditFragmentDirections.actionAddEditFragmentToVehicleDetailFragment(
                 vehicleDetailNavigationArgs.vehicleId

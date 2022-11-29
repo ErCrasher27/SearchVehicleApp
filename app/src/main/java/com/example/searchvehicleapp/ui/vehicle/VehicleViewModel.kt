@@ -1,6 +1,11 @@
 package com.example.searchvehicleapp.ui.vehicle
 
+import android.app.Application
 import androidx.lifecycle.*
+import androidx.work.Data
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.database.VehicleDao
 import com.example.searchvehicleapp.network.VehicleApi
@@ -9,12 +14,17 @@ import com.example.searchvehicleapp.network.logosapi.LogoApi
 import com.example.searchvehicleapp.network.vehicleapi.VehicleInfo
 import com.example.searchvehicleapp.utils.EnumTypeOfFuel
 import com.example.searchvehicleapp.utils.EnumTypeOfVehicle
+import com.example.searchvehicleapp.worker.MyGarageReminderWorker
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 
 enum class VehicleApiStatus { LOADING, ERROR, DONE }
 enum class LogoApiStatus { LOADING, ERROR, DONE }
 
-class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
+class VehicleViewModel(
+    private val vehicleDao: VehicleDao,
+    application: Application
+) : ViewModel() {
 
     // Status Vehicle Api
     private val _statusVehicleApi = MutableLiveData<VehicleApiStatus>()
@@ -36,6 +46,8 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
     // currentTypeOfVehicle
     private val _currentTypeOfVehicle = MutableLiveData<EnumTypeOfVehicle>()
     val currentTypeOfVehicle: LiveData<EnumTypeOfVehicle> = _currentTypeOfVehicle
+
+    private val workManager = WorkManager.getInstance(application)
 
     // Cache all items form the database using LiveData.
     fun getAllVehiclesByTypeOrderedByName(typeOfVehicle: EnumTypeOfVehicle): LiveData<List<Vehicle>> =
@@ -274,16 +286,38 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             _vehiclesInfo.value?.filter { it.model.contains(model, ignoreCase = true) }
     }
 
+    internal fun scheduleReminder(
+        duration: Long,
+        unit: TimeUnit,
+        model: String
+    ) {
+        val data = Data.Builder().putString(MyGarageReminderWorker.nameKey, model).build()
+        val mygarageBuilder = OneTimeWorkRequestBuilder<MyGarageReminderWorker>()
+            .setInitialDelay(duration, unit)
+            .setInputData(data)
+            .build()
+
+        workManager
+            .enqueueUniqueWork(
+                model,
+                ExistingWorkPolicy.REPLACE,
+                mygarageBuilder
+            )
+    }
+
 }
 
 
 /**
  * Factory class to instantiate the [ViewModel] instance.
  */
-class VehicleViewModelFactory(private val vehicleDao: VehicleDao) : ViewModelProvider.Factory {
+class VehicleViewModelFactory(
+    private val vehicleDao: VehicleDao,
+    private val application: Application
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(VehicleViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST") return VehicleViewModel(vehicleDao) as T
+            @Suppress("UNCHECKED_CAST") return VehicleViewModel(vehicleDao, application) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
