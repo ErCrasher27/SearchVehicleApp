@@ -13,151 +13,330 @@
             android:id="@+id/plate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
             android:textAllCaps="true"
-            android:textSize="42sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/secondaryColor"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/model_and_year_tableRow"
+            app:layout_constraintStart_toStartOf="@+id/model_and_year_tableRow"
+            app:layout_constraintTop_toBottomOf="@+id/model_and_year_tableRow"
             tools:text="DM714WC" />
-
 
         <ImageView
             android:id="@+id/image"
-            android:layout_width="200dp"
+            android:layout_width="400dp"
             android:layout_height="200dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
             android:importantForAccessibility="no"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/plate"
+            app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_baseline_directions_car_24" />
 
-        <TextView
-            android:id="@+id/model"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textAllCaps="true"
-            android:textSize="32sp"
-            app:layout_constraintEnd_toEndOf="@+id/image"
-            app:layout_constraintStart_toStartOf="@+id/image"
-            app:layout_constraintTop_toBottomOf="@+id/image"
-            tools:text="Altea XL" />
-
-        <TextView
-            android:id="@+id/year"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@+id/line"
-            app:layout_constraintStart_toStartOf="@+id/line"
-            app:layout_constraintTop_toBottomOf="@+id/line"
-            tools:text="(2009)" />
-
-        <TextView
-            android:id="@+id/line"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@+id/model"
-            app:layout_constraintStart_toStartOf="@+id/model"
-            app:layout_constraintTop_toBottomOf="@+id/model"
-            tools:text="1.9 TDI Elegance" />
-
-        <ImageView
-            android:id="@+id/brand_logo"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginBottom="136dp"
-            android:importantForAccessibility="no"
-            app:layout_constraintBottom_toBottomOf="@+id/image"
-            app:layout_constraintStart_toEndOf="@+id/image"
-            app:layout_constraintTop_toTopOf="@+id/image"
-            tools:src="@drawable/ic_baseline_scatter_plot_24" />
-
-        <TextView
-            android:id="@id/brand"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:textAllCaps="false"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="@+id/brand_logo"
-            app:layout_constraintStart_toEndOf="@+id/brand_logo"
-            app:layout_constraintTop_toTopOf="@+id/brand_logo"
-            tools:text="Seat" />
-
-
-        <ImageView
-            android:id="@+id/fuel_logo"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="16dp"
-            android:importantForAccessibility="no"
-            app:layout_constraintStart_toStartOf="@+id/brand_logo"
-            app:layout_constraintTop_toBottomOf="@+id/brand_logo"
-            tools:src="@drawable/ic_baseline_local_gas_station_24" />
-
-        <TextView
-            android:id="@+id/fuel_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:textAllCaps="false"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="@+id/fuel_logo"
-            app:layout_constraintStart_toEndOf="@+id/fuel_logo"
-            app:layout_constraintTop_toTopOf="@+id/fuel_logo"
-            tools:text="Diesel" />
-
-        <TextView
-            android:id="@+id/kW"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/fuel_logo"
-            app:layout_constraintTop_toBottomOf="@+id/fuel_logo"
-            tools:text="77kW" />
-
-        <TextView
-            android:id="@+id/cV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/kW"
-            app:layout_constraintStart_toEndOf="@+id/kW"
-            app:layout_constraintTop_toTopOf="@+id/kW"
-            app:layout_constraintVertical_bias="1.0"
-            tools:text="(105 CV)" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_delete"
+            android:id="@+id/fab_action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="20dp"
-            android:contentDescription="@string/cd_fab_delete_vehicle"
-            android:src="@drawable/ic_baseline_delete_24"
-            app:backgroundTint="#FF0000"
+            android:layout_margin="@dimen/fab_margin"
+            android:contentDescription="@string/cd_fab_action"
+            android:src="@drawable/ic_baseline_directions_car_24"
+            app:fabSize="normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="20dp"
+            android:layout_margin="@dimen/fab_margin"
             android:contentDescription="@string/cd_fab_edit_vehicle"
             android:src="@drawable/ic_baseline_edit_24"
-            app:backgroundTint="#0004FF"
-            app:layout_constraintBottom_toTopOf="@+id/fab_delete"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:tint="@color/secondaryDarkColor"
+            app:fabSize="mini"
+            app:layout_constraintBottom_toTopOf="@+id/fab_action"
+            app:layout_constraintEnd_toEndOf="@+id/fab_action"
+            app:layout_constraintStart_toStartOf="@+id/fab_action" />
+
+        <TextView
+            android:id="@+id/fab_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@string/fab_edit_text"
+            app:layout_constraintBottom_toBottomOf="@+id/fab_edit"
+            app:layout_constraintEnd_toStartOf="@+id/fab_edit"
+            app:layout_constraintTop_toTopOf="@+id/fab_edit" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:contentDescription="@string/cd_fab_delete_vehicle"
+            android:src="@drawable/ic_baseline_delete_24"
+            app:fabSize="mini"
+            app:layout_constraintBottom_toTopOf="@+id/fab_edit"
+            app:layout_constraintEnd_toEndOf="@+id/fab_edit"
+            app:layout_constraintStart_toStartOf="@+id/fab_edit" />
+
+        <TextView
+            android:id="@+id/fab_delete_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@string/fab_edit_delete"
+            app:layout_constraintBottom_toBottomOf="@+id/fab_delete"
+            app:layout_constraintEnd_toStartOf="@+id/fab_delete"
+            app:layout_constraintTop_toTopOf="@+id/fab_delete" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/brand_tableRow"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/tabRow_margin"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="@dimen/tabRow_cardCornerRadius"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/plate">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/constraintLayout_inside_tabRow_margin">
+
+                <TextView
+                    android:id="@+id/brand_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/label_start_in_tableRow_margin_start"
+                    android:text="@string/brand_label"
+                    android:textColor="@color/secondaryColor"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@id/brand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/textview_in_tableRow_margin_start"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/brand_label"
+                    app:layout_constraintStart_toEndOf="@+id/brand_label"
+                    app:layout_constraintTop_toTopOf="@+id/brand_label"
+                    tools:text="Seat" />
+
+                <ImageView
+                    android:id="@+id/brand_logo"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginEnd="@dimen/logo_in_tableRow_margin_end"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_baseline_scatter_plot_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/brand" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/line_tableRow"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/tabRow_margin"
+            android:background="@color/primaryDarkColor"
+            app:cardCornerRadius="@dimen/tabRow_cardCornerRadius"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/brand_tableRow">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/constraintLayout_inside_tabRow_margin">
+
+                <TextView
+                    android:id="@+id/line_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/label_start_in_tableRow_margin_start"
+                    android:text="@string/line_label"
+                    android:textColor="@color/secondaryColor"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/line"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/textview_in_tableRow_margin_start"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/line_label"
+                    app:layout_constraintStart_toEndOf="@+id/line_label"
+                    app:layout_constraintTop_toTopOf="@+id/line_label"
+                    tools:text="1.9 TDI Stydline" />
+
+                <ImageView
+                    android:id="@+id/line_logo"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginEnd="@dimen/logo_in_tableRow_margin_end"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_baseline_scatter_plot_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/line" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/fuel_type_tableRow"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/tabRow_margin"
+            app:cardCornerRadius="@dimen/tabRow_cardCornerRadius"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line_tableRow">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/constraintLayout_inside_tabRow_margin">
+
+                <TextView
+                    android:id="@+id/fuel_type_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/label_start_in_tableRow_margin_start"
+                    android:text="@string/fuel_type_label"
+                    android:textColor="@color/secondaryColor"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/fuel_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/textview_in_tableRow_margin_start"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/fuel_type_label"
+                    app:layout_constraintStart_toEndOf="@+id/fuel_type_label"
+                    app:layout_constraintTop_toTopOf="@+id/fuel_type_label"
+                    tools:text="Diesel" />
+
+                <ImageView
+                    android:id="@+id/fuel_logo"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginEnd="@dimen/logo_in_tableRow_margin_end"
+                    android:importantForAccessibility="no"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/fuel_type"
+                    tools:src="@drawable/ic_baseline_local_gas_station_24" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/km_tableRow"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/tabRow_margin"
+            app:cardCornerRadius="@dimen/tabRow_cardCornerRadius"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fuel_type_tableRow">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/constraintLayout_inside_tabRow_margin">
+
+                <TextView
+                    android:id="@+id/km_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/label_start_in_tableRow_margin_start"
+                    android:text="@string/km_label"
+                    android:textColor="@color/secondaryColor"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/km"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/textview_in_tableRow_margin_start"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/km_label"
+                    app:layout_constraintStart_toEndOf="@+id/km_label"
+                    app:layout_constraintTop_toTopOf="@+id/km_label"
+                    tools:text="Diesel" />
+
+                <ImageView
+                    android:id="@+id/km_logo"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginEnd="@dimen/logo_in_tableRow_margin_end"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_baseline_where_to_vote_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/km" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <TableRow
+            android:id="@+id/model_and_year_tableRow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/image"
+            app:layout_constraintStart_toStartOf="@+id/image"
+            app:layout_constraintTop_toBottomOf="@+id/image">
+
+            <TextView
+                android:id="@+id/model"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                tools:text="Altea XL" />
+
+            <TextView
+                android:id="@+id/year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textAllCaps="true"
+                android:textSize="16sp"
+                tools:text="(2009)" />
+        </TableRow>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

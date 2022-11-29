@@ -1,14 +1,16 @@
 package com.example.searchvehicleapp.ui.vehicle.listfragment
 
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.searchvehicleapp.R
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.databinding.VehicleListItemBinding
+import com.example.searchvehicleapp.network.logosapi.Logo
+import com.example.searchvehicleapp.utils.setAndGetUriByBrandParsingListOfLogoAndImageView
 
 
 /**
@@ -17,6 +19,7 @@ import com.example.searchvehicleapp.databinding.VehicleListItemBinding
 
 class VehicleListAdapter(
     private val onVehicleClicked: (Vehicle) -> Unit,
+    private val logoDataApi: List<Logo>?,
 ) :
     ListAdapter<Vehicle, VehicleListAdapter.ItemViewHolder>(DiffCallback) {
 
@@ -32,29 +35,28 @@ class VehicleListAdapter(
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current, onVehicleClicked)
+        holder.bind(current, onVehicleClicked, logoDataApi)
     }
 
     class ItemViewHolder(private var binding: VehicleListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(vehicle: Vehicle, onVehicleClicked: (Vehicle) -> Unit) {
+        fun bind(vehicle: Vehicle, onVehicleClicked: (Vehicle) -> Unit, logoDataApi: List<Logo>?) {
             binding.apply {
-                plate.text = vehicle.plate
                 model.text = vehicle.model
                 brand.text = vehicle.brand
                 buttonGoDetail.setOnClickListener { onVehicleClicked(vehicle) }
                 if (vehicle.image != null) {
-                    image.setImageBitmap(
-                        Bitmap.createScaledBitmap(
-                            BitmapFactory.decodeByteArray(
-                                vehicle.image, 0, vehicle.image.size
-                            ), 100, 100, false
-                        )
-                    )
+                    val bmp = BitmapFactory.decodeByteArray(vehicle.image, 0, vehicle.image.size)
+                    image.setImageBitmap(bmp)
                 } else {
-                    image.setImageResource(com.example.searchvehicleapp.R.drawable.ic_baseline_directions_car_24)
+                    image.setImageResource(R.drawable.ic_baseline_directions_car_24)
                 }
+                setAndGetUriByBrandParsingListOfLogoAndImageView(
+                    logoDataApi,
+                    vehicle.brand,
+                    binding.logoBrand
+                )
             }
         }
     }

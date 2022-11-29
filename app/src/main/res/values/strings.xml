@@ -6,37 +6,45 @@
     <string name="tab_truck">Truck</string>
 
     <string name="plate_input_layout">Plate*</string>
-    <string name="model_input_layout">Model*</string>
-    <string name="brand_input_layout">Brand*</string>
     <string name="year_input_layout">Year*</string>
-    <string name="kw_input_layout">KW*</string>
-    <string name="cv_input_layout">CV*</string>
+    <string name="brand_input_layout">Brand*</string>
+    <string name="model_input_layout">Model*</string>
     <string name="line_input_layout">Line*</string>
+    <string name="type_of_fuel_input_layout">Type Of Fuel*</string>
+    <string name="km_input_layout">Kilometres*</string>
+    <string name="click_to_select_an_image_optional">click to select an image (optional)</string>
 
-    <string-array name="type_of_fuel">
-        <item>GAS</item>
-        <item>DIESEL</item>
-        <item>ELECTRIC</item>
-    </string-array>
+    <string name="year_tag">year</string>
+    <string name="maker_tag">brand</string>
+    <string name="model_tag">model</string>
+    <string name="full_model_name_tag">full_model_name</string>
 
     <string name="cd_fab_add">Add Vehicle</string>
     <string name="cd_fab_save">Save</string>
     <string name="cd_fab_delete_vehicle">Delete Vehicle</string>
     <string name="cd_fab_edit_vehicle">Edit Vehicle</string>
-
     <string name="cd_import_image">Import Image</string>
     <string name="cd_type_of_fuel">Choose type of fuel</string>
-
     <string name="cd_go_details">Show more details</string>
 
-    <string name="btn_import_image">import image… (optional)</string>
+    <string name="cd_fab_action">Expand</string>
+
+    <string name="brand_label">Brand:</string>
+    <string name="line_label">Line:</string>
+    <string name="fuel_type_label">Fuel type:</string>
+    <string name="km_label">Kilometres:</string>
 
     <string name="year_format">(%s)</string>
-    <string name="kw_format">%s KW</string>
-    <string name="cv_format">(%s CV)</string>
+
+    <string name="fab_edit_text">Edit</string>
+    <string name="fab_edit_delete">Delete</string>
+    <string name="action_fab_text">show less</string>
 
     <string name="delete_question">Are you sure you want to delete?</string>
     <string name="no">no</string>
     <string name="yes">yes</string>
+    <string name="channel_name">mygarage_channel</string>
+    <string name="channel_description">mygarage_reminder</string>
+
 
 </resources>

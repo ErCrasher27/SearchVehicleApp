@@ -1,5 +1,6 @@
 package com.example.searchvehicleapp.ui.vehicle.viewpagerfragment
 
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
+import com.example.searchvehicleapp.R
 import com.example.searchvehicleapp.application.VehicleApplication
 import com.example.searchvehicleapp.databinding.FragmentViewPagerBinding
 import com.example.searchvehicleapp.ui.vehicle.VehicleViewModel
@@ -16,6 +18,7 @@ import com.example.searchvehicleapp.ui.vehicle.listfragment.VehicleListFragment
 import com.example.searchvehicleapp.utils.AddOrEdit
 import com.example.searchvehicleapp.utils.EnumTypeOfVehicle
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 
 
 class ViewPagerFragment : Fragment() {
@@ -30,7 +33,8 @@ class ViewPagerFragment : Fragment() {
     // to share the ViewModel across fragments.
     private val vehicleViewModel: VehicleViewModel by activityViewModels {
         VehicleViewModelFactory(
-            (activity?.application as VehicleApplication).database.vehicleDao()
+            vehicleDao = (activity?.application as VehicleApplication).database.vehicleDao(),
+            application = requireActivity().application
         )
     }
 
@@ -39,7 +43,6 @@ class ViewPagerFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentViewPagerBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -100,12 +103,7 @@ class ViewPagerFragment : Fragment() {
         )
         viewPager.adapter = sectionsPagerAdapter
         binding.tabs.setupWithViewPager(viewPager)
-        binding.tabs.getTabAt(0)?.icon =
-            resources.getDrawable(com.example.searchvehicleapp.R.drawable.ic_baseline_sports_motorsports_24)
-        binding.tabs.getTabAt(1)?.icon =
-            resources.getDrawable(com.example.searchvehicleapp.R.drawable.ic_baseline_directions_car_24)
-        binding.tabs.getTabAt(2)?.icon =
-            resources.getDrawable(com.example.searchvehicleapp.R.drawable.ic_baseline_directions_bus_24)
+        setupTabIcons(binding.tabs)
 
         //if values are not null, the tab selected will be as last shown
         if (vehicleViewModel.currentTypeOfVehicle.value == null) {
@@ -157,6 +155,45 @@ class ViewPagerFragment : Fragment() {
         }
     }
 
+    /**
+     * Responsible for setting icon of tabs with colors appropriate
+     */
+    private fun setupTabIcons(tabs: TabLayout) {
+        tabs.getTabAt(0)?.icon =
+            resources.getDrawable(com.example.searchvehicleapp.R.drawable.ic_baseline_sports_motorsports_24)
+        tabs.getTabAt(1)?.icon =
+            resources.getDrawable(com.example.searchvehicleapp.R.drawable.ic_baseline_directions_car_24)
+        tabs.getTabAt(2)?.icon =
+            resources.getDrawable(com.example.searchvehicleapp.R.drawable.ic_baseline_directions_bus_24)
+        tabs.getTabAt(0)?.icon?.setColorFilter(
+            resources.getColor(R.color.secondaryColor), PorterDuff.Mode.SRC_IN
+        )
+        tabs.getTabAt(1)?.icon?.setColorFilter(
+            resources.getColor(R.color.primaryColor), PorterDuff.Mode.SRC_IN
+        )
+        tabs.getTabAt(2)?.icon?.setColorFilter(
+            resources.getColor(R.color.primaryColor), PorterDuff.Mode.SRC_IN
+        )
+        tabs.setOnTabSelectedListener(object : OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                tab.icon!!.setColorFilter(
+                    resources.getColor(R.color.secondaryColor), PorterDuff.Mode.SRC_IN
+                )
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+                tab.icon!!.setColorFilter(
+                    resources.getColor(R.color.primaryColor), PorterDuff.Mode.SRC_IN
+                )
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        })
+    }
+
+    /**
+     * private fun getIndexByEnumVehicleType(enumTypeOfVehicle: EnumTypeOfVehicle): Int
+     */
     private fun getIndexByEnumVehicleType(enumTypeOfVehicle: EnumTypeOfVehicle): Int {
         return when (enumTypeOfVehicle) {
             EnumTypeOfVehicle.MOTORCYCLE -> 0

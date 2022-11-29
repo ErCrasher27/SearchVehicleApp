@@ -5,11 +5,14 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Spinner
+import android.widget.AutoCompleteTextView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -23,21 +26,24 @@ import com.example.searchvehicleapp.ui.vehicle.VehicleViewModel
 import com.example.searchvehicleapp.ui.vehicle.VehicleViewModelFactory
 import com.example.searchvehicleapp.ui.vehicle.detailfragment.VehicleDetailFragmentArgs
 import com.example.searchvehicleapp.utils.EnumTypeOfFuel
+import java.io.ByteArrayOutputStream
+import java.util.concurrent.TimeUnit
 
 
 class AddEditFragment : Fragment() {
 
-    // Use the 'by activityViewModels()' Kotlin property delegate from the fragment-ktx artifact
-    // to share the ViewModel across fragments.
     private val vehicleViewModel: VehicleViewModel by activityViewModels {
         VehicleViewModelFactory(
-            (activity?.application as VehicleApplication).database.vehicleDao()
+            vehicleDao = (activity?.application as VehicleApplication).database.vehicleDao(),
+            application = requireActivity().application
         )
     }
 
     lateinit var vehicle: Vehicle
 
     private val vehicleDetailNavigationArgs: VehicleDetailFragmentArgs by navArgs()
+
+    private var vehicleInfoField: MutableList<String>? = null
 
     private var _binding: FragmentAddEditBinding? = null
 
@@ -59,8 +65,15 @@ class AddEditFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.importImage.setOnClickListener { imageChooser() }
-        loadSpinner()
+        vehicleViewModel.getVehicleInfo()
+        vehicleViewModel.resetVehicleInfo()
+        loadTypeOfFuel(binding.typeOfFuel)
+        binding.previewImage.setOnClickListener { imageChooser() }
+        setInputEditText(binding.year)
+        setInputEditText(binding.brand)
+        setInputEditText(binding.model)
+        setInputEditText(binding.line)
+
         val id = vehicleDetailNavigationArgs.vehicleId
         if (id > 0) {
             vehicleViewModel.getVehicleById(id)
@@ -81,13 +94,11 @@ class AddEditFragment : Fragment() {
     private fun isEntryValid(): Boolean {
         return vehicleViewModel.isEntryValid(
             plate = binding.plate.text.toString(),
+            year = binding.year.text.toString(),
             brand = binding.brand.text.toString(),
             model = binding.model.text.toString(),
-            year = binding.year.text.toString(),
-            cV = binding.cv.text.toString(),
-            kW = binding.kw.text.toString(),
             line = binding.line.text.toString(),
-            typeOfFuel = binding.typeOfFuelSpinner.toString()
+            km = binding.km.text.toString()
         )
     }
 
@@ -100,18 +111,14 @@ class AddEditFragment : Fragment() {
             brand.setText(vehicle.brand, TextView.BufferType.SPANNABLE)
             model.setText(vehicle.model, TextView.BufferType.SPANNABLE)
             year.setText(vehicle.year.toString(), TextView.BufferType.SPANNABLE)
-            cv.setText(vehicle.cV.toString(), TextView.BufferType.SPANNABLE)
-            kw.setText(vehicle.kW.toString(), TextView.BufferType.SPANNABLE)
             line.setText(vehicle.line, TextView.BufferType.SPANNABLE)
-            setSpinnerToValue(typeOfFuelSpinner, vehicle.typeOfFuel.name)
+            typeOfFuel.setText(vehicle.typeOfFuel.name, TextView.BufferType.SPANNABLE)
+            loadTypeOfFuel(binding.typeOfFuel)
+            km.setText(vehicle.km.toString(), TextView.BufferType.SPANNABLE)
             if (vehicle.image != null) {
-                previewImage.setImageBitmap(
-                    Bitmap.createScaledBitmap(
-                        BitmapFactory.decodeByteArray(
-                            vehicle.image, 0, vehicle.image.size
-                        ), 100, 100, false
-                    )
-                )
+                val bmp = BitmapFactory.decodeByteArray(vehicle.image, 0, vehicle.image.size)
+                previewImage.setImageBitmap(bmp)
+
             } else {
                 previewImage.setImageResource(R.drawable.ic_baseline_directions_car_24)
             }
@@ -126,15 +133,21 @@ class AddEditFragment : Fragment() {
         if (isEntryValid()) {
             vehicleViewModel.addNewVehicle(
                 plate = binding.plate.text.toString(),
+                year = binding.year.text.toString().toInt(),
                 brand = binding.brand.text.toString(),
                 model = binding.model.text.toString(),
-                typeOfVehicle = vehicleViewModel.currentTypeOfVehicle.value!!,
-                year = binding.year.text.toString().toInt(),
-                image = checkIfInsertIsNull(createBitmapFromView(binding.previewImage)),
-                cV = binding.cv.text.toString().toInt(),
-                kW = binding.kw.text.toString().toInt(),
                 line = binding.line.text.toString(),
-                typeOfFuel = getEnumBySpinnerOfTypeOfFuel(binding.typeOfFuelSpinner.selectedItem as String)
+                typeOfFuel = getEnumByAutoCompleteViewOfTypeOfFuel(binding.typeOfFuel.text.toString()),
+                image = checkIfInsertIsNull(createBitmapFromView(binding.previewImage)?.toByteArray()),
+                typeOfVehicle = vehicleViewModel.currentTypeOfVehicle.value!!,
+                km = binding.km.text.toString().toInt()
+            )
+            vehicleViewModel.scheduleReminder(
+                5,
+                TimeUnit.SECONDS,
+                model = binding.model.text.toString(),
+                plate = binding.plate.text.toString(),
+                km = binding.km.text.toString().toInt()
             )
             val action = AddEditFragmentDirections.actionAddEditFragmentToViewPagerFragment()
             findNavController().navigate(action)
@@ -148,17 +161,22 @@ class AddEditFragment : Fragment() {
         if (isEntryValid()) {
             vehicleViewModel.updateVehicle(
                 id = this.vehicleDetailNavigationArgs.vehicleId,
-                plate = this.binding.plate.text.toString(),
-                brand = this.binding.brand.text.toString(),
-                model = this.binding.model.text.toString(),
-                typeOfVehicle = vehicleViewModel.currentTypeOfVehicle.value!!,
+                plate = binding.plate.text.toString(),
                 year = binding.year.text.toString().toInt(),
-                image = checkIfInsertIsNull(createBitmapFromView(binding.previewImage)),
-                cV = binding.cv.text.toString().toInt(),
-                kW = binding.kw.text.toString().toInt(),
+                brand = binding.brand.text.toString(),
+                model = binding.model.text.toString(),
                 line = binding.line.text.toString(),
-                typeOfFuel = getEnumBySpinnerOfTypeOfFuel(binding.typeOfFuelSpinner.selectedItem as String)
+                typeOfFuel = getEnumByAutoCompleteViewOfTypeOfFuel(binding.typeOfFuel.text.toString()),
+                image = checkIfInsertIsNull(createBitmapFromView(binding.previewImage)?.toByteArray()),
+                typeOfVehicle = vehicleViewModel.currentTypeOfVehicle.value!!,
+                km = binding.km.text.toString().toInt()
             )
+            vehicleViewModel.scheduleReminder(
+                1,
+                TimeUnit.SECONDS,
+                model = binding.model.text.toString(),
+                plate = binding.plate.text.toString(),
+                km = binding.km.text.toString().toInt()            )
             val action = AddEditFragmentDirections.actionAddEditFragmentToVehicleDetailFragment(
                 vehicleDetailNavigationArgs.vehicleId
             )
@@ -166,34 +184,25 @@ class AddEditFragment : Fragment() {
         }
     }
 
-    // this function is triggered when
-    // the Select Image Button is clicked
+    /**
+     * This function is triggered when the Select Image Button is clicked
+     */
     private fun imageChooser() {
-        // create an instance of the
-        // intent of the type image
         val i = Intent()
         i.type = "image/*"
         i.action = Intent.ACTION_GET_CONTENT
-
-        // pass the constant to compare it
-        // with the returned requestCode
         startActivityForResult(Intent.createChooser(i, "Select Picture"), 200)
     }
 
-    // this function is triggered when user
-    // selects the image from the imageChooser
-    @Deprecated("Deprecated in Java")
+    /**
+     * This function is triggered when user selects the image from the imageChooser
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
-
-            // compare the resultCode with the
-            // SELECT_PICTURE constant
             if (requestCode == 200) {
-                // Get the url of the image from data
                 val selectedImageUri = data?.data
                 if (null != selectedImageUri) {
-                    // update the preview image in the layout
                     binding.previewImage.setImageURI(selectedImageUri)
                     binding.previewImage.tag = "is_not_null"
                 }
@@ -201,13 +210,28 @@ class AddEditFragment : Fragment() {
         }
     }
 
-    private fun createBitmapFromView(view: View): Bitmap {
-        view.isDrawingCacheEnabled = true
+    /**
+     * private fun createBitmapFromView(view: View): Bitmap
+     */
+    private fun createBitmapFromView(view: View): Bitmap? {
         view.buildDrawingCache()
         return view.drawingCache
     }
 
-    private fun checkIfInsertIsNull(image: Bitmap): Bitmap? {
+    /**
+     * private fun Bitmap.toByteArray(): ByteArray
+     */
+    private fun Bitmap.toByteArray(): ByteArray {
+        val stream =
+            ByteArrayOutputStream()
+        compress(Bitmap.CompressFormat.PNG, 100, stream)
+        return stream.toByteArray()
+    }
+
+    /**
+     * private fun checkIfInsertIsNull(image: Bitmap): Bitmap?
+     */
+    private fun checkIfInsertIsNull(image: ByteArray?): ByteArray? {
         return if (binding.previewImage.tag == "is_not_null") {
             image
         } else {
@@ -215,41 +239,103 @@ class AddEditFragment : Fragment() {
         }
     }
 
-    private fun getEnumBySpinnerOfTypeOfFuel(typeOfFuel: String): EnumTypeOfFuel {
+
+    /**
+     * private fun loadTypeOfFuel(typeOfFuel: AutoCompleteTextView)
+     */
+    private fun loadTypeOfFuel(typeOfFuel: AutoCompleteTextView) {
+        typeOfFuel.setAdapter(
+            ArrayAdapter(
+                requireContext(), R.layout.dropdown_list_item, EnumTypeOfFuel.values()
+            )
+        )
+    }
+
+    /**
+     * private fun getEnumByAutoCompleteViewOfTypeOfFuel(typeOfFuel: String): EnumTypeOfFuel
+     */
+    private fun getEnumByAutoCompleteViewOfTypeOfFuel(typeOfFuel: String): EnumTypeOfFuel {
         return when (typeOfFuel) {
-            "GAS" -> EnumTypeOfFuel.GAS
+            "GASOLINE" -> EnumTypeOfFuel.GASOLINE
             "DIESEL" -> EnumTypeOfFuel.DIESEL
-            "ELECTRIC" -> EnumTypeOfFuel.ELECTRIC
-            else -> {
-                EnumTypeOfFuel.GAS
+            "GAS" -> EnumTypeOfFuel.GAS
+            "BEV" -> EnumTypeOfFuel.BEV
+            "HEV" -> EnumTypeOfFuel.HEV
+            "MHEV" -> EnumTypeOfFuel.MHEV
+            else -> EnumTypeOfFuel.PHEV
+        }
+    }
+
+    /**
+     * private fun setInputEditText(inputEditText: AutoCompleteTextView)
+     */
+    private fun setInputEditText(
+        inputEditText: AutoCompleteTextView
+    ) {
+        inputEditText.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
+            vehicleInfoField?.clear()
+            when (inputEditText.tag.toString()) {
+                getString(R.string.year_tag) -> {
+                    vehicleInfoField =
+                        vehicleViewModel.vehiclesInfo.value?.map { it.year } as MutableList<String>?
+                }
+                getString(R.string.maker_tag) -> {
+                    vehicleViewModel.setVehicleInfoFilteredForYear(binding.year.text.toString())
+                    vehicleInfoField =
+                        vehicleViewModel.vehiclesInfo.value?.map { it.maker } as MutableList<String>?
+                }
+                getString(R.string.model_tag) -> {
+                    vehicleViewModel.setVehicleInfoFilteredForBrand(binding.brand.text.toString())
+                    vehicleInfoField =
+                        vehicleViewModel.vehiclesInfo.value?.map { it.model } as MutableList<String>?
+                }
+                else -> {
+                    vehicleViewModel.setVehicleInfoFilteredForModel(binding.model.text.toString())
+                    vehicleInfoField =
+                        vehicleViewModel.vehiclesInfo.value?.map { it.fullModelName } as MutableList<String>?
+                }
             }
         }
-    }
-
-    private fun loadSpinner() {
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter.createFromResource(
-            requireContext(), R.array.type_of_fuel, android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
-            binding.typeOfFuelSpinner.adapter = adapter
-        }
-    }
-
-    private fun setSpinnerToValue(spinner: Spinner, value: String) {
-        var index = 0
-        val adapter = spinner.adapter
-        for (i in 0 until adapter.count) {
-            if (adapter.getItem(i) == value) {
-                index = i
-                break // terminate loop
+        inputEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
             }
-        }
-        spinner.setSelection(index)
+
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int, count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int, before: Int, count: Int
+            ) {
+                loadAutoCompleteView(inputEditText)
+            }
+        })
     }
 
+    /**
+     * private fun loadAutoCompleteView(autoCompleteTextView: AutoCompleteTextView,)
+     */
+    private fun loadAutoCompleteView(
+        autoCompleteTextView: AutoCompleteTextView,
+    ) {
+        if (autoCompleteTextView.text.isNotBlank()) {
+            val vehicleInfoFieldFiltered = vehicleInfoField?.filter {
+                it.contains(
+                    autoCompleteTextView.text, ignoreCase = true
+                )
+            }?.distinct()?.sorted()
+
+            val arrayAdapter = ArrayAdapter(
+                requireContext(),
+                R.layout.dropdown_list_item,
+                vehicleInfoFieldFiltered ?: listOf("loading...")
+            )
+            autoCompleteTextView.setAdapter(arrayAdapter)
+        } else {
+            autoCompleteTextView.setAdapter(null)
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

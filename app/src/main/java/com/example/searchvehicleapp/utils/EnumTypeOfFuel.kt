@@ -1,9 +1,11 @@
 package com.example.searchvehicleapp.utils
 
-import com.example.searchvehicleapp.R
-
 enum class EnumTypeOfFuel {
-    GAS,
+    GASOLINE,
     DIESEL,
-    ELECTRIC;
+    GAS,
+    BEV,
+    HEV,
+    MHEV,
+    PHEV
 }
