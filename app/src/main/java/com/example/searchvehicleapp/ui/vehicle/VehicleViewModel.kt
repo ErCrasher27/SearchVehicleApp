@@ -53,6 +53,10 @@ class VehicleViewModel(
     fun getAllVehiclesByTypeOrderedByName(typeOfVehicle: EnumTypeOfVehicle): LiveData<List<Vehicle>> =
         vehicleDao.getAllVehiclesByTypeOrderedByName(typeOfVehicle).asLiveData()
 
+    init {
+        getLogo()
+    }
+
     /**
      * Retrieve a vehicle from the repository.
      */
