@@ -78,6 +78,7 @@ class VehicleDetailFragment : Fragment() {
             fuelLogo.setImageResource(getIconFromTypeOfFuel(vehicle.typeOfFuel))
             fuelType.text = vehicle.typeOfFuel.name
             line.text = vehicle.line
+            km.text = vehicle.km.toString()
             if (vehicle.image != null) {
                 val bmp = BitmapFactory.decodeByteArray(vehicle.image, 0, vehicle.image.size)
                 image.setImageBitmap(bmp)

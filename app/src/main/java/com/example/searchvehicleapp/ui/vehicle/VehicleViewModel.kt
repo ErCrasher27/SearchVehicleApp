@@ -58,7 +58,8 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         line: String,
         typeOfFuel: EnumTypeOfFuel,
         image: ByteArray?,
-        typeOfVehicle: EnumTypeOfVehicle
+        typeOfVehicle: EnumTypeOfVehicle,
+        km: Int
     ): Vehicle {
         return Vehicle(
             plate = plate,
@@ -69,6 +70,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             typeOfFuel = typeOfFuel,
             image = image,
             typeOfVehicle = typeOfVehicle,
+            km = km
         )
     }
 
@@ -85,7 +87,8 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         line: String,
         typeOfFuel: EnumTypeOfFuel,
         image: ByteArray?,
-        typeOfVehicle: EnumTypeOfVehicle
+        typeOfVehicle: EnumTypeOfVehicle,
+        km: Int
     ): Vehicle {
         return Vehicle(
             id = id,
@@ -97,6 +100,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             typeOfFuel = typeOfFuel,
             image = image,
             typeOfVehicle = typeOfVehicle,
+            km = km
         )
     }
 
@@ -112,6 +116,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         typeOfFuel: EnumTypeOfFuel,
         image: ByteArray?,
         typeOfVehicle: EnumTypeOfVehicle,
+        km: Int
     ) {
         val newVehicle = getNewVehicleEntry(
             plate = plate.uppercase(),
@@ -122,6 +127,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             typeOfFuel = typeOfFuel,
             image = image,
             typeOfVehicle = typeOfVehicle,
+            km = km
         )
         insertVehicle(newVehicle)
     }
@@ -139,6 +145,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         typeOfFuel: EnumTypeOfFuel,
         image: ByteArray?,
         typeOfVehicle: EnumTypeOfVehicle,
+        km: Int
     ) {
         val updateVehicle = getUpdatedVehicleEntry(
             id = id,
@@ -150,6 +157,7 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             typeOfFuel = typeOfFuel,
             image = image,
             typeOfVehicle = typeOfVehicle,
+            km = km
         )
         updateVehicle(updateVehicle)
     }
@@ -196,8 +204,9 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
         brand: String,
         model: String,
         line: String,
+        km: String
     ): Boolean {
-        if (plate.isBlank() || year.isBlank() || brand.isBlank() || model.isBlank() || line.isBlank()) {
+        if (plate.isBlank() || year.isBlank() || brand.isBlank() || model.isBlank() || line.isBlank() || km.isBlank()) {
             return false
         }
         return true
@@ -216,12 +225,10 @@ class VehicleViewModel(private val vehicleDao: VehicleDao) : ViewModel() {
             _statusLogApi.value = LogoApiStatus.LOADING
             try {
                 _logoDataApi.value = LogoApi.retrofitService.getLogo()
-                resetVehicleInfo()
                 _statusLogApi.value = LogoApiStatus.DONE
             } catch (e: java.lang.Exception) {
                 _statusLogApi.value = LogoApiStatus.ERROR
                 _logoDataApi.value = listOf()
-                resetVehicleInfo()
             }
         }
     }

@@ -18,4 +18,5 @@ data class Vehicle(
     @ColumnInfo(name = "type_of_fuel") val typeOfFuel: EnumTypeOfFuel,
     @ColumnInfo(name = "image", typeAffinity = ColumnInfo.BLOB) val image: ByteArray?,
     @ColumnInfo(name = "type_of_vehicle") val typeOfVehicle: EnumTypeOfVehicle,
+    @ColumnInfo(name = "km") val km: Int,
 )

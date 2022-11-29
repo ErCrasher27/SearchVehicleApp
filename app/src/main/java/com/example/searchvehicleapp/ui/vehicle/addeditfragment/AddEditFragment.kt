@@ -96,6 +96,7 @@ class AddEditFragment : Fragment() {
             brand = binding.brand.text.toString(),
             model = binding.model.text.toString(),
             line = binding.line.text.toString(),
+            km = binding.km.text.toString()
         )
     }
 
@@ -111,6 +112,7 @@ class AddEditFragment : Fragment() {
             line.setText(vehicle.line, TextView.BufferType.SPANNABLE)
             typeOfFuel.setText(vehicle.typeOfFuel.name, TextView.BufferType.SPANNABLE)
             loadTypeOfFuel(binding.typeOfFuel)
+            km.setText(vehicle.km.toString(), TextView.BufferType.SPANNABLE)
             if (vehicle.image != null) {
                 val bmp = BitmapFactory.decodeByteArray(vehicle.image, 0, vehicle.image.size)
                 previewImage.setImageBitmap(bmp)
@@ -136,6 +138,7 @@ class AddEditFragment : Fragment() {
                 typeOfFuel = getEnumByAutoCompleteViewOfTypeOfFuel(binding.typeOfFuel.text.toString()),
                 image = checkIfInsertIsNull(createBitmapFromView(binding.previewImage)?.toByteArray()),
                 typeOfVehicle = vehicleViewModel.currentTypeOfVehicle.value!!,
+                km = binding.km.text.toString().toInt()
             )
             val action = AddEditFragmentDirections.actionAddEditFragmentToViewPagerFragment()
             findNavController().navigate(action)
@@ -157,6 +160,7 @@ class AddEditFragment : Fragment() {
                 typeOfFuel = getEnumByAutoCompleteViewOfTypeOfFuel(binding.typeOfFuel.text.toString()),
                 image = checkIfInsertIsNull(createBitmapFromView(binding.previewImage)?.toByteArray()),
                 typeOfVehicle = vehicleViewModel.currentTypeOfVehicle.value!!,
+                km = binding.km.text.toString().toInt()
             )
             val action = AddEditFragmentDirections.actionAddEditFragmentToVehicleDetailFragment(
                 vehicleDetailNavigationArgs.vehicleId

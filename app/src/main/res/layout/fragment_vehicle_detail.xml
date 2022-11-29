@@ -185,6 +185,17 @@
                     app:layout_constraintTop_toTopOf="@+id/line_label"
                     tools:text="1.9 TDI Stydline" />
 
+                <ImageView
+                    android:id="@+id/line_logo"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginEnd="@dimen/logo_in_tableRow_margin_end"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_baseline_scatter_plot_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/line" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.card.MaterialCardView>
@@ -239,6 +250,61 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/fuel_type"
                     tools:src="@drawable/ic_baseline_local_gas_station_24" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/km_tableRow"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/tabRow_margin"
+            app:cardCornerRadius="@dimen/tabRow_cardCornerRadius"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fuel_type_tableRow">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/constraintLayout_inside_tabRow_margin">
+
+                <TextView
+                    android:id="@+id/km_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/label_start_in_tableRow_margin_start"
+                    android:text="@string/km_label"
+                    android:textColor="@color/secondaryColor"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/km"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/textview_in_tableRow_margin_start"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/km_label"
+                    app:layout_constraintStart_toEndOf="@+id/km_label"
+                    app:layout_constraintTop_toTopOf="@+id/km_label"
+                    tools:text="Diesel" />
+
+                <ImageView
+                    android:id="@+id/km_logo"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginEnd="@dimen/logo_in_tableRow_margin_end"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_baseline_where_to_vote_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/km" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
