@@ -137,7 +137,16 @@
                     android:layout_height="22dp"
                     android:layout_marginEnd="@dimen/logo_in_tableRow_margin_end"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/ic_baseline_scatter_plot_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/brand" />
+
+                <ImageView
+                    android:id="@+id/brand_logo_status"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginEnd="@dimen/logo_in_tableRow_margin_end"
+                    android:importantForAccessibility="no"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/brand" />

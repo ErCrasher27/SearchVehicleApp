@@ -87,9 +87,11 @@ class VehicleDetailFragment : Fragment() {
                 image.setImageResource(R.drawable.ic_baseline_directions_car_24)
             }
             setAndGetUriByBrandParsingListOfLogoAndImageView(
-                vehicleViewModel.logoDataApi.value,
-                vehicle.brand,
-                binding.brandLogo
+                brand = vehicle.brand,
+                logoData = vehicleViewModel.logoDataApi,
+                logoView = binding.brandLogo,
+                statusData = vehicleViewModel.statusLogoApi.value,
+                statusView = binding.brandLogoStatus
             )
         }
     }

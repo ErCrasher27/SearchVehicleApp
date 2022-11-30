@@ -61,7 +61,15 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:importantForAccessibility="no"
-                android:src="@drawable/ic_baseline_scatter_plot_24"
+                app:layout_constraintBottom_toBottomOf="@+id/brand"
+                app:layout_constraintStart_toStartOf="@+id/model"
+                app:layout_constraintTop_toTopOf="@+id/brand"
+                tools:src="@drawable/ic_baseline_scatter_plot_24" />
+            <ImageView
+                android:id="@+id/logo_brand_status"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:importantForAccessibility="no"
                 app:layout_constraintBottom_toBottomOf="@+id/brand"
                 app:layout_constraintStart_toStartOf="@+id/model"
                 app:layout_constraintTop_toTopOf="@+id/brand"

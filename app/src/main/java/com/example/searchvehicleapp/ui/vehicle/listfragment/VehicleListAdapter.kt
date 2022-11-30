@@ -11,6 +11,7 @@ import com.example.searchvehicleapp.R
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.databinding.VehicleListItemBinding
 import com.example.searchvehicleapp.network.logosapi.Logo
+import com.example.searchvehicleapp.ui.vehicle.LogoApiStatus
 import com.example.searchvehicleapp.utils.setAndGetUriByBrandParsingListOfLogoAndImageView
 
 
@@ -21,6 +22,7 @@ import com.example.searchvehicleapp.utils.setAndGetUriByBrandParsingListOfLogoAn
 class VehicleListAdapter(
     private val onVehicleClicked: (Vehicle) -> Unit,
     private val logoDataApi: LiveData<List<Logo>>,
+    private val statusLogoApi: LiveData<LogoApiStatus>,
 ) :
     ListAdapter<Vehicle, VehicleListAdapter.ItemViewHolder>(DiffCallback) {
 
@@ -36,13 +38,18 @@ class VehicleListAdapter(
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current, onVehicleClicked, logoDataApi)
+        holder.bind(current, onVehicleClicked, logoDataApi, statusLogoApi)
     }
 
     class ItemViewHolder(private var binding: VehicleListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(vehicle: Vehicle, onVehicleClicked: (Vehicle) -> Unit, logoDataApi: LiveData<List<Logo>>) {
+        fun bind(
+            vehicle: Vehicle,
+            onVehicleClicked: (Vehicle) -> Unit,
+            logoDataApi: LiveData<List<Logo>>,
+            statusLogoApi: LiveData<LogoApiStatus>
+        ) {
             binding.apply {
                 model.text = vehicle.model
                 brand.text = vehicle.brand
@@ -54,9 +61,11 @@ class VehicleListAdapter(
                     image.setImageResource(R.drawable.ic_baseline_directions_car_24)
                 }
                 setAndGetUriByBrandParsingListOfLogoAndImageView(
-                    logoDataApi.value,
-                    vehicle.brand,
-                    binding.logoBrand
+                    brand = vehicle.brand,
+                    logoData = logoDataApi,
+                    logoView = binding.logoBrand,
+                    statusData = statusLogoApi.value,
+                    statusView = binding.logoBrandStatus
                 )
             }
         }

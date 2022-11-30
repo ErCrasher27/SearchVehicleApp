@@ -38,7 +38,7 @@ class VehicleViewModel(
 
     // Status Logo Api
     private val _statusLogApi = MutableLiveData<LogoApiStatus>()
-    val statusLogApi: LiveData<LogoApiStatus> = _statusLogApi
+    val statusLogoApi: LiveData<LogoApiStatus> = _statusLogApi
 
     private val _logoDataApi = MutableLiveData<List<Logo>>()
     val logoDataApi: LiveData<List<Logo>> = _logoDataApi
@@ -236,7 +236,7 @@ class VehicleViewModel(
      * Gets Logo information from the Vehicle API Retrofit service and updates the
      * [_logoDataApi] [List] [LiveData].
      */
-    fun getLogo() {
+    private fun getLogo() {
         viewModelScope.launch {
             _statusLogApi.value = LogoApiStatus.LOADING
             try {
