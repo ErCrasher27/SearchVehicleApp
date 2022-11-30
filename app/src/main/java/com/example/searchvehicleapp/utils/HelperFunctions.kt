@@ -15,7 +15,11 @@ fun setAndGetUriByBrandParsingListOfLogoAndImageView(
 ) {
     val logoDataApiMap = logoData?.associate { it.name.lowercase() to it.logo }
     if (logoDataApiMap?.get(brand.lowercase()) != null) {
-        Picasso.get().load(logoDataApiMap[brand.lowercase()]).into(logoView)
+        Picasso
+            .get()
+            .load(logoDataApiMap[brand.lowercase()])
+            .placeholder(R.drawable.ic_baseline_scatter_plot_24)
+            .into(logoView)
     } else {
         logoView.setImageResource(R.drawable.ic_baseline_scatter_plot_24)
     }
