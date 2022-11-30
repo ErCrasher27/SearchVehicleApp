@@ -57,7 +57,6 @@ class VehicleListFragment(
         val adapter = VehicleListAdapter(
             onVehicleClicked = onVehicleClicked,
             logoDataApi = vehicleViewModel.logoDataApi,
-            statusLogoApi = vehicleViewModel.statusLogoApi
         )
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this.context)

@@ -22,7 +22,6 @@ import com.example.searchvehicleapp.utils.setAndGetUriByBrandParsingListOfLogoAn
 class VehicleListAdapter(
     private val onVehicleClicked: (Vehicle) -> Unit,
     private val logoDataApi: LiveData<List<Logo>>,
-    private val statusLogoApi: LiveData<LogoApiStatus>,
 ) :
     ListAdapter<Vehicle, VehicleListAdapter.ItemViewHolder>(DiffCallback) {
 
@@ -38,7 +37,7 @@ class VehicleListAdapter(
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current, onVehicleClicked, logoDataApi, statusLogoApi)
+        holder.bind(current, onVehicleClicked, logoDataApi)
     }
 
     class ItemViewHolder(private var binding: VehicleListItemBinding) :
@@ -48,7 +47,6 @@ class VehicleListAdapter(
             vehicle: Vehicle,
             onVehicleClicked: (Vehicle) -> Unit,
             logoDataApi: LiveData<List<Logo>>,
-            statusLogoApi: LiveData<LogoApiStatus>
         ) {
             binding.apply {
                 model.text = vehicle.model
