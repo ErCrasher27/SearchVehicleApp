@@ -62,10 +62,8 @@ class VehicleListAdapter(
                 }
                 setAndGetUriByBrandParsingListOfLogoAndImageView(
                     brand = vehicle.brand,
-                    logoData = logoDataApi,
+                    logoData = logoDataApi.value,
                     logoView = binding.logoBrand,
-                    statusData = statusLogoApi.value,
-                    statusView = binding.logoBrandStatus
                 )
             }
         }

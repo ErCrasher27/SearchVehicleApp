@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.searchvehicleapp.application.VehicleApplication
 import com.example.searchvehicleapp.database.Vehicle
@@ -62,6 +63,11 @@ class VehicleListFragment(
         binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
         binding.recyclerView.adapter = adapter
 
+        val observer = Observer<List<com.example.searchvehicleapp.network.logosapi.Logo>> {
+            binding.recyclerView.adapter = adapter
+        }
+
+        vehicleViewModel.logoDataApi.observe(viewLifecycleOwner, observer)
         vehicleViewModel.getAllVehiclesByTypeOrderedByName(enumTypeOfVehicle)
             .observe(this.viewLifecycleOwner)
             { vehicles ->

@@ -7,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.searchvehicleapp.R
 import com.example.searchvehicleapp.application.VehicleApplication
 import com.example.searchvehicleapp.database.Vehicle
 import com.example.searchvehicleapp.databinding.FragmentVehicleDetailBinding
+import com.example.searchvehicleapp.network.logosapi.Logo
 import com.example.searchvehicleapp.ui.vehicle.VehicleViewModel
 import com.example.searchvehicleapp.ui.vehicle.VehicleViewModelFactory
 import com.example.searchvehicleapp.utils.AddOrEdit.EDIT
@@ -86,13 +88,15 @@ class VehicleDetailFragment : Fragment() {
             } else {
                 image.setImageResource(R.drawable.ic_baseline_directions_car_24)
             }
-            setAndGetUriByBrandParsingListOfLogoAndImageView(
-                brand = vehicle.brand,
-                logoData = vehicleViewModel.logoDataApi,
-                logoView = binding.brandLogo,
-                statusData = vehicleViewModel.statusLogoApi.value,
-                statusView = binding.brandLogoStatus
-            )
+            val observer = Observer<List<Logo>> {
+                setAndGetUriByBrandParsingListOfLogoAndImageView(
+                    brand = vehicle.brand,
+                    logoData = vehicleViewModel.logoDataApi.value,
+                    logoView = binding.brandLogo,
+                )
+            }
+            vehicleViewModel.logoDataApi.observe(viewLifecycleOwner, observer)
+
         }
     }
 
